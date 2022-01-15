@@ -3,44 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public static class Tween {
-	public static List<float> createTween(float acc,float dec,float vMax) {
-		List<float> tweenList = new List<float>();
-		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
-		if (easing > 1) {
-			double timeFloat = Math.Sqrt(2)*(Math.Sqrt(acc/(dec*dec+acc*dec))+Math.Sqrt(dec/(acc*acc+dec*acc)));
-			long time = Convert.ToInt64(timeFloat);
-			long midTime = Convert.ToInt64(time*(dec/(acc+dec)));
-			for (long t = 0;t<time;t++) {
-				float pos;
-				if (t<midTime) {
-					pos = 0.5f*t*t*acc;
-				} else {
-					pos = 1f - (0.5f*(time-t)*(time-t)*dec);
-				}
-				tweenList.Add(pos);
-			}
-		} else {
-			float glideLength = 1f - easing;
-			float timeFloat = vMax/acc + vMax/dec + glideLength/vMax;
-			long time = Convert.ToInt64(timeFloat);
-			for (long t = 0;t<time;t++) {
-				float pos;
-				if (t<vMax/acc) {
-					pos = 0.5f*t*t*acc;
-				} else if (time-t<vMax/dec) {
-					pos = 1f - (0.5f*(time-t)*(time-t)*dec);
-				} else {
-					pos = 0.5f*vMax*vMax/acc + vMax * (t - vMax/acc);
-				}
-				tweenList.Add(pos);
-			}
-		}
-		tweenList.Add(1.0f);
-		return tweenList;
-	}
-	
-	public static float tweenTime(float acc,float dec,float vMax) {
+public static class Tween {	
+	public static float timeRequired(float acc,float dec,float vMax) {
 		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
 		if (easing > 1) {
 			return (float)(Math.Sqrt(2)*(Math.Sqrt(acc/(dec*dec+acc*dec))+Math.Sqrt(dec/(acc*acc+dec*acc))));
@@ -49,7 +13,7 @@ public static class Tween {
 			return vMax/acc + vMax/dec + glideLength/vMax;
 		}
 	}
-	public static float tween(float acc,float dec,float vMax,float t) {
+	public static float percentAtTime(float acc,float dec,float vMax,float t) {
 		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
 		if (easing > 1) {
 			float time = (float)(Math.Sqrt(2)*(Math.Sqrt(acc/(dec*dec+acc*dec))+Math.Sqrt(dec/(acc*acc+dec*acc))));
@@ -73,22 +37,8 @@ public static class Tween {
 			}
 		}
 	}
-	
-	public static float LineLength(Vector2 origin,Vector2 destination) {
-		return (destination-origin).magnitude;
-	}
 	public static Vector2 LinePoint(Vector2 origin,Vector2 destination,float percentage) {
 		return origin + (destination-origin)*percentage;
-	}
-	
-	public static float ArcLength(Vector2 origin,Vector2 destination) {
-		Vector2 route = destination-origin;
-		Vector2 midPoint = (origin+destination)/2;
-		Vector2 circleCentre = destination;
-		circleCentre.y = midPoint.y;
-		circleCentre.y -= (destination.x-midPoint.x)*route.x/route.y;
-		float angle = Vector2.Angle(origin-circleCentre,destination-circleCentre);
-		return 2f*(float)Math.PI*(destination.y-circleCentre.y)*angle/360f;
 	}
 	public static Vector2 ArcPoint(Vector2 origin,Vector2 destination,float percentage) {
 		Vector2 route = destination-origin;

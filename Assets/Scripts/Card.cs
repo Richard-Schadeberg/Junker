@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -7,6 +6,23 @@ using System.Linq;
 
 public class Card : MonoBehaviour
 {
+	public String cardName; // textBox set to match cardName in editor
+	public Resource[] inputs,outputs;
+	public bool winsGame,startsHand,singleUse,noDiscard,scaleable;
+	public int winCount;
+	public void CopyDesign(Card card) { // utility function for editor
+		cardName = card.cardName;
+		inputs = card.inputs;
+		outputs = card.outputs;
+		winsGame = card.winsGame;
+		startsHand = card.startsHand;
+		singleUse = card.singleUse;
+		noDiscard = card.noDiscard;
+		scaleable = card.scaleable;
+		winCount = card.winCount;
+		art.GetComponent<SpriteRenderer>().sprite = card.art.GetComponent<SpriteRenderer>().sprite;
+		descriptionBox.text = card.descriptionBox.text;
+	}
 //{ necessities
 //{ MonoBehaviour functions
 	void Start() {
@@ -44,24 +60,8 @@ public class Card : MonoBehaviour
 //}
 //}
 //{ design elements
-	public String cardName; // textBox set to match cardName in editor
-	public Resource[] inputs,outputs;
-	public bool winsGame,startsHand,singleUse,noDiscard,scaleable;
-	public int winCount;
 
-	public void CopyDesign(Card card) { // utility function for editor
-		cardName = card.cardName;
-		inputs = card.inputs;
-		outputs = card.outputs;
-		winsGame = card.winsGame;
-		startsHand = card.startsHand;
-		singleUse = card.singleUse;
-		noDiscard = card.noDiscard;
-		scaleable = card.scaleable;
-		winCount = card.winCount;
-		art.GetComponent<SpriteRenderer>().sprite = card.art.GetComponent<SpriteRenderer>().sprite;
-		descriptionBox.text = card.descriptionBox.text;
-	}
+
 //}
 //{ Game logic
 //{ card's zone (hand,deck,play etc.)
@@ -425,18 +425,20 @@ public class Card : MonoBehaviour
 			goal  = Game.cardBounds[this];
 			origin = GetComponent<Renderer>().bounds;
 			startTime = Time.time;
-			distance = TravelDistance(origin.center,goal.center);
-			tweenTime = Tween.tweenTime(vMax/accTime/distance,vMax/decTime/distance,vMax/distance);
+			motionPlan = new MotionPlan(origin.center,goal.center,MotionAction.Uninstalling);
+			distance = motionPlan.distance;
+			tweenTime = Tween.timeRequired(vMax/accTime/distance,vMax/decTime/distance,vMax/distance);
 			animating = true;
 		}
 	}
+	MotionPlan motionPlan;
 	const float vMax      = 12000;
 	const float accTime   =  0.2f;
 	const float decTime   =  0.4f;
 	const float chainTime =  0.2f;
 	// called during Update() to set the card's position
 	protected void TravelRoute() {
-		float percent = Tween.tween(vMax/accTime/distance,vMax/decTime/distance,vMax/distance,Time.time-startTime);
+		float percent = Tween.percentAtTime(vMax/accTime/distance,vMax/decTime/distance,vMax/distance,Time.time-startTime);
 		if (Single.IsNaN(percent)||distance==0) {
 			percent = 1.0f;
 			FinishAnimation();
@@ -464,23 +466,26 @@ public class Card : MonoBehaviour
 	
 	
 	private float TravelDistance(Vector2 origin,Vector2 destination) {
-		if (zone==Zone.Hand&&returning&&origin.y>destination.y) {
-			if (origin.x>destination.x) {
-				return Tween.ReverseArcLength(origin,destination);
-			} else {
-				return Tween.ReverseHookLength(origin,destination);
-			}
-		}
-		if (zone==Zone.Play&&origin.y<destination.y) {
-			if (origin.x>destination.x) {
-				return Tween.ArcLength(origin,destination);
-			} else {
-				return Tween.HookLength(origin,destination);
-			}
-		}
-		return Tween.LineLength(origin,destination);
+		MotionPlan motionPlan = new MotionPlan(origin,destination,MotionAction.Installing);
+		return motionPlan.distance;
+		// if (zone==Zone.Hand&&returning&&origin.y>destination.y) {
+		// 	if (origin.x>destination.x) {
+		// 		return Tween.ReverseArcLength(origin,destination);
+		// 	} else {
+		// 		return Tween.ReverseHookLength(origin,destination);
+		// 	}
+		// }
+		// if (zone==Zone.Play&&origin.y<destination.y) {
+		// 	if (origin.x>destination.x) {
+		// 		return Tween.ArcLength(origin,destination);
+		// 	} else {
+		// 		return Tween.HookLength(origin,destination);
+		// 	}
+		// }
+		// return Tween.LineLength(origin,destination);
 	}
 	private Vector2 TravelPoint(Vector2 origin,Vector2 destination,float percentage) {
+		return MotionPlanPercent.LocationAtPercentage(motionPlan,percentage);
 		if (zone==Zone.Hand&&returning&&origin.y>destination.y) {
 			if (origin.x>destination.x) {
 				return Tween.ReverseArcPoint(origin,destination,percentage);

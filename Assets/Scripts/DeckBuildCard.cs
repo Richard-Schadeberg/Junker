@@ -110,7 +110,7 @@ public class DeckBuildCard : MonoBehaviour
 	const float accTime   =  0.2f;
 	const float decTime   =  0.4f;
 	private void TravelRoute() {
-		float percent = Tween.tween(vMax/accTime/distance,vMax/decTime/distance,vMax/distance,Time.time-startTime);
+		float percent = Tween.percentAtTime(vMax/accTime/distance,vMax/decTime/distance,vMax/distance,Time.time-startTime);
 		if (Single.IsNaN(percent)) {
 			percent = 1.0f;
 			animating=false;

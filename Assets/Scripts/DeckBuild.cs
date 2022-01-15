@@ -22,7 +22,7 @@ public class DeckBuild : MonoBehaviour
 	}
 	void Update() {
 		if (movingCamera) {
-			float percent = Tween.tween(8f,16f,8f,Time.time-startTime);
+			float percent = Tween.percentAtTime(8f,16f,8f,Time.time-startTime);
 			if (Single.IsNaN(percent)) {
 				percent=1.0f;
 				movingCamera=false;
