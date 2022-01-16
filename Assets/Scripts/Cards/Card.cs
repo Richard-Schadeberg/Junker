@@ -21,12 +21,12 @@ public class Card : MonoBehaviour
 		scaleable = card.scaleable;
 		winCount = card.winCount;
 		art.GetComponent<SpriteRenderer>().sprite = card.art.GetComponent<SpriteRenderer>().sprite;
-		descriptionBox.text = card.descriptionBox.text;
+		cardComponents.descriptionBox.text = card.cardComponents.descriptionBox.text;
 	}
 //{ necessities
 //{ MonoBehaviour functions
 	void Start() {
-		BuildCard();
+		// BuildCard();
 	}
 	
 	void Update() {
@@ -194,7 +194,6 @@ public class Card : MonoBehaviour
 			Game.Remove(input);
 			switch (input) {
 				case Resource.Card:
-					Game.Add(Resource.Recycle);
 					Game.RequestSelection(Zone.Hand,this);
 					break;
 				case Resource.Electric:
@@ -220,7 +219,6 @@ public class Card : MonoBehaviour
 		foreach (Resource input in inputs) {
 			Game.Add(input);
 			if (input == Resource.Card) {
-				Game.Remove(Resource.Recycle);
 				Game.UndoLastRequest();
 			}
 		}
@@ -314,7 +312,7 @@ public class Card : MonoBehaviour
 		copyCard.noDiscard = true;
 		copyCard.isCopy = true;
 		if (!isCopy) {
-			copyCard.descriptionBox.text += "\n<i>Temporary copy</i>";
+			copyCard.cardComponents.descriptionBox.text += "\n<i>Temporary copy</i>";
 		}
 		List<Card> gameCards = Game.cards.ToList();
 		gameCards.Add(copyCard);
@@ -486,21 +484,6 @@ public class Card : MonoBehaviour
 	}
 	private Vector2 TravelPoint(Vector2 origin,Vector2 destination,float percentage) {
 		return MotionPlanPercent.LocationAtPercentage(motionPlan,percentage);
-		if (zone==Zone.Hand&&returning&&origin.y>destination.y) {
-			if (origin.x>destination.x) {
-				return Tween.ReverseArcPoint(origin,destination,percentage);
-			} else {
-				return Tween.ReverseHookPoint(origin,destination,percentage);
-			}
-		}
-		if (zone==Zone.Play&&origin.y<destination.y) {
-			if (origin.x>destination.x) {
-				return Tween.ArcPoint(origin,destination,percentage);
-			} else {
-				return Tween.HookPoint(origin,destination,percentage);
-			}
-		}
-		return Tween.LinePoint(origin,destination,percentage);
 	}
 //}
 //{ populate card with input/output icons when the scene starts
@@ -523,8 +506,8 @@ public class Card : MonoBehaviour
 			}
 			iconNum++;
 		}
-		if (nameBox != null) {
-			nameBox.SetText(cardName);
+		if (cardComponents.nameBox != null) {
+			cardComponents.nameBox.SetText(cardName);
 		}
 		SetLayers();
 	}
@@ -541,77 +524,31 @@ public class Card : MonoBehaviour
 		}
 	}
 	private GameObject MakeIcon(Resource resource,int iconNum) {
-		Vector2 iconSize = GetIconSize();
-		Vector2 iconCentre = GetIconCentre(iconNum,iconSize);
-		GameObject newIcon = Instantiate(iconPrefab,iconCentre,Quaternion.identity);
-		SpriteRenderer spriter = newIcon.GetComponent<SpriteRenderer>();
-		spriter.sprite = Define.Sprite(resource);
-		Vector2 spriteSize = spriter.bounds.size;
-		spriter.transform.localScale = iconSize/spriteSize;
-		spriter.transform.SetParent(transform);
+		// Vector2 iconSize = cardComponents.GetIconSize();
+		// Vector2 iconCentre = cardComponents.GetIconCentre(iconNum,iconSize);
+		// GameObject newIcon = Instantiate(iconPrefab,iconCentre,Quaternion.identity);
+		GameObject newIcon = Instantiate(iconPrefab);
+		// SpriteRenderer spriter = newIcon.GetComponent<SpriteRenderer>();
+		// spriter.sprite = Define.Sprite(resource);
+		// Vector2 spriteSize = spriter.bounds.size;
+		// spriter.transform.localScale = iconSize/spriteSize;
+		// spriter.transform.SetParent(transform);
 		return newIcon;
-	}
-	private Vector2 GetIconSize() {
-		Vector2 size = Vector2.zero;
-		foreach (GameObject box in resourceBoxes) {
-			Vector2 boxSize = box.GetComponent<SpriteRenderer>().bounds.size;
-			if (size == Vector2.zero) {
-				size = boxSize;
-			}
-			size.x = Math.Min(size.x,boxSize.x);
-			size.y = Math.Min(size.y,boxSize.y/grouping);
-		}
-		size.x = Math.Min(size.x,size.y);
-		size.y = size.x;
-		return size;
-	}
-	private Vector2 GetIconCentre(int iconNum,Vector2 iconSize) {
-		int boxNum = 0;
-		while (iconNum >= grouping) {
-			iconNum -= grouping;
-			boxNum++;
-		}
-		if (boxNum >= resourceBoxes.Length) return Vector2.zero;
-		Vector2 boxCentre = resourceBoxes[boxNum].GetComponent<SpriteRenderer>().bounds.center;
-		float upshift = iconSize.y * (grouping-1)/2f;
-		float downshift = iconSize.y * iconNum;
-		boxCentre.y += upshift - downshift;
-		return boxCentre;
 	}
 //}
 //{ Gizmos to preview inputs/outputs in editor
 // Doesn't work without a Define object or properly set resource boxes
 	public GameObject iconPrefab;
-    public GameObject[] resourceBoxes;
-	public TMP_Text nameBox,descriptionBox;
+	CardComponents cardComponents;
 	private const int grouping = 3;
 	private const int maxInputs = 9;
 	private const int maxOutputs = 9;
     void OnDrawGizmos() {
-		if (resourceBoxes.Length==(maxInputs+maxOutputs)/grouping&&Define.S!=null) drawGizmos();
+		if (cardComponents==null) {
+			cardComponents = GetComponentInChildren<CardComponents>();
+		}
+		if (cardComponents.resourceBoxes.Length==(maxInputs+maxOutputs)/grouping&&Define.S!=null) cardComponents.DrawGizmos(inputs,outputs,cardName);
     }
-	public void drawGizmos() {
-		int iconNum = 0;
-		foreach (Resource input in inputs) {
-			makeResourceGizmo(input,iconNum);
-			iconNum++;
-		}
-		iconNum = grouping*resourceBoxes.Length/2;
-		foreach (Resource output in outputs) {
-			makeResourceGizmo(output,iconNum);
-			iconNum++;
-		}
-		if (nameBox != null) {
-			nameBox.SetText(cardName);
-		}
-	}
-	private void makeResourceGizmo(Resource resource,int iconNum) {
-		Vector2 size = GetIconSize();
-		Vector2 centre = GetIconCentre(iconNum,size);
-		size.y = -size.y;
-		centre -= size/2;
-        Gizmos.DrawGUITexture(new Rect(centre,size), Define.Sprite(resource).texture);
-	}
 //}
 //{ check where in the hand a card needs to be displayed
 	// wincons and clock are always on the left, because they never leave the hand

@@ -1,4 +1,6 @@
 using UnityEngine;
+// A motion plan contains information about a card animating between 2 places
+// It does a calculation on creation, and then is used each frame to find the card's position
 class MotionPlan {
     public MotionPlan(Vector2 origin,Vector2 goal,MotionAction motionAction) {
         this.origin = origin;

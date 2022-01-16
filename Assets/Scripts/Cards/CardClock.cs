@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 public class CardClock : Card
@@ -37,8 +35,6 @@ public class CardClock : Card
 		foreach (Card card in Game.zoneCards[Zone.Play]) {
 			if (card.noDiscard||card.singleUse) {
 				if (card.singleUse) {
-					changes.Push(new Tuple<Resource,int>(Resource.Recycle,1));
-					Game.Add(Resource.Recycle);
 				}
 			} else {
 				changes.Push(new Tuple<Resource,int>(Resource.Card,1));

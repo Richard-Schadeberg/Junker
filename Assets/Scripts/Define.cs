@@ -4,8 +4,8 @@ using UnityEngine;
 using System;
 //{ enum definitions
 public enum Resource {
+	None = 0,
 	Card,
-	Recycle,
 	Battery,
 	Electric,
 	Coal,
@@ -39,7 +39,7 @@ public class Define : MonoBehaviour {
 //{ create static pointer to self to allow static methods to reference properties for the inspector's sake
 	public static Define S;
 	void Update() {
-		if (Application.isEditor) {
+		if (Application.isEditor && !Application.isPlaying) {
 			S = this;
 			BuildResourceSprites();
 			BuildZoneObjs();
@@ -72,8 +72,8 @@ public class Define : MonoBehaviour {
 	}
 	public static Dictionary<Resource,Sprite> resourceSprites = new Dictionary<Resource,Sprite>();
 	public Sprite 
+		noneSprite,
 		cardSprite,
-		recycleSprite,
 		batterySprite,
 		electricSprite,
 		coalSprite,
@@ -84,8 +84,8 @@ public class Define : MonoBehaviour {
 		reconSprite,
 		timeSprite;
 	public static void BuildResourceSprites() {
+		resourceSprites[Resource.None] = S.noneSprite;
 		resourceSprites[Resource.Card] = S.cardSprite;
-		resourceSprites[Resource.Recycle] = S.recycleSprite;
 		resourceSprites[Resource.Battery] = S.batterySprite;
 		resourceSprites[Resource.Electric] = S.electricSprite;
 		resourceSprites[Resource.Coal] = S.coalSprite;
@@ -149,7 +149,6 @@ public class Define : MonoBehaviour {
 	public static Dictionary<Resource,Counter> counters = new Dictionary<Resource,Counter>();
 	public Counter 
 		cardCounter,
-		recycleCounter,
 		batteryCounter,
 		electricCounter,
 		coalCounter,
@@ -161,7 +160,6 @@ public class Define : MonoBehaviour {
 		timeCounter;
 	public static void BuildCounters() {
 		counters[Resource.Card] = S.cardCounter;
-		counters[Resource.Recycle] = S.recycleCounter;
 		counters[Resource.Battery] = S.batteryCounter;
 		counters[Resource.Electric] = S.electricCounter;
 		counters[Resource.Coal] = S.coalCounter;
@@ -213,7 +211,6 @@ public class Define : MonoBehaviour {
 //}
 	public static Counter[] GetCounterList() {
 		return new Counter[] {
-			S.recycleCounter,
 			S.electricCounter,
 			S.heatCounter,
 			S.metalCounter,

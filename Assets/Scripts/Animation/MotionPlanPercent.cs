@@ -12,10 +12,10 @@ static class MotionPlanPercent {
                 return new Vector2(0,0);
         }
     }
-    public static Vector2 LocationAtPercentageDirect(MotionPlan motionPlan,float percentage) {
+    static Vector2 LocationAtPercentageDirect(MotionPlan motionPlan,float percentage) {
         return motionPlan.origin + (motionPlan.goal - motionPlan.origin) * percentage;
     }
-    public static Vector2 LocationAtPercentageArc(MotionPlan motionPlan,float percentage) {
+    static Vector2 LocationAtPercentageArc(MotionPlan motionPlan,float percentage) {
         Vector2 path = motionPlan.goal - motionPlan.origin;
         if (path.y == 0) return motionPlan.origin + path * percentage; // avoid division by zero
         float pathNormalSlope = -path.x/path.y;
@@ -32,13 +32,13 @@ static class MotionPlanPercent {
 		Vector2 centreToPoint = Quaternion.Euler(0, 0, angle) * (motionPlan.origin-circleCentre);
 		return (circleCentre + centreToPoint);
     }
-    public static Vector2 LocationAtPercentageCombination(MotionPlan motionPlan,float percentage) {
+    static Vector2 LocationAtPercentageCombination(MotionPlan motionPlan,float percentage) {
         bool inStraightSection;
         float straightDistance = Mathf.Abs(motionPlan.goal.x - motionPlan.origin.x);
         if (motionPlan.startHorizontal) {
-            inStraightSection = straightDistance > motionPlan.distance * percentage;
+            inStraightSection = straightDistance >= motionPlan.distance * percentage;
         } else {
-            inStraightSection = straightDistance > motionPlan.distance * (1 - percentage);
+            inStraightSection = straightDistance >= motionPlan.distance * (1 - percentage);
         }
         if (inStraightSection) {
             if (motionPlan.startHorizontal) {
