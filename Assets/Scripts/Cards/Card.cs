@@ -23,14 +23,18 @@ public class Card : MonoBehaviour
 		art.GetComponent<SpriteRenderer>().sprite = card.art.GetComponent<SpriteRenderer>().sprite;
 		cardComponents.descriptionBox.text = card.cardComponents.descriptionBox.text;
 	}
+	CardAnimation currentAnimation;
 //{ necessities
 //{ MonoBehaviour functions
 	void Start() {
-		// BuildCard();
+		cardComponents = GetComponentInChildren<CardComponents>();
+		cardComponents.DisplayInputsOutputs(inputs,outputs);
+		cardComponents.SetLayers(gameObject);
 	}
 	
 	void Update() {
-		if (animating) TravelRoute();
+		if (currentAnimation != null) currentAnimation.Update();
+		// if (animating) TravelRoute();
 	}
 	
 	void OnMouseUp() {
@@ -384,7 +388,7 @@ public class Card : MonoBehaviour
 	[HideInInspector]
 	public bool animating = false;
 	private Bounds origin,goal;
-	private float startTime,tweenTime,distance;
+	private float startTime,tweenTime;
 	[HideInInspector]
 	public Zone oldZone = Zone.Deck;
 	public void AnimateInstant() {
@@ -423,9 +427,11 @@ public class Card : MonoBehaviour
 			goal  = Game.cardBounds[this];
 			origin = GetComponent<Renderer>().bounds;
 			startTime = Time.time;
-			motionPlan = new MotionPlan(origin.center,goal.center,MotionAction.Uninstalling);
-			distance = motionPlan.distance;
-			tweenTime = Tween.timeRequired(vMax/accTime/distance,vMax/decTime/distance,vMax/distance);
+			
+			currentAnimation = new CardAnimation(origin,goal,MotionAction.Drawing,this,FinishAnimation);
+
+			motionPlan = new MotionPlan(origin.center,goal.center,MotionAction.Drawing);
+			tweenTime = Tween.timeRequired(vMax/accTime/motionPlan.distance,vMax/decTime/motionPlan.distance,vMax/motionPlan.distance);
 			animating = true;
 		}
 	}
@@ -436,8 +442,8 @@ public class Card : MonoBehaviour
 	const float chainTime =  0.2f;
 	// called during Update() to set the card's position
 	protected void TravelRoute() {
-		float percent = Tween.percentAtTime(vMax/accTime/distance,vMax/decTime/distance,vMax/distance,Time.time-startTime);
-		if (Single.IsNaN(percent)||distance==0) {
+		float percent = Tween.percentAtTime(vMax/accTime/motionPlan.distance,vMax/decTime/motionPlan.distance,vMax/motionPlan.distance,Time.time-startTime);
+		if (Single.IsNaN(percent)||motionPlan.distance==0) {
 			percent = 1.0f;
 			FinishAnimation();
 		}
@@ -464,7 +470,7 @@ public class Card : MonoBehaviour
 	
 	
 	private float TravelDistance(Vector2 origin,Vector2 destination) {
-		MotionPlan motionPlan = new MotionPlan(origin,destination,MotionAction.Installing);
+		MotionPlan motionPlan = new MotionPlan(origin,destination,MotionAction.Drawing);
 		return motionPlan.distance;
 		// if (zone==Zone.Hand&&returning&&origin.y>destination.y) {
 		// 	if (origin.x>destination.x) {
@@ -539,7 +545,7 @@ public class Card : MonoBehaviour
 //{ Gizmos to preview inputs/outputs in editor
 // Doesn't work without a Define object or properly set resource boxes
 	public GameObject iconPrefab;
-	CardComponents cardComponents;
+	public CardComponents cardComponents;
 	private const int grouping = 3;
 	private const int maxInputs = 9;
 	private const int maxOutputs = 9;

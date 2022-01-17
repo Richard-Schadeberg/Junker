@@ -424,6 +424,106 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pocket Researcher
       objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[3]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[4]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[5]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[6]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[8]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[9]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: inputs.Array.data[10]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[3]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[4]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[5]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[6]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[8]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[9]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[10]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353233909759080781, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
+      propertyPath: outputs.Array.data[11]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd9acde3ce30c724a94cf7aa5254fda0, type: 3}
 --- !u!1001 &298335195
@@ -1040,6 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb8c5e01c4bc6a40a3afe4cd5b79a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noneSprite: {fileID: 21300000, guid: 67ede86ff109d744aab2a0e15cf8d9fa, type: 3}
   cardSprite: {fileID: 21300000, guid: 7cdd6a850a9661b4da8dc6a45e00cf35, type: 3}
   batterySprite: {fileID: 21300000, guid: 68454d7ad2c8273479cc0f83b1b7ec80, type: 3}
   electricSprite: {fileID: 21300000, guid: ef128f44f6ed66a4eb4479342f205df0, type: 3}
@@ -2129,7 +2230,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1436967855261989108, guid: 5b3362f7ef78fc14984477edd33a8d29, type: 3}
       propertyPath: inputs.Array.data[0]
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1732978171352397710, guid: 5b3362f7ef78fc14984477edd33a8d29, type: 3}
       propertyPath: m_fontSize
