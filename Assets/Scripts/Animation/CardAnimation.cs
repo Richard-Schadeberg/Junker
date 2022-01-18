@@ -21,40 +21,45 @@ public class CardAnimation {
 	const float chainTime =  0.2f;
 
     public Card controlledCard;
-    GameAction gameAction;
+    public GameAction gameAction;
     MotionPlan motionPlan; // pre-calculated information about the motion
     Bounds origin,goal;
     float startTime;
-    bool fired = false;
     // if assigned, allows animations to be queued to perform after the current one
-    CardAnimation nextAnimation = null;
+    public CardAnimation nextAnimation = null;
     public CardAnimation(Card controlledCard,GameAction gameAction) {
-        Zone destination = Destination(gameAction);
+        this.controlledCard = controlledCard;
         goal = controlledCard.bounds;
         this.gameAction = gameAction;
-        fired = false;
     }
     // start playing the animation
     public void Fire() {
-        origin = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
-        startTime = Time.time;
-        motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
-        fired = true;
-        controlledCard.currentAnimation = this;
+        // if the card is already animating, put this animation in that card's queue instead of firing it
+        if (controlledCard.currentAnimation != null) {
+            CardAnimation animation = controlledCard.currentAnimation;
+            while (animation.nextAnimation != null) animation = animation.nextAnimation;
+            animation.nextAnimation = this;
+        } else {
+            origin = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
+            startTime = Time.time;
+            motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
+            controlledCard.currentAnimation = this;
+        }
     }
     // called every frame during the animation by the card it's attached to
     public void Update() {
 		float percentTravelled = PercentAtTime(Time.time);
-        bool motionComplete = (Single.IsNaN(percentTravelled)||motionPlan.distance==0);
-        // if animation has been completed or is already at the destination:
-		if (motionComplete) percentTravelled = 1.0f;
+        if (percentTravelled > 1f || float.IsNaN(percentTravelled)) percentTravelled = 1f;
+        // if animation has been completed:
         Vector2 position = MotionPlanPercent.PositionAtPercentage(motionPlan,percentTravelled);
         Vector2 size = Vector2.Lerp(origin.size,goal.size,percentTravelled);
 		BoundsUtil.SetBounds(controlledCard,new Bounds(position,size));
-        if (motionComplete) MotionComplete();
+        if (percentTravelled==1f) MotionComplete();
     }
     void MotionComplete() {
-        if (nextAnimation != null) nextAnimation.Fire();
+        controlledCard.currentAnimation=null;
+        // if another animation tried to fire but was blocked by this one, fire it now
+        if (nextAnimation != null) {nextAnimation.Fire();}
     }
     float PercentAtTime(float time) {
         float acceleration = vMax/accTime;
@@ -66,27 +71,5 @@ public class CardAnimation {
             deceleration/motionPlan.distance,
                     vMax/motionPlan.distance,
             timeDiff);
-    }
-    Zone Destination(GameAction action) {
-        switch (action) {
-            case GameAction.Drawing:
-                return Zone.Hand;
-            case GameAction.Installing:
-                return Zone.Play;
-            case GameAction.Uninstalling:
-                return Zone.Hand;
-            case GameAction.ClockReturn:
-                return Zone.Hand;
-            case GameAction.Repacking:
-                return controlledCard.zone;
-            case GameAction.DiscardReturn:
-                return Zone.Hand;
-            case GameAction.DrawReverse:
-                return Zone.Deck;
-            case GameAction.Discarding:
-                return Zone.Junk;
-            default:
-                return Zone.Junk;
-        }
     }
 }

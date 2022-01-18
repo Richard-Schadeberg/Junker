@@ -2,21 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-public class CardComponents : MonoBehaviour {
+class CardComponents : MonoBehaviour {
     const int maxInputs = 9;
     const int maxOutputs = 9;
+    const int resourceGrouping = 3;
+
     public GameObject[] resourceBoxes;
-    public int resourceGrouping = 3;
     public Canvas textCanvas;
     public SpriteRenderer art;
     public GameObject iconPrefab;
     public TMP_Text nameBox,descriptionBox;
-    public void DisplayName(string name) {
-        nameBox.text = name;
-    }
-    public void DisplayDescription(string description) {
-        descriptionBox.text = description;
-    }
+    public string cardName {set {nameBox.text = value;}}
+    public string description {set {descriptionBox.text = value;}}
 	public void SetLayers(GameObject card) {
 		int layer = 10+(int)Mathf.Abs(card.GetInstanceID()) % 32000;
 		// give each instance its own layer
@@ -26,7 +23,11 @@ public class CardComponents : MonoBehaviour {
 		foreach (GameObject icon in inputIcons) {
 			icon.GetComponent<Renderer>().sortingOrder=layer+1;
 		}
+		foreach (GameObject icon in outputIcons) {
+			icon.GetComponent<Renderer>().sortingOrder=layer+1;
+		}
 	}
+	// previewing resources in editor
 	public void DrawGizmos(Resource[] inputs,Resource[] outputs,string cardName) {
 		int iconNum = 0;
 		foreach (Resource input in inputs) {
@@ -53,13 +54,19 @@ public class CardComponents : MonoBehaviour {
     GameObject[] outputIcons = new GameObject[maxOutputs];
     Resource[] displayedInputs = new Resource[maxInputs];
     Resource[] displayedOutputs = new Resource[maxOutputs];
+	// update the resource icons to reflect new inputs/outputs
+	// inputs array can be longer than maxInputs, they just won't be displayed
 	public void DisplayInputsOutputs(Resource[] inputs,Resource[] outputs) {
+		// if thereare no icons, generate them
         if (inputIcons[0] == null) MakeIcons();
 		for (int i=0; i<maxInputs; i++) {
+			// disable icons for unused resource slots
             if (i >= inputs.Length) {
                 displayedInputs[i] = Resource.None;
                 inputIcons[i].SetActive(false);
+			// set sprites
             } else {
+				// skip sprite setting if sprite already matches
                 if (displayedInputs[i] != inputs[i]) {
                     displayedInputs[i] = inputs[i];
                     inputIcons[i].SetActive(true);
@@ -92,13 +99,13 @@ public class CardComponents : MonoBehaviour {
 		Vector2 iconSize = GetIconSize();
 		Vector2 iconCentre = GetIconCentre(iconNum,iconSize);
 		GameObject newIcon = Instantiate(iconPrefab,iconCentre,Quaternion.identity);
-		SpriteRenderer spriter = newIcon.GetComponent<SpriteRenderer>();
-		Vector2 spriteSize = spriter.bounds.size;
-		spriter.transform.localScale = iconSize/spriteSize;
-		spriter.transform.SetParent(transform);
+		Vector2 spriteSize = newIcon.GetComponent<SpriteRenderer>().bounds.size;
+		newIcon.gameObject.transform.localScale = iconSize/spriteSize;
+		newIcon.gameObject.transform.SetParent(transform);
         newIcon.SetActive(false);
 		return newIcon;
 	}
+	// check all resourceBoxes and find the largest box that can fit 3 in all of them
 	Vector2 GetIconSize() {
 		Vector2 size = Vector2.zero;
 		foreach (GameObject box in resourceBoxes) {

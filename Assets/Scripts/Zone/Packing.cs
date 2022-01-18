@@ -4,9 +4,7 @@ using UnityEngine;
 using System;
 
 public static class Packing {
-	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number) {
-		return PackBounds(size,bounds,number,false,false);
-	}
+	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number) {return PackBounds(size,bounds,number,false,false);}
 	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number,bool snaking,bool rightToLeft) {
 		var solutions = new Bounds[number];
 		float touchTopSize =1f;

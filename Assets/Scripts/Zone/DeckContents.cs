@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DeckContents : ZoneContents
-{
+public class DeckContents : ZoneContents {
     LinkedList<Card> orderedCards = new LinkedList<Card>(); // first card is top card of deck
     public DeckContents() : base(Zone.Deck) {}
-    public override void AddCard(Card card)
-    {
+    public override void AddCard(Card card) {
         base.AddCard(card);
         orderedCards.AddFirst(card);
     }
-    public override void RemoveCard(Card card)
-    {
+    public override void RemoveCard(Card card) {
         base.RemoveCard(card);
         orderedCards.Remove(card);
     }
-    public override Card[] GetCardsLeftToRight()
-    {
-        return orderedCards.ToArray();
-    }
-    public override int NumCards()
-    {
-        return orderedCards.Count;
+    public override Card[] GetCardsLeftToRight(){return orderedCards.ToArray();}
+    public override int NumCards() {return orderedCards.Count;}
+    public void AddCardToBottom(Card card) {
+        base.AddCard(card);
+        orderedCards.AddLast(card);
     }
     public Card DrawCard() {
         if (orderedCards.Count==0) return null;

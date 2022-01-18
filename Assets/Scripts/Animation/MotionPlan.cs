@@ -16,9 +16,24 @@ class MotionPlan {
     public readonly float distance;
     public enum MotionType {
         Direct,
+        // a circular arc that either starts or ends horizontally
         Arc,
+        // a combination of a semicircle and a horizontal motion, in either order
         Combination
     }
+    static MotionType GetMotionType(Vector2 origin,Vector2 goal,GameAction gameAction) {
+        switch (gameAction) {
+            case GameAction.Installing:
+                return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
+            case GameAction.Uninstalling:
+                return (goal.x >= origin.x ? MotionType.Arc : MotionType.Combination);
+            case GameAction.ClockReturn:
+                return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
+            default:
+                return MotionType.Direct;
+        }
+    }
+    // true for starting horizontal, false for ending horizontal, undefined (false) for neither
     static bool MotionStartsHorizontal(GameAction gameAction) {
         switch (gameAction) {
             case GameAction.Installing:
@@ -31,44 +46,31 @@ class MotionPlan {
                 return false;
         }
     }
-    static MotionType GetMotionType(Vector2 origin,Vector2 goal,GameAction gameAction) {
-        switch (gameAction) {
-            case GameAction.Drawing:
-                return MotionType.Direct;
-            case GameAction.Installing:
-                return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
-            case GameAction.Uninstalling:
-                return (goal.x >= origin.x ? MotionType.Arc : MotionType.Combination);
-            case GameAction.ClockReturn:
-                return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
-            case GameAction.Repacking:
-                return MotionType.Direct;
-            default:
-                return MotionType.Direct;
-        }
-    }
     static float MotionDistance(Vector2 origin,Vector2 goal,MotionType motionType) {
         switch (motionType) {
             case MotionType.Direct:
                 return Vector2.Distance(origin,goal);
             case MotionType.Arc:
-                return ArcLength(origin,goal);
+                return ArcDistance(origin,goal);
             case MotionType.Combination:
-                return CombinedLength(origin,goal);
+                return CombinationDistance(origin,goal);
             default:
                 return 0;
         }
     }
-    static float ArcLength(Vector2 origin,Vector2 goal) { // which end starts horizontal is irrelevant for length calculation, so start is assumed to be horizontal
+    // which end starts horizontal is irrelevant for length calculation, so start is assumed to be horizontal
+    static float ArcDistance(Vector2 origin,Vector2 goal) {
         Vector2 path = goal - origin;
-        if (path.y == 0) return path.x; // avoid division by zero
+        // avoid division by zero
+        if (path.y == 0) return path.x;
         float pathNormalSlope = -path.x/path.y;
         Vector2 midPoint = path/2;
         float circleRadius = midPoint.y + pathNormalSlope * -midPoint.x;
         float arcAngle = 2*Mathf.Asin(path.magnitude/(2*circleRadius));
         return circleRadius*arcAngle;
     }
-    static float CombinedLength(Vector2 origin,Vector2 goal) { // which end starts horizontal is irrelevant for length calculation, so start is assumed to be horizontal
+    // which end starts horizontal is irrelevant for length calculation, so start is assumed to be horizontal
+    static float CombinationDistance(Vector2 origin,Vector2 goal) {
         Vector2 path = goal - origin;
         float arcDistance = Mathf.PI * Mathf.Abs(path.y) / 2;
         float straightDistance = Mathf.Abs(path.x);

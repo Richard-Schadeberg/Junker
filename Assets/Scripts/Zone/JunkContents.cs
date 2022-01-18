@@ -16,11 +16,6 @@ public class JunkContents : ZoneContents
         base.RemoveCard(card);
         cards.Remove(card);
     }
-    public override Card[] GetCardsLeftToRight() {
-        return cards.ToArray();
-    }
-    public override int NumCards()
-    {
-        return cards.Count;
-    }
+    public override Card[] GetCardsLeftToRight() {return cards.ToArray();}
+    public override int NumCards() {return cards.Count;}
 }

@@ -15,14 +15,4 @@ public class ZoneObj : MonoBehaviour
 		}
 	}
 	public bool isHand;
-    // void OnMouseUp()
-    // {
-    //     if (isHand) {
-	// 		Game.SortZone(Zone.Hand);
-	// 		Game.PackZone(Zone.Hand);
-	// 		foreach (Card card in Game.zoneCards[Zone.Hand]) {
-	// 			card.Animate();
-	// 		}
-	// 	}
-    // }
 }

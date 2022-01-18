@@ -8,28 +8,22 @@ public class ZoneContents {
     public ZoneContents(Zone zone) {
         this.zone = zone;
     }
-    public virtual void AddCard(Card card) 
-    {
-        if (!Game.S.ReversibleMode)
-        {
+    public virtual void AddCard(Card card) {
+        if (!Game.S.ReversibleMode) {
             packed = false;
         }
     }
-    public virtual void RemoveCard(Card card) 
-    {
-        if (!Game.S.ReversibleMode)
-        {
+    public virtual void RemoveCard(Card card) {
+        if (!Game.S.ReversibleMode) {
             packed = false;
         }
     }
     public virtual Card[] GetCardsLeftToRight() {return null;}
     public virtual int NumCards() {return 0;}
-    public void PackZone()
-    {
-        Bounds[] boundsList = Packing.PackBounds(Game.cardsize,Define.Bounds(zone),NumCards());
+    public void PackZone() {
+        Bounds[] boundsList = Packing.PackBounds(Game.cardAspectRatio,Define.Bounds(zone),NumCards());
         int index = 0;
-        foreach (Card card in GetCardsLeftToRight())
-        {
+        foreach (Card card in GetCardsLeftToRight()) {
             card.bounds = boundsList[index];
             index++;
         }

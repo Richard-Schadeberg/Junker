@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 public class ZoneTracker {
-    Dictionary<Zone, ZoneContents> zoneObjects = new Dictionary<Zone, ZoneContents>();
+    public Dictionary<Zone, ZoneContents> zoneObjects = new Dictionary<Zone, ZoneContents>();
     HandContents handContents;
     DeckContents deckContents;
     Card[] cards;
@@ -12,7 +12,7 @@ public class ZoneTracker {
         this.cards = (Card[])cards.Clone();
         BuildDictionary();
         foreach (Card card in cards) {
-            zoneObjects[Zone.Deck].AddCard(card);
+            deckContents.AddCardToBottom(card);
         }
     }
     void BuildDictionary() {
@@ -23,14 +23,18 @@ public class ZoneTracker {
         zoneObjects.Add(Zone.Play,new PlayContents());
         zoneObjects.Add(Zone.Junk,new JunkContents());
     }
-    public void MoveCard(Card card,Zone origin,Zone goal)
-    {
+    public void MoveCard(Card card,Zone origin,Zone goal) {
         zoneObjects[origin].RemoveCard(card);
         zoneObjects[goal].AddCard(card);
+        Game.GameStateChanged();
     }
-    public Card[] HandCards() {return handContents.GetCards();}
+    public static Card[] HandCards() {return Game.S.zoneTracker.handContents.GetCards();}
     public void GameStateChanged() {handContents.isSorted = false;}
-    public Card DrawCard() {return deckContents.DrawCard();}
+    public Card DrawCard() {
+        Card drawn = deckContents.DrawCard();
+        handContents.AddCard(drawn);
+        return drawn;
+    }
     public int availableDiscards {get {return handContents.availableDiscards;}}
     public bool ZonePacked(Zone zone) {return zoneObjects[zone].packed;}
     public void PackZone(Zone zone) {zoneObjects[zone].PackZone();}

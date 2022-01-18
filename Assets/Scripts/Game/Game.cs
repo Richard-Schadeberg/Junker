@@ -6,7 +6,6 @@ public enum Zone {
 	Play,
 	Junk
 }
-[ExecuteAlways]
 public class Game : MonoBehaviour {
 // Game needs to be instantiated in order to work with the unity inspector,
 //  but its functionality is otherwise static.
@@ -18,37 +17,33 @@ public class Game : MonoBehaviour {
 		zoneTracker = new ZoneTracker(cards);
 	}
 	void Update() {
-#if UNITY_EDITOR
-		// editor code:
-		if (!EditorApplication.isPlaying) {
-			S = this;
-		}
-#endif
-		AnimationHandler.Update();
+		animationHandler.Update();
 	}
 	public int startingHandSize;
+	public AnimationHandler animationHandler = new AnimationHandler();
+	public CardMovement cardMovement = new CardMovement();
+	public ResourceTracker resourceTracker = new ResourceTracker();
 	void Start() {
+		foreach (Card card in cards) {
+			animationHandler.AnimateInstant(card,GameAction.Repacking);
+		}
 		for (int i = 0; i < startingHandSize; i++)
 		{
 			DrawCard();
 		}
 	}
 	public Card[] cards;
-	public static Vector2 cardsize
-	{
-		get
-		{
-			return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;
-		}
-	}
+	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
 	public ZoneTracker zoneTracker;
 	public static void GameStateChanged() {
+		if (Game.S.ReversibleMode) return;
 		CardPlayable.GameStateChanged();
 		S.zoneTracker.GameStateChanged();
 	}
 	public void DrawCard() {
 		Card drawnCard = zoneTracker.DrawCard();
-
+		GameStateChanged();
+		animationHandler.Animate(drawnCard,GameAction.Drawing);
 	}
 	public void DiscardCard() {}
 	public bool ReversibleMode = false;

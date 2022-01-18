@@ -1,22 +1,23 @@
-using System.Collections.Generic;
 using System;
 using UnityEngine;
-using TMPro;
-using System.Linq;
 
 public class Card : MonoBehaviour
 {
-	public String cardName; // textBox set to match cardName in editor
+	public String cardName;
 	public Resource[] inputs,outputs;
 	public bool winsGame,startsHand,singleUse,noDiscard,scaleable;
 	public int partLimit=0;
 	public int requiredPart=0;
-	public CardAnimation currentAnimation;
+	public CardAnimation currentAnimation = null;
 	CardComponents cardComponents;
 	void Start() {
 		cardComponents = GetComponentInChildren<CardComponents>();
 		cardComponents.DisplayInputsOutputs(inputs,outputs);
 		cardComponents.SetLayers(gameObject);
+		cardComponents.cardName = cardName;
+	}
+	void Update() {
+		if (currentAnimation != null) currentAnimation.Update();
 	}
 	void OnMouseUp() {
 		ClickResponse();
@@ -56,7 +57,7 @@ public class Card : MonoBehaviour
 	void ClickResponse() {
 		switch (zone) {
 			case Zone.Hand:
-				CardInstall.Install(this);
+				CardInstall.TryInstall(this);
 				break;
 		}
 	}

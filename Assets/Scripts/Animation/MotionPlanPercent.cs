@@ -13,8 +13,9 @@ static class MotionPlanPercent {
         }
     }
     static Vector2 LocationAtPercentageDirect(MotionPlan motionPlan,float percentage) {
-        return motionPlan.origin + (motionPlan.goal - motionPlan.origin) * percentage;
+        return Vector2.Lerp(motionPlan.origin,motionPlan.goal,percentage);
     }
+    // a circular arc that either starts or ends horizontally
     static Vector2 LocationAtPercentageArc(MotionPlan motionPlan,float percentage) {
         Vector2 path = motionPlan.goal - motionPlan.origin;
         if (path.y == 0) return motionPlan.origin + path * percentage; // avoid division by zero
@@ -32,19 +33,23 @@ static class MotionPlanPercent {
 		Vector2 centreToPoint = Quaternion.Euler(0, 0, angle) * (motionPlan.origin-circleCentre);
 		return (circleCentre + centreToPoint);
     }
+    // a combination of a semicircle and a horizontal motion, in either order
+    // if startHorizontal, the horizontal motion comes first
     static Vector2 LocationAtPercentageCombination(MotionPlan motionPlan,float percentage) {
+        float straightSectionDistance = Mathf.Abs(motionPlan.goal.x - motionPlan.origin.x);
         bool inStraightSection;
-        float straightDistance = Mathf.Abs(motionPlan.goal.x - motionPlan.origin.x);
         if (motionPlan.startHorizontal) {
-            inStraightSection = straightDistance >= motionPlan.distance * percentage;
+            inStraightSection = straightSectionDistance >= motionPlan.distance * percentage;
         } else {
-            inStraightSection = straightDistance >= motionPlan.distance * (1 - percentage);
+            inStraightSection = straightSectionDistance >= motionPlan.distance * (1 - percentage);
         }
         if (inStraightSection) {
             if (motionPlan.startHorizontal) {
-                return motionPlan.origin + new Vector2(   percentage  * motionPlan.distance/straightDistance * (motionPlan.goal.x   - motionPlan.origin.x),0);
+                float horizontalPercentage = percentage  * motionPlan.distance/straightSectionDistance;
+                return motionPlan.origin + new Vector2(horizontalPercentage        * (motionPlan.goal.x   - motionPlan.origin.x),0);
             } else {
-                return motionPlan.goal   + new Vector2((1-percentage) * motionPlan.distance/straightDistance * (motionPlan.origin.x - motionPlan.goal.x)  ,0);
+                float horizontalPercentageFromEnd = (1-percentage) * motionPlan.distance/straightSectionDistance;
+                return motionPlan.goal   + new Vector2(horizontalPercentageFromEnd * (motionPlan.origin.x - motionPlan.goal.x),0);
             }
         } else {
             Vector2 path = motionPlan.goal - motionPlan.origin;
@@ -54,12 +59,12 @@ static class MotionPlanPercent {
             Vector2 centreToPoint;
             if (!motionPlan.startHorizontal) {
                 circleCentre.x = motionPlan.origin.x;
-                arcPercent = percentage * motionPlan.distance/(motionPlan.distance-straightDistance);
+                arcPercent = percentage * motionPlan.distance/(motionPlan.distance-straightSectionDistance);
                 arcAngle *= arcPercent;
                 centreToPoint = motionPlan.origin - circleCentre;
             } else {
                 circleCentre.x = motionPlan.goal.x;
-                arcPercent = (1-percentage) * motionPlan.distance/(motionPlan.distance-straightDistance);
+                arcPercent = (1-percentage) * motionPlan.distance/(motionPlan.distance-straightSectionDistance);
                 arcAngle *= -arcPercent;
                 centreToPoint = motionPlan.goal - circleCentre;
             }

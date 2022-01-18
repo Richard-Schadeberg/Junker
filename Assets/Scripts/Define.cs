@@ -38,10 +38,8 @@ public class Define : MonoBehaviour {
 		BuildZoneObjs();
 		BuildStatusColours();
 		BuildCounters();
-		SetCounterIcons();
 	}
-//}
-//{ convert Resource to Sprite
+	// convert Resource to Sprite
 	public static Sprite Sprite(Resource resource) {
 		if (resourceSprites.Count==0) {
 			BuildResourceSprites();
@@ -144,17 +142,6 @@ public class Define : MonoBehaviour {
 		counters[Resource.Recon] = S.reconCounter;
 		counters[Resource.Time] = S.timeCounter;
 	}
-//}
-//{ set/draw Counter Resource types
-	public void SetCounterIcons() {
-		BuildCounters();
-		foreach(var counter in counters) {
-			if (counter.Value != null) {
-				counter.Value.SetIcon(counter.Key);
-			}
-		}
-	}
-//}
 	public static Counter[] GetCounterList() {
 		return new Counter[] {
 			S.electricCounter,

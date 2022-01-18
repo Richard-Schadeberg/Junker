@@ -1,5 +1,5 @@
 using System;
-public static class Tween {
+static class Tween {
 	public static float timeRequired(float acc,float dec,float vMax) {
 		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
 		if (easing > 1) {
@@ -13,7 +13,7 @@ public static class Tween {
 		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
 		if (easing > 1) {
 			float time = (float)(Math.Sqrt(2)*(Math.Sqrt(acc/(dec*dec+acc*dec))+Math.Sqrt(dec/(acc*acc+dec*acc))));
-			if (t>time) return Single.NaN;
+			if (t>time) return 1f;
 			float midTime = time*(dec/(acc+dec));
 			if (t<midTime) {
 				return 0.5f*t*t*acc;
@@ -23,7 +23,7 @@ public static class Tween {
 		} else {
 			float glideLength = 1f - easing;
 			float time = vMax/acc + vMax/dec + glideLength/vMax;
-			if (t>time) return Single.NaN;
+			if (t>time) return 1f;
 			if (t<vMax/acc) {
 				return 0.5f*t*t*acc;
 			} else if (time-t<vMax/dec) {
