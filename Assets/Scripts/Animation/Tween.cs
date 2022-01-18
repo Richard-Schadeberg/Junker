@@ -9,7 +9,7 @@ public static class Tween {
 			return vMax/acc + vMax/dec + glideLength/vMax;
 		}
 	}
-	public static float percentAtTime(float acc,float dec,float vMax,float t) {
+	public static float PercentAtTime(float acc,float dec,float vMax,float t) {
 		float easing = 0.5f*vMax*vMax/acc + 0.5f*vMax*vMax/dec;
 		if (easing > 1) {
 			float time = (float)(Math.Sqrt(2)*(Math.Sqrt(acc/(dec*dec+acc*dec))+Math.Sqrt(dec/(acc*acc+dec*acc))));

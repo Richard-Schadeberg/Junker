@@ -2,46 +2,46 @@ using UnityEngine;
 // A motion plan contains information about a card animating between 2 places
 // It does a calculation on creation, and then is used each frame to find the card's position
 class MotionPlan {
-    public MotionPlan(Vector2 origin,Vector2 goal,MotionAction motionAction) {
+    public MotionPlan(Vector2 origin,Vector2 goal,GameAction gameAction) {
         this.origin = origin;
         this.goal = goal;
-        motionType = GetMotionType(origin,goal,motionAction);
-        startHorizontal = MotionStartsHorizontal(motionAction);
+        motionType = GetMotionType(origin,goal,gameAction);
+        startHorizontal = MotionStartsHorizontal(gameAction);
         distance = MotionDistance(origin,goal,motionType);
     }
-    public readonly MotionType motionType;
-    public readonly bool startHorizontal;
     public readonly Vector2 origin;
     public readonly Vector2 goal;
+    public readonly MotionType motionType;
+    public readonly bool startHorizontal;
     public readonly float distance;
     public enum MotionType {
         Direct,
         Arc,
         Combination
     }
-    static bool MotionStartsHorizontal(MotionAction motionAction) {
-        switch (motionAction) {
-            case MotionAction.Installing:
+    static bool MotionStartsHorizontal(GameAction gameAction) {
+        switch (gameAction) {
+            case GameAction.Installing:
                 return false;
-            case MotionAction.Uninstalling:
+            case GameAction.Uninstalling:
                 return true;
-            case MotionAction.ClockReturn:
+            case GameAction.ClockReturn:
                 return true;
             default:
                 return false;
         }
     }
-    static MotionType GetMotionType(Vector2 origin,Vector2 goal,MotionAction motionAction) {
-        switch (motionAction) {
-            case MotionAction.Drawing:
+    static MotionType GetMotionType(Vector2 origin,Vector2 goal,GameAction gameAction) {
+        switch (gameAction) {
+            case GameAction.Drawing:
                 return MotionType.Direct;
-            case MotionAction.Installing:
+            case GameAction.Installing:
                 return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
-            case MotionAction.Uninstalling:
+            case GameAction.Uninstalling:
                 return (goal.x >= origin.x ? MotionType.Arc : MotionType.Combination);
-            case MotionAction.ClockReturn:
+            case GameAction.ClockReturn:
                 return (goal.x >  origin.x ? MotionType.Combination : MotionType.Arc);
-            case MotionAction.Repacking:
+            case GameAction.Repacking:
                 return MotionType.Direct;
             default:
                 return MotionType.Direct;

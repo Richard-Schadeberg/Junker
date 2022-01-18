@@ -16,23 +16,6 @@ public enum Resource {
 	Recon,
 	Time
 }
-public enum Zone {
-	Deck,
-	Hand,
-	Play,
-	Junk,
-	Counter,
-	Special
-}
-public enum Status {
-	Playable=1,
-	Almost=2,
-	Unplayable=3
-}
-public enum Sound {
-	Install,
-	Uninstall
-}
 //}
 [ExecuteAlways]
 public class Define : MonoBehaviour {
@@ -56,11 +39,6 @@ public class Define : MonoBehaviour {
 		BuildStatusColours();
 		BuildCounters();
 		SetCounterIcons();
-	}
-//}
-//{ draw counter Gizmos in the editor
-    void OnDrawGizmos() {
-		DrawCounterGizmos();
 	}
 //}
 //{ convert Resource to Sprite
@@ -109,16 +87,12 @@ public class Define : MonoBehaviour {
 		deckZone,
 		handZone,
 		playZone,
-		junkZone,
-		counterZone,
-		specialZone;
+		junkZone;
 	public static void BuildZoneObjs() {
 		zoneObjs[Zone.Deck] = S.deckZone;
 		zoneObjs[Zone.Hand] = S.handZone;
 		zoneObjs[Zone.Play] = S.playZone;
 		zoneObjs[Zone.Junk] = S.junkZone;
-		zoneObjs[Zone.Counter] = S.counterZone;
-		zoneObjs[Zone.Special] = S.specialZone;
 	}
 //}
 //{ convert Status to Color
@@ -171,35 +145,7 @@ public class Define : MonoBehaviour {
 		counters[Resource.Time] = S.timeCounter;
 	}
 //}
-//{ get random sound effect files
-	private static System.Random rng = new System.Random();
-	public AudioClip[] installSounds,uninstallSounds;
-	public static int soundNum=0;
-	public static AudioClip GetSound(Sound sound) {
-		AudioClip[] soundsList;
-		switch (sound) {
-			case Sound.Install:
-				soundsList=S.installSounds;
-				break;
-			case Sound.Uninstall:
-				soundsList=S.uninstallSounds;
-				break;
-			default:
-				soundsList=S.installSounds;
-				break;
-		}
-		return soundsList[rng.Next(soundsList.Length)];
-	}
-//}
 //{ set/draw Counter Resource types
-	void DrawCounterGizmos() {
-		BuildCounters();
-		foreach(var counter in counters) {
-			if (counter.Value != null) {
-				counter.Value.DrawGizmo(counter.Key);
-			}
-		}
-	}
 	public void SetCounterIcons() {
 		BuildCounters();
 		foreach(var counter in counters) {

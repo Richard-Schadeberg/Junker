@@ -1,6 +1,6 @@
 using UnityEngine;
 static class MotionPlanPercent {
-    public static Vector2 LocationAtPercentage(MotionPlan motionPlan,float percentage) {
+    public static Vector2 PositionAtPercentage(MotionPlan motionPlan,float percentage) {
         switch (motionPlan.motionType) {
             case MotionPlan.MotionType.Direct:
                 return LocationAtPercentageDirect(motionPlan,percentage);
