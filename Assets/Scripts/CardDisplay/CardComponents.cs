@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-class CardComponents : MonoBehaviour {
+public class CardComponents : MonoBehaviour {
     const int maxInputs = 9;
     const int maxOutputs = 9;
     const int resourceGrouping = 3;
@@ -38,9 +38,6 @@ class CardComponents : MonoBehaviour {
 		foreach (Resource output in outputs) {
 			MakeResourceGizmo(output,iconNum);
 			iconNum++;
-		}
-		if (nameBox != null) {
-			nameBox.SetText(cardName);
 		}
 	}
 	void MakeResourceGizmo(Resource resource,int iconNum) {

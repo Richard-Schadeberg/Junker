@@ -16,7 +16,7 @@ public class CardMovement {
     Stack<CardAction> reversibleActions = new Stack<CardAction>();
     public void MoveReversible(Card card,Zone zone) {
         reversibleActions.Push(new CardAction(card,card.zone,zone));
-        Game.S.zoneTracker.MoveCard(card,card.zone,zone);
+        ZoneTracker.MoveCard(card,card.zone,zone);
         card.zone = zone;
     }
 }

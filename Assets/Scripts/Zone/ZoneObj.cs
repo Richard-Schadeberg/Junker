@@ -15,4 +15,11 @@ public class ZoneObj : MonoBehaviour
 		}
 	}
 	public bool isHand;
+	void OnMouseDown() {
+		if (isHand) {
+			foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) {
+				AnimationHandler.Animate(card,GameAction.Repacking);
+			}
+		}
+	}
 }

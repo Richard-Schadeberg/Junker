@@ -1,12 +1,7 @@
 using UnityEngine;
 using UnityEditor;
-public enum Zone {
-	Deck,
-	Hand,
-	Play,
-	Junk
-}
 public class Game : MonoBehaviour {
+	public int startingHandSize,startingTime;
 // Game needs to be instantiated in order to work with the unity inspector,
 //  but its functionality is otherwise static.
 //  the solution is to store a static pointer to the instance, to allow
@@ -14,7 +9,6 @@ public class Game : MonoBehaviour {
 	public static Game S;
 	void Awake() {
 		S = this;
-		zoneTracker = new ZoneTracker(cards);
 	}
     // time (in seconds) between each animation fired from the queue
     public float chainTime = 0.2f;
@@ -24,12 +18,16 @@ public class Game : MonoBehaviour {
 	public float decTime   =  0.4f;
 	void Update() {
 		animationHandler.Update();
+		Debug.Log(Validate.ValidState());
 	}
-	public int startingHandSize;
 	public AnimationHandler animationHandler = new AnimationHandler();
 	public CardMovement cardMovement = new CardMovement();
 	public ResourceTracker resourceTracker = new ResourceTracker();
+	public DiscardRequest discardRequester = new DiscardRequest();
+	public ZoneTracker zoneTracker;
 	void Start() {
+		zoneTracker = new ZoneTracker(cards);
+		ResourceTracker.Add(Resource.Time,startingTime);
 		foreach (Card card in cards) {
 			animationHandler.AnimateInstant(card,GameAction.Repacking);
 		}
@@ -40,7 +38,6 @@ public class Game : MonoBehaviour {
 	}
 	public Card[] cards;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
-	public ZoneTracker zoneTracker;
 	public static void GameStateChanged() {
 		if (Game.S.ReversibleMode) return;
 		CardPlayable.GameStateChanged();
@@ -50,7 +47,7 @@ public class Game : MonoBehaviour {
 		Card drawnCard = zoneTracker.DrawCard();
 		if (drawnCard==null) return;
 		GameStateChanged();
-		animationHandler.Animate(drawnCard,GameAction.Drawing);
+		AnimationHandler.Animate(drawnCard,GameAction.Drawing);
 	}
 	public void DiscardCard() {}
 	public bool ReversibleMode = false;

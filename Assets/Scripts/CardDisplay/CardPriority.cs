@@ -10,7 +10,7 @@ public static class CardPriority {
 		factors[7]=(card.winsGame?0:1);
 		factors[6]=(card.inputs.Contains(Resource.Time)?0:1);
 		factors[5]=(card.noDiscard?0:1);
-		factors[4]=(int)card.Status;
+		factors[4]=(int)card.Playability;
 		factors[3]=card.inputs.Length;
 		factors[2]=card.outputs.Length;
 		factors[1]=new []{card.singleUse,card.startsHand,card.scaleable}.Count(x=>x);

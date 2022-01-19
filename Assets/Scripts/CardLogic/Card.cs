@@ -9,9 +9,8 @@ public class Card : MonoBehaviour
 	public int partLimit=0;
 	public int requiredPart=0;
 	public CardAnimation currentAnimation = null;
-	CardComponents cardComponents;
+	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
 	void Start() {
-		cardComponents = GetComponentInChildren<CardComponents>();
 		cardComponents.DisplayInputsOutputs(inputs,outputs);
 		cardComponents.SetLayers(gameObject);
 		cardComponents.cardName = cardName;
@@ -25,27 +24,24 @@ public class Card : MonoBehaviour
 	public Zone zone = Zone.Deck;
 	public Bounds bounds {
 		get {
-			if (!Game.S.zoneTracker.ZonePacked(zone)) Game.S.zoneTracker.PackZone(zone);
+			if (!ZoneTracker.ZonePacked(zone)) ZoneTracker.PackZone(zone);
 			return _bounds;
 		} 
 		set { _bounds = value;}
 	} private Bounds _bounds;
-	public Status Status {
+	public Playability Playability {
 		get {
 			if (!CardPlayable.isValid) CardPlayable.EvaluatePlayability();
-			return _Status;
+			return _Playability;
 		}
-		set {_Status = value;}
-	} private Status _Status;
+		set {_Playability = value;}
+	} private Playability _Playability;
 	public int Priority {
 		get {
 			return CardPriority.Priority(this);
 		}
 	}
     void OnDrawGizmos() {
-		if (cardComponents==null) {
-			cardComponents = GetComponentInChildren<CardComponents>();
-		}
 		cardComponents.DrawGizmos(inputs,outputs,cardName);
     }
 	public bool ImmediatelyPlayable() {
@@ -59,6 +55,11 @@ public class Card : MonoBehaviour
 			case Zone.Hand:
 				CardInstall.TryInstall(this);
 				break;
+			case Zone.Play:
+				CardInstall.Uninstall(this);
+				break;
 		}
 	}
+	public virtual bool IsValid() {return true;}
+	public void SetColour(Color colour) {}
 }

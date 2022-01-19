@@ -12,13 +12,12 @@ public class ResourceTracker
     }
     public static void Add(Resource resource,int amount) {Game.S.resourceTracker._Add(resource,amount);}
     public void _Add(Resource resource,int amount) {
-        switch (resource) {
-            case Resource.Card:
-                DrawDiscard(amount);
-                break;
-            default:
-                resourceDictionary[resource] += amount;
-                break;
+        if (resource==Resource.Card) {
+            Debug.Log("Draw and discard via resourcetracker is ambiguous");
+        } else {
+            resourceDictionary[resource] += amount;
+            Counter counter = Define.Counter(resource);
+            if (counter != null) counter.Set(Get(resource));
         }
     }
     public static void Add(Resource resource) {Add(resource,1);}
@@ -29,19 +28,15 @@ public class ResourceTracker
     public int _Get(Resource resource) {
         switch (resource) {
             case Resource.Card:
-                return Game.S.zoneTracker.availableDiscards;
+                return ZoneTracker.availableDiscards - Game.S.discardRequester.pendingRequests;
             default:
                 return resourceDictionary[resource];
         }
     }
-    public static void DrawDiscard(int amount) {
-        while (amount > 0) {
-            Game.S.DrawCard();
-            amount--;
+    public static bool IsValid() {
+        foreach (Resource resource in Enum.GetValues(typeof(Resource))) {
+            if (Get(resource) < 0) return false;
         }
-        while (amount < 0) {
-            Game.S.DiscardCard();
-            amount++;
-        }
+        return true;
     }
 }

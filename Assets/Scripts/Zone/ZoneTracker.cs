@@ -5,8 +5,10 @@ using System;
 
 public class ZoneTracker {
     public Dictionary<Zone, ZoneContents> zoneObjects = new Dictionary<Zone, ZoneContents>();
-    HandContents handContents;
-    DeckContents deckContents;
+    public HandContents handContents;
+    public DeckContents deckContents;
+    public PlayContents playContents;
+    public JunkContents junkContents;
     Card[] cards;
     public ZoneTracker(Card[] cards) {
         this.cards = (Card[])cards.Clone();
@@ -20,10 +22,13 @@ public class ZoneTracker {
         zoneObjects.Add(Zone.Hand,handContents);
         deckContents = new DeckContents();
         zoneObjects.Add(Zone.Deck,deckContents);
-        zoneObjects.Add(Zone.Play,new PlayContents());
-        zoneObjects.Add(Zone.Junk,new JunkContents());
+        playContents = new PlayContents();
+        zoneObjects.Add(Zone.Play,playContents);
+        junkContents = new JunkContents();
+        zoneObjects.Add(Zone.Junk,junkContents);
     }
-    public void MoveCard(Card card,Zone origin,Zone goal) {
+    public static void MoveCard(Card card,Zone origin,Zone goal) {Game.S.zoneTracker._MoveCard(card,origin,goal);}
+    public void _MoveCard(Card card,Zone origin,Zone goal) {
         zoneObjects[origin].RemoveCard(card);
         zoneObjects[goal].AddCard(card);
         card.zone = goal;
@@ -40,7 +45,7 @@ public class ZoneTracker {
         }
         return drawn;
     }
-    public int availableDiscards {get {return handContents.availableDiscards;}}
-    public bool ZonePacked(Zone zone) {return zoneObjects[zone].packed;}
-    public void PackZone(Zone zone) {zoneObjects[zone].PackZone();}
+    public static int availableDiscards {get {return Game.S.zoneTracker.handContents.availableDiscards;}}
+    public static bool ZonePacked(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].packed;}
+    public static void PackZone(Zone zone) {Game.S.zoneTracker.zoneObjects[zone].PackZone();}
 }

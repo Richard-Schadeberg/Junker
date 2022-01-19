@@ -9,4 +9,5 @@ public class Counter : MonoBehaviour {
 	public SpriteRenderer icon;
 	void Start() {icon.sprite = Define.Sprite(resource);}
     public void Set(int count) {textObj.text = count.ToString();}
+	public void Update() {Set(ResourceTracker.Get(resource));}
 }

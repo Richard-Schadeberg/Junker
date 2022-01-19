@@ -5,7 +5,10 @@ using System;
 public class AnimationHandler {
     Queue<CardAnimation> animationQueue = new Queue<CardAnimation>();
     float timeNextFire=0;
-    public void Animate(Card card,GameAction action) {
+    // calling Animate() will queue a card motion
+    // this motion will reflect the gamestate at the time the animation was queued
+    public static void Animate(Card card,GameAction action) {Game.S.animationHandler._Animate(card,action);}
+    public void _Animate(Card card,GameAction action) {
         // No queueing animations during reversible actions
         if (Game.S.ReversibleMode) return;
         CardAnimation animation = new CardAnimation(card,action);

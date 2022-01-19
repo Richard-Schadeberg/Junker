@@ -1,16 +1,5 @@
 using UnityEngine;
 using System;
-// a list of game actions that would require cards to move:
-public enum GameAction {
-    Drawing,
-    Installing,
-    Uninstalling,
-    ClockReturn,
-    Repacking,
-    DiscardReturn,
-    DrawReverse,
-    Discarding
-}
 // an object representing a card moving from one place to another
 // these are created when the card moves within game logic, and then fired when the card is ready to display this motion
 public class CardAnimation {
@@ -70,6 +59,10 @@ public class CardAnimation {
         float acceleration = Game.S.vMax/Game.S.accTime;
         float deceleration = Game.S.vMax/Game.S.decTime;
         float timeDiff = time - startTime;
+        if (gameAction==GameAction.Repacking) {
+            acceleration *= 0.5f;
+            deceleration *= 0.5f;
+        }
         // Tween expects motion constants to be scaled by distance covered, then scaled back up
         return Tween.PercentAtTime(
             acceleration/motionPlan.distance,
