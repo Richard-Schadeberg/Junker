@@ -16,6 +16,12 @@ public class Game : MonoBehaviour {
 		S = this;
 		zoneTracker = new ZoneTracker(cards);
 	}
+    // time (in seconds) between each animation fired from the queue
+    public float chainTime = 0.2f;
+    // tweening constants
+ 	public float vMax      = 12000;
+	public float accTime   =  0.2f;
+	public float decTime   =  0.4f;
 	void Update() {
 		animationHandler.Update();
 	}
@@ -42,6 +48,7 @@ public class Game : MonoBehaviour {
 	}
 	public void DrawCard() {
 		Card drawnCard = zoneTracker.DrawCard();
+		if (drawnCard==null) return;
 		GameStateChanged();
 		animationHandler.Animate(drawnCard,GameAction.Drawing);
 	}

@@ -26,13 +26,18 @@ public class ZoneTracker {
     public void MoveCard(Card card,Zone origin,Zone goal) {
         zoneObjects[origin].RemoveCard(card);
         zoneObjects[goal].AddCard(card);
+        card.zone = goal;
         Game.GameStateChanged();
     }
-    public static Card[] HandCards() {return Game.S.zoneTracker.handContents.GetCards();}
+    public static Card[] GetCards(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCards();}
+    public static Card[] GetCardsLeftToRight(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCardsLeftToRight();}
     public void GameStateChanged() {handContents.isSorted = false;}
     public Card DrawCard() {
         Card drawn = deckContents.DrawCard();
-        handContents.AddCard(drawn);
+        if (drawn!=null) {
+            handContents.AddCard(drawn);
+            drawn.zone = Zone.Hand;
+        }
         return drawn;
     }
     public int availableDiscards {get {return handContents.availableDiscards;}}

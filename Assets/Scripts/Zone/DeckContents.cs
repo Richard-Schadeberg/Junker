@@ -15,6 +15,7 @@ public class DeckContents : ZoneContents {
         orderedCards.Remove(card);
     }
     public override Card[] GetCardsLeftToRight(){return orderedCards.ToArray();}
+    public override Card[] GetCards(){return orderedCards.ToArray();}
     public override int NumCards() {return orderedCards.Count;}
     public void AddCardToBottom(Card card) {
         base.AddCard(card);
@@ -25,6 +26,7 @@ public class DeckContents : ZoneContents {
         Card card = orderedCards.First();
         orderedCards.RemoveFirst();
         card.zone = Zone.Hand;
+        packed = false;
         return card;
     }
 }

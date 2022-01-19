@@ -27,5 +27,5 @@ public class HandContents : ZoneContents {
         }
     }
     public override int NumCards() {return cards.Count;}
-    public Card[] GetCards() {return cards.ToArray();}
+    public override Card[] GetCards() {return cards.ToArray();}
 }

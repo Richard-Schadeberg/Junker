@@ -19,6 +19,7 @@ public class ZoneContents {
         }
     }
     public virtual Card[] GetCardsLeftToRight() {return null;}
+    public virtual Card[] GetCards() {return null;}
     public virtual int NumCards() {return 0;}
     public void PackZone() {
         Bounds[] boundsList = Packing.PackBounds(Game.cardAspectRatio,Define.Bounds(zone),NumCards());

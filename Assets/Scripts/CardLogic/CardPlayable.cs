@@ -15,7 +15,7 @@ public static class CardPlayable {
         foreach (Card card in Game.S.cards) {
             card.Status = Status.Unplayable;
         }
-        Card[] handCards = ZoneTracker.HandCards();
+        Card[] handCards = ZoneTracker.GetCards(Zone.Hand);
         foreach (Card card in handCards) {
             if (card.ImmediatelyPlayable()) {
                 card.Status = Status.Playable;

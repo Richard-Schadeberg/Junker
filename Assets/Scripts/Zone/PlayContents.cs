@@ -13,7 +13,8 @@ public class PlayContents : ZoneContents
         base.RemoveCard(card);
         orderedCards.Remove(card);
     }
-    public override Card[] GetCardsLeftToRight() {return (Card[])orderedCards.ToArray().Reverse();}
+    public override Card[] GetCardsLeftToRight() {return orderedCards.Reverse().ToArray();}
+    public override Card[] GetCards(){return orderedCards.ToArray();}
     public override int NumCards() {return orderedCards.Count;}
     public Card GetAbove(Card card) {
         var index = orderedCards.Find(card);

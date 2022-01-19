@@ -34,17 +34,17 @@ static class MotionPlanPercent {
 		return (circleCentre + centreToPoint);
     }
     // a combination of a semicircle and a horizontal motion, in either order
-    // if startHorizontal, the horizontal motion comes first
+    // if startHorizontal, the semicircle motion comes first
     static Vector2 LocationAtPercentageCombination(MotionPlan motionPlan,float percentage) {
         float straightSectionDistance = Mathf.Abs(motionPlan.goal.x - motionPlan.origin.x);
         bool inStraightSection;
-        if (motionPlan.startHorizontal) {
+        if (!motionPlan.startHorizontal) {
             inStraightSection = straightSectionDistance >= motionPlan.distance * percentage;
         } else {
             inStraightSection = straightSectionDistance >= motionPlan.distance * (1 - percentage);
         }
         if (inStraightSection) {
-            if (motionPlan.startHorizontal) {
+            if (!motionPlan.startHorizontal) {
                 float horizontalPercentage = percentage  * motionPlan.distance/straightSectionDistance;
                 return motionPlan.origin + new Vector2(horizontalPercentage        * (motionPlan.goal.x   - motionPlan.origin.x),0);
             } else {
@@ -54,10 +54,10 @@ static class MotionPlanPercent {
         } else {
             Vector2 path = motionPlan.goal - motionPlan.origin;
             float arcPercent;
-            float arcAngle = Mathf.PI * Mathf.Sign(path.x) * Mathf.Sign(path.y) * (motionPlan.startHorizontal?1:-1); // sets arcAngle to PI or -PI based on direction of rotation in arc section. Positive is CCW.
+            float arcAngle = Mathf.PI * Mathf.Sign(path.x) * Mathf.Sign(path.y) * (!motionPlan.startHorizontal?1:-1); // sets arcAngle to PI or -PI based on direction of rotation in arc section. Positive is CCW.
             Vector2 circleCentre = new Vector2(0,motionPlan.origin.y + path.y/2);
             Vector2 centreToPoint;
-            if (!motionPlan.startHorizontal) {
+            if (motionPlan.startHorizontal) {
                 circleCentre.x = motionPlan.origin.x;
                 arcPercent = percentage * motionPlan.distance/(motionPlan.distance-straightSectionDistance);
                 arcAngle *= arcPercent;
