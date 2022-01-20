@@ -28,11 +28,9 @@ public class CardAnimation {
             while (animation.nextAnimation != null) animation = animation.nextAnimation;
             animation.nextAnimation = this;
         } else {
-            if (gameAction==GameAction.Repacking&&nextAnimation != null) {
-                if (nextAnimation.gameAction==GameAction.Repacking) {
-                    nextAnimation.Fire();
-                    return;
-                }
+            // when adding a bunch of cards to hand, 
+            if (goalZone==Zone.Hand) {
+                goal = controlledCard.finalHandBounds;
             }
             origin = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
             startTime = Time.time;

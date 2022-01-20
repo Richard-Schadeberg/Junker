@@ -14,17 +14,13 @@ public static class CardInstall {
         return canInstall;
     }
     public static void TryInstall(Card card) {
-        Install(card);
-    }
-    public static void InstallReversible(Card card) {
-        Game.S.ReversibleMode = true;
-        TryInstall(card);
+        if (CanInstall(card)) Install(card);
     }
     public static void Install(Card card) {
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
         AnimationHandler.Animate(card,GameAction.Installing);
-        InputOutput.Output(card);
+        if (Game.S.ReversibleMode || DiscardRequest.NoRequests()) InputOutput.Output(card);
     }
     public static void Uninstall(Card card) {
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);

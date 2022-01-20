@@ -22,7 +22,7 @@ public class ZoneContents {
     public virtual Card[] GetCards() {return null;}
     public virtual int NumCards() {return 0;}
     public void PackZone() {
-        Bounds[] boundsList = Packing.PackBounds(Game.cardAspectRatio,Define.Bounds(zone),NumCards());
+        Bounds[] boundsList = Packing.PackBounds(Game.cardAspectRatio,Define.Bounds(zone),NumCards(),false,zone==Zone.Junk);
         int index = 0;
         foreach (Card card in GetCardsLeftToRight()) {
             card.bounds = boundsList[index];

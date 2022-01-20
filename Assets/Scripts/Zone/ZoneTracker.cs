@@ -36,7 +36,7 @@ public class ZoneTracker {
     }
     public static Card[] GetCards(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCards();}
     public static Card[] GetCardsLeftToRight(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCardsLeftToRight();}
-    public void GameStateChanged() {handContents.isSorted = false;}
+    public void GameStateChanged() {Debug.Log(availableDiscards); handContents.isSorted = false;}
     public Card DrawCard() {
         Card drawn = deckContents.DrawCard();
         if (drawn!=null) {

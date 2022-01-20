@@ -18,7 +18,6 @@ public class Game : MonoBehaviour {
 	public float decTime   =  0.4f;
 	void Update() {
 		animationHandler.Update();
-		Debug.Log(Validate.ValidState());
 	}
 	public AnimationHandler animationHandler = new AnimationHandler();
 	public CardMovement cardMovement = new CardMovement();
@@ -35,6 +34,7 @@ public class Game : MonoBehaviour {
 		{
 			DrawCard();
 		}
+		animationHandler.WaitSeconds(0.5f);
 	}
 	public Card[] cards;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
@@ -42,6 +42,9 @@ public class Game : MonoBehaviour {
 		if (Game.S.ReversibleMode) return;
 		CardPlayable.GameStateChanged();
 		S.zoneTracker.GameStateChanged();
+		foreach (Card card in S.cards) {
+			card.SetColour();
+		}
 	}
 	public void DrawCard() {
 		Card drawnCard = zoneTracker.DrawCard();

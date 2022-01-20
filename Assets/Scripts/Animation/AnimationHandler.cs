@@ -30,6 +30,7 @@ public class AnimationHandler {
     public void AnimateInstant(Card card,GameAction action) {
         BoundsUtil.SetBounds(card,card.bounds);
     }
+    public void WaitSeconds(float wait) {timeNextFire = Time.time + wait;}
     // called by Game each visual frame
     public void Update() {
         if (animationQueue.Count==0) return;

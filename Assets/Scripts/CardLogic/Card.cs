@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Card : MonoBehaviour
 {
@@ -22,9 +23,11 @@ public class Card : MonoBehaviour
 		ClickResponse();
 	}
 	public Zone zone = Zone.Deck;
+	public Bounds finalHandBounds;
 	public Bounds bounds {
 		get {
 			if (!ZoneTracker.ZonePacked(zone)) ZoneTracker.PackZone(zone);
+			if (zone==Zone.Hand) finalHandBounds = _bounds;
 			return _bounds;
 		} 
 		set { _bounds = value;}
@@ -45,21 +48,57 @@ public class Card : MonoBehaviour
 		cardComponents.DrawGizmos(inputs,outputs,cardName);
     }
 	public bool ImmediatelyPlayable() {
-		Game.S.ReversibleMode = true;
-		Game.S.ReversibleMode = false;
-		return false;
+		return CardInstall.CanInstall(this);
 	}
 	public bool PlayableWith(Card card) {return false;}
 	void ClickResponse() {
-		switch (zone) {
-			case Zone.Hand:
-				CardInstall.TryInstall(this);
-				break;
-			case Zone.Play:
-				CardInstall.Uninstall(this);
-				break;
+		if (selectable) {
+			if (selected) UnSelect(); else Select();
+			SetColour();
+		} else {
+			switch (zone) {
+				case Zone.Hand:
+					CardInstall.TryInstall(this);
+					break;
+				case Zone.Play:
+					CardInstall.Uninstall(this);
+					break;
+			}
 		}
 	}
 	public virtual bool IsValid() {return true;}
-	public void SetColour(Color colour) {}
+	public void SetColour() {
+		if (Game.S.ReversibleMode) return;
+		gameObject.GetComponent<SpriteRenderer>().color = Colour();
+	}
+	Color Colour() {
+		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable);
+		if (selected)        return Define.Colour(true);
+		if (selectable)      return Define.Colour(false);
+		else                 return Define.Colour(Playability);
+	}
+	public bool selectable = false;
+	public bool selected   = false;
+	public void MakeSelectable() {
+		if (noDiscard) return;
+		if (Game.S.ReversibleMode) return;
+		selectable = true;
+		selected   = false;
+		Colour();
+		return;
+	}
+	public void ClearSelectable() {
+		selected   = false;
+		selectable = false;
+		Colour();
+	}
+	void Select() {
+		selected = true;
+		DiscardRequest.Select();
+	}
+	void UnSelect() {
+		selected = false;
+		DiscardRequest.CancelSelect();
+	}
+	public Credits credits = new Credits();
 }
