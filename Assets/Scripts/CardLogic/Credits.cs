@@ -9,6 +9,7 @@ public class Credits {
     void UndoDiscard() {
         Card discarded = discards.Pop();
         ZoneTracker.MoveCard(discarded,Zone.Junk,Zone.Hand);
+        DiscardRequester.RequestDiscard(null);
         if (!Game.S.ReversibleMode) {
             AnimationHandler.Animate(discarded,GameAction.DiscardReturn);
             Game.GameStateChanged();

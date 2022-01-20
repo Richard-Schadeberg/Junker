@@ -94,11 +94,11 @@ public class Card : MonoBehaviour
 	}
 	void Select() {
 		selected = true;
-		DiscardRequest.Select();
+		DiscardRequester.Select();
 	}
 	void UnSelect() {
 		selected = false;
-		DiscardRequest.CancelSelect();
+		DiscardRequester.CancelSelect();
 	}
 	public Credits credits = new Credits();
 }

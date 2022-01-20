@@ -16,13 +16,15 @@ public class Game : MonoBehaviour {
  	public float vMax      = 12000;
 	public float accTime   =  0.2f;
 	public float decTime   =  0.4f;
+	public float startDelay=  0.2f;
 	void Update() {
 		animationHandler.Update();
+		// Debug.Log(discardRequester.pendingRequests);
 	}
 	public AnimationHandler animationHandler = new AnimationHandler();
 	public CardMovement cardMovement = new CardMovement();
 	public ResourceTracker resourceTracker = new ResourceTracker();
-	public DiscardRequest discardRequester = new DiscardRequest();
+	public DiscardRequester discardRequester = new DiscardRequester();
 	public ZoneTracker zoneTracker;
 	void Start() {
 		zoneTracker = new ZoneTracker(cards);
@@ -34,7 +36,7 @@ public class Game : MonoBehaviour {
 		{
 			DrawCard();
 		}
-		animationHandler.WaitSeconds(0.5f);
+		animationHandler.WaitSeconds(startDelay);
 	}
 	public Card[] cards;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}

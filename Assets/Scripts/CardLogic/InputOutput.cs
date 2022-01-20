@@ -6,7 +6,7 @@ public static class InputOutput {
     public static void Input(Card card) {
         foreach (Resource input in card.inputs) {
             if (input == Resource.Card) {
-                DiscardRequest.RequestDiscard(card);
+                DiscardRequester.RequestDiscard(card);
             } else {
                ResourceTracker.Remove(input);
             }
@@ -16,7 +16,7 @@ public static class InputOutput {
     public static void UndoInput(Card card) {
         foreach (Resource input in card.inputs) {
             if (input == Resource.Card) {
-                DiscardRequest.CancelRequest();
+                DiscardRequester.CancelRequest();
                 card.credits.UndoDiscards();
             } else {
                 ResourceTracker.Add(input);
@@ -36,16 +36,13 @@ public static class InputOutput {
         Game.GameStateChanged();
     }
     public static void UndoOutput(Card card) {
-        // if there are pending requests, then the most recently installed part still hasn't outputted
-        if (DiscardRequest.NoRequests()) {
-            foreach (Resource output in card.outputs) {
-                if (output == Resource.Card) {
-                    // undo draw
-                } else {
-                ResourceTracker.Remove(output);
-                }
+        foreach (Resource output in card.outputs) {
+            if (output == Resource.Card) {
+                // undo draw
+            } else {
+            ResourceTracker.Remove(output);
             }
-            Game.GameStateChanged();
         }
+        Game.GameStateChanged();
     }
 }

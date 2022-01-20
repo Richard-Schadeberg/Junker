@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class DiscardRequest {
+public class DiscardRequester {
     public int pendingRequests{get;private set;}
     public int pendingSelections{get;private set;}
     public Card requester;
@@ -30,9 +29,7 @@ public class DiscardRequest {
             ProcessSelections();
         }
     }
-    public static void CancelSelect() {
-        Game.S.discardRequester.pendingSelections--;
-    }
+    public static void CancelSelect() {Game.S.discardRequester.pendingSelections--;}
     public static void ProcessSelections() {
         foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) {
             if (card.selected) {
@@ -44,8 +41,6 @@ public class DiscardRequest {
         }
         Game.S.discardRequester.pendingSelections=0;
         Game.S.discardRequester.pendingRequests  =0;
-        InputOutput.Output(Game.S.discardRequester.requester);
         Game.GameStateChanged();
     }
-    public static bool NoRequests() {return (Game.S.discardRequester.pendingRequests==0);}
 }
