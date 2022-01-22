@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 public class Card : MonoBehaviour
 {
-	public String cardName;
+	// design aspects
 	public Resource[] inputs,outputs;
 	public bool winsGame,startsHand,singleUse,noDiscard,scaleable;
 	public int partLimit=0;
 	public int requiredPart=0;
-	public CardAnimation currentAnimation = null;
-	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
+	// MonoBehaviour functions
 	void Start() {
 		cardComponents.DisplayInputsOutputs(inputs,outputs);
 		cardComponents.SetLayers(gameObject);
@@ -22,16 +21,35 @@ public class Card : MonoBehaviour
 	void OnMouseUp() {
 		ClickResponse();
 	}
-	public Zone zone = Zone.Deck;
-	public Bounds finalHandBounds;
+	// Animation
+	public CardAnimation currentAnimation = null;
 	public Bounds bounds {
 		get {
-			if (!ZoneTracker.ZonePacked(zone)) ZoneTracker.PackZone(zone);
+			ZoneTracker.PackZone(zone);
 			if (zone==Zone.Hand) finalHandBounds = _bounds;
 			return _bounds;
 		} 
 		set { _bounds = value;}
 	} private Bounds _bounds;
+	// temporary solution to cards rearranging too much in hand when drawing multiple cards
+	public Bounds finalHandBounds;
+	// input/output display and other cosmetic features
+	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
+	public String cardName {get {return gameObject.name;}set {gameObject.name = value;}}
+    void OnDrawGizmos() {
+		cardComponents.DrawGizmos(inputs,outputs,cardName);
+    }
+	public void SetColour() {
+		// no need to change colour for temporary actions
+		if (Game.S.ReversibleMode) return;
+		gameObject.GetComponent<SpriteRenderer>().color = Colour();
+	}
+	Color Colour() {
+		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable);
+		if (selected)        return Define.Colour(true);
+		if (selectable)      return Define.Colour(false);
+		else                 return Define.Colour(Playability);
+	}
 	public Playability Playability {
 		get {
 			if (!CardPlayable.isValid) CardPlayable.EvaluatePlayability();
@@ -39,14 +57,14 @@ public class Card : MonoBehaviour
 		}
 		set {_Playability = value;}
 	} private Playability _Playability;
+	// sorting in hand
 	public int Priority {
 		get {
 			return CardPriority.Priority(this);
 		}
 	}
-    void OnDrawGizmos() {
-		cardComponents.DrawGizmos(inputs,outputs,cardName);
-    }
+	// rules engine
+	public Zone zone = Zone.Deck;
 	public bool ImmediatelyPlayable() {
 		return CardInstall.CanInstall(this);
 	}
@@ -54,7 +72,6 @@ public class Card : MonoBehaviour
 	void ClickResponse() {
 		if (selectable) {
 			if (selected) UnSelect(); else Select();
-			SetColour();
 		} else {
 			switch (zone) {
 				case Zone.Hand:
@@ -66,39 +83,34 @@ public class Card : MonoBehaviour
 			}
 		}
 	}
-	public virtual bool IsValid() {return true;}
-	public void SetColour() {
-		if (Game.S.ReversibleMode) return;
-		gameObject.GetComponent<SpriteRenderer>().color = Colour();
-	}
-	Color Colour() {
-		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable);
-		if (selected)        return Define.Colour(true);
-		if (selectable)      return Define.Colour(false);
-		else                 return Define.Colour(Playability);
-	}
+	// virtual for whether the card is in a legal state at that time
+	public virtual bool IsLegal() {return true;}
+	// selection for discard
 	public bool selectable = false;
 	public bool selected   = false;
 	public void MakeSelectable() {
 		if (noDiscard) return;
+		// no selecting cards during temporary actions
 		if (Game.S.ReversibleMode) return;
 		selectable = true;
 		selected   = false;
-		Colour();
-		return;
+		SetColour();
 	}
 	public void ClearSelectable() {
 		selected   = false;
 		selectable = false;
-		Colour();
+		SetColour();
 	}
 	void Select() {
 		selected = true;
 		DiscardRequester.Select();
+		SetColour();
 	}
 	void UnSelect() {
 		selected = false;
 		DiscardRequester.CancelSelect();
+		SetColour();
 	}
+	// reversible actions
 	public Credits credits = new Credits();
 }

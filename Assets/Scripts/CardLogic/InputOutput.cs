@@ -23,12 +23,13 @@ public static class InputOutput {
             }
         }
         Game.GameStateChanged();
-        }
-
+    }
     public static void Output(Card card) {
         foreach (Resource output in card.outputs) {
             if (output == Resource.Card) {
-                // draw card
+                Card drawn = Game.S.zoneTracker.DrawCard();
+                card.credits.Draw(drawn);
+                AnimationHandler.Animate(drawn,GameAction.Drawing);
             } else {
                 ResourceTracker.Add(output);
             }
@@ -38,7 +39,7 @@ public static class InputOutput {
     public static void UndoOutput(Card card) {
         foreach (Resource output in card.outputs) {
             if (output == Resource.Card) {
-                // undo draw
+                card.credits.UndoDraws();
             } else {
             ResourceTracker.Remove(output);
             }

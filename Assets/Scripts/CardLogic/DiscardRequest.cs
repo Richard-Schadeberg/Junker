@@ -1,46 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// handles requesting discards from the game
 public class DiscardRequester {
+    // how many cards need to be discarded in order to resume the game
+    // subtracted from cards in hand to determine how many cards are available for discarding
     public int pendingRequests{get;private set;}
+    // how many cards have been selected so far
     public int pendingSelections{get;private set;}
+    // the most recent card requesting discards
     public Card requester;
+    // static pointer to the one instance of this object
+    public static DiscardRequester S {get {return Game.S.discardRequester;}}
     public static void RequestDiscard(Card card) {
-        Game.S.discardRequester.pendingRequests++;
+        S.pendingRequests++;
+        // no selecting during temporary actions
         if (!Game.S.ReversibleMode) {
-            Game.S.discardRequester.requester = card;
+            S.requester = card;
             foreach (Card handCard in ZoneTracker.GetCards(Zone.Hand)) {
-                if (handCard!=Game.S.discardRequester.requester) handCard.MakeSelectable();
+                if (handCard!=S.requester) handCard.MakeSelectable();
             }
         }
     }
     public static void CancelRequest() {
-        Game.S.discardRequester.pendingRequests--;
-        Game.S.discardRequester.pendingSelections = 0;
+        S.pendingRequests--;
+        // no need to cancel selecting during temporary actions
         if (!Game.S.ReversibleMode) {
+            S.pendingSelections = 0;
             foreach (Card handCard in ZoneTracker.GetCards(Zone.Hand)) {
                 handCard.ClearSelectable();
             }
         }
     }
     public static void Select() {
-        Game.S.discardRequester.pendingSelections++;
-        if (Game.S.discardRequester.pendingSelections == Game.S.discardRequester.pendingRequests) {
-            ProcessSelections();
-        }
+        S.pendingSelections++;
+        if (S.pendingSelections == S.pendingRequests) {ProcessSelections();}
     }
-    public static void CancelSelect() {Game.S.discardRequester.pendingSelections--;}
+    public static void CancelSelect() {S.pendingSelections--;}
     public static void ProcessSelections() {
         foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) {
             if (card.selected) {
                 ZoneTracker.MoveCard(card,Zone.Hand,Zone.Junk);
                 AnimationHandler.Animate(card,GameAction.Discarding);
-                Game.S.discardRequester.requester.credits.Discard(card);
+                S.requester.credits.Discard(card);
             }
             card.ClearSelectable();
         }
-        Game.S.discardRequester.pendingSelections=0;
-        Game.S.discardRequester.pendingRequests  =0;
+        S.pendingSelections=0;
+        S.pendingRequests  =0;
         Game.GameStateChanged();
     }
 }

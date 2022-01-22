@@ -16,6 +16,7 @@ public class JunkContents : ZoneContents
         base.RemoveCard(card);
         cards.Remove(card);
     }
+    // Junk is not visible, so the order of cards in it is undefined
     public override Card[] GetCardsLeftToRight() {return cards.ToArray();}
     public override Card[] GetCards(){return cards.ToArray();}
     public override int NumCards() {return cards.Count;}

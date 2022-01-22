@@ -1,9 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
 public class HandContents : ZoneContents {
-    public bool isSorted;
-    Card[] sortedCards;
-    public int availableDiscards {get; private set;}
     protected HashSet<Card> cards = new HashSet<Card>();
     public HandContents() : base(Zone.Hand) {isSorted = false;}
     public override void AddCard(Card card) {
@@ -18,6 +15,11 @@ public class HandContents : ZoneContents {
         isSorted = false;
         if (!card.noDiscard) availableDiscards--;
     }
+    // unlike other zones, hand needs to be sorted
+    // this is computationally expensive, so it is not done unnecessarily
+    public bool isSorted = false;
+    Card[] sortedCards;
+    public int availableDiscards {get; private set;}
     public override Card[] GetCardsLeftToRight() {
         if (isSorted) return sortedCards;
         else {

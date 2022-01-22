@@ -19,7 +19,7 @@ public class AnimationHandler {
         // uncomment if repacking starts infinitely recurring
         // if (animation.gameAction==GameAction.Repacking) return;
         PackZone(animation.goalZone);
-        // don't repack hand when cards leave it
+        // don't repack hand when cards leave it, so players can accurately click on cards in sequence
         if (animation.originZone!=Zone.Hand) PackZone(animation.originZone);
     }
     public void PackZone(Zone zone) {

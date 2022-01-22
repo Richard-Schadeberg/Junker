@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// evaluate whether a card can be installed at this time
 public static class CardPlayable {
     public static bool isValid = false;
     public static void GameStateChanged() {isValid = false;}

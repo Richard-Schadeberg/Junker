@@ -4,12 +4,15 @@ using UnityEngine;
 using System.Linq;
 
 public class DeckContents : ZoneContents {
-    LinkedList<Card> orderedCards = new LinkedList<Card>(); // first card is top card of deck
+    // first card is top card of deck
+    LinkedList<Card> orderedCards = new LinkedList<Card>();
     public DeckContents() : base(Zone.Deck) {}
+    // adds card to top of deck (since undoing draws is the most common case)
     public override void AddCard(Card card) {
         base.AddCard(card);
         orderedCards.AddFirst(card);
     }
+    // search starts from top of deck, so most efficient for deleting top of deck
     public override void RemoveCard(Card card) {
         base.RemoveCard(card);
         orderedCards.Remove(card);

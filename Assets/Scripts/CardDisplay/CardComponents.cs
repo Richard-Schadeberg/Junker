@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-
+// helps with card generation boilerplate,
+// so that Card objects don't need to assign a bunch of pointers
+// in the editor when changing script
 public class CardComponents : MonoBehaviour {
     const int maxInputs = 9;
     const int maxOutputs = 9;
+	// how many resources are grouped together per box
     const int resourceGrouping = 3;
 
     public GameObject[] resourceBoxes;
@@ -14,6 +17,9 @@ public class CardComponents : MonoBehaviour {
     public TMP_Text nameBox,descriptionBox;
     public string cardName {set {nameBox.text = value;}}
     public string description {set {descriptionBox.text = value;}}
+	// each card needs to be on a randomised layer so that a card can be fully
+	// drawn on top of another. 
+	// Without this, resource icons from both cards would be visible
 	public void SetLayers(GameObject card) {
 		int layer = 10+(int)Mathf.Abs(card.GetInstanceID()) % 32000;
 		// give each instance its own layer

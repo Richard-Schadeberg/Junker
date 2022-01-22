@@ -3,7 +3,8 @@ using System.Linq;
 
 public class PlayContents : ZoneContents
 {
-    LinkedList<Card> orderedCards = new LinkedList<Card>(); // most recently installed part is first, to make removing quicker
+    // most recently installed part is first, to make removing quicker
+    LinkedList<Card> orderedCards = new LinkedList<Card>(); 
     public PlayContents() : base(Zone.Play) {}
     public override void AddCard(Card card) {
         base.AddCard(card);

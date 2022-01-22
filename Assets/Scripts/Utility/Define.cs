@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-[ExecuteAlways]
+// allows many basic game aspects to be defined in the editor
+// eg. sprites, pointers to UI objects, colours etc.
 public class Define : MonoBehaviour {
 	// create static pointer to self to allow static methods to reference properties for the inspector's sake
 	public static Define S;
-	void Update() {
-		if (Application.isEditor && !Application.isPlaying) {
-			S = this;
-		}
-	}
 	void Awake() {
 		S = this;
 	}
@@ -78,13 +74,13 @@ public class Define : MonoBehaviour {
 				return null;
 		}
 	}
-	// convert Status to Color
+	// convert Playability to Color
 	public Color
 		playableColour,
 		almostColour,
 		unplayableColour;
-	public static Color Colour(Playability status) {
-		switch (status) {		
+	public static Color Colour(Playability playability) {
+		switch (playability) {		
 			case Playability.Playable:
 				return S.playableColour;
 			case Playability.Almost:
@@ -95,6 +91,10 @@ public class Define : MonoBehaviour {
 				return Color.green;
 		}
 	}
+	// convert selection to colour
+	public Color selectableColour;
+	public Color selectedColour;
+	public static Color Colour(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
 	//convert Resource to Counter
 	public Counter 
 		batteryCounter,
@@ -130,7 +130,4 @@ public class Define : MonoBehaviour {
 				return null;
 		}
 	}
-	public Color selectableColour;
-	public Color selectedColour;
-	public static Color Colour(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
 }

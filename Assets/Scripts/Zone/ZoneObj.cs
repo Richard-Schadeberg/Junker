@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ZoneObj : MonoBehaviour
-{
+// a simple class attached to rectangles to indicate zones
+public class ZoneObj : MonoBehaviour {
 	public bool maxWidth;
 	void Awake() {
+		// resize zone to use whole screen width
 		if (maxWidth) {
 			Vector3 localScale = transform.localScale;
 			float desiredRatio = 1920f/1080f;
@@ -14,6 +14,7 @@ public class ZoneObj : MonoBehaviour
 			transform.localScale = localScale;
 		}
 	}
+	// clicking on empty space in the hand fills in gaps from missing cards
 	public bool isHand;
 	void OnMouseDown() {
 		if (isHand) {

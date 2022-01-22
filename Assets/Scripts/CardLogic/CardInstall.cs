@@ -17,7 +17,9 @@ public static class CardInstall {
         AnimationHandler.Animate(card,GameAction.Uninstalling);
         InputOutput.UndoInput(card);
     }
+    // reversibly installs and uninstalls the card to determine if it's possible to play
     public static bool CanInstall(Card card) {
+        if (CardPlayable.isValid) {return (card.Playability==Playability.Playable);}
         Game.S.ReversibleMode = true;
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);

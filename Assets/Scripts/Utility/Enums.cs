@@ -1,13 +1,13 @@
 // a list of game actions that would require cards to move:
 public enum GameAction {
-    Drawing,
     Installing,
     Uninstalling,
-    ClockReturn,
-    Repacking,
-    DiscardReturn,
+    Drawing,
     DrawReverse,
-    Discarding
+    Discarding,
+    DiscardReturn,
+    Repacking,
+    ClockReturn
 }
 public enum Zone {
 	Deck,
