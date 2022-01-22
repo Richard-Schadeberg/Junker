@@ -23,7 +23,7 @@ public class DiscardRequester {
         }
     }
     public static void CancelRequest() {
-        S.pendingRequests--;
+        if (S.pendingRequests>0) S.pendingRequests--;
         // no need to cancel selecting during temporary actions
         if (!Game.S.ReversibleMode) {
             S.pendingSelections = 0;
@@ -46,6 +46,7 @@ public class DiscardRequester {
             }
             card.ClearSelectable();
         }
+        InputOutput.Output(S.requester);
         S.pendingSelections=0;
         S.pendingRequests  =0;
         Game.GameStateChanged();

@@ -7,12 +7,12 @@ public static class CardInstall {
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
         AnimationHandler.Animate(card,GameAction.Installing);
-        InputOutput.Output(card);
+        if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.Output(card);
     }
     public static void Uninstall(Card card) {
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
-        InputOutput.UndoOutput(card);
+        if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
         ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
         AnimationHandler.Animate(card,GameAction.Uninstalling);
         InputOutput.UndoInput(card);
