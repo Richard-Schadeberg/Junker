@@ -58,6 +58,8 @@ public static class CardInstall {
         return canInstall;
     }
     public static void TryInstall(Card card) {
+        // no installing cards during discard selection
+        if (DiscardRequester.S.pendingRequests>0) return;
         if (CanInstall(card)) Install(card);
     }
     public static void ClockReturn(Card card) {
