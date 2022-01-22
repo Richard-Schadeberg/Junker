@@ -4,19 +4,9 @@ using UnityEngine;
 using System.Linq;
 abstract public class ZoneContents {
     Zone zone;
-    public ZoneContents(Zone zone) {
-        this.zone = zone;
-    }
-    public virtual void AddCard(Card card) {
-        if (!Game.S.ReversibleMode) {
-            packed = false;
-        }
-    }
-    public virtual void RemoveCard(Card card) {
-        if (!Game.S.ReversibleMode) {
-            packed = false;
-        }
-    }
+    public ZoneContents(Zone zone) {this.zone = zone;}
+    public virtual void AddCard(Card card)    {if (!Game.S.ReversibleMode) packed = false;} // children do stuff after this
+    public virtual void RemoveCard(Card card) {if (!Game.S.ReversibleMode) packed = false;} // children do stuff after this
     public virtual Card[] GetCardsLeftToRight() {return null;}
     public virtual Card[] GetCards() {return null;}
     public virtual int NumCards() {return 0;}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 // queues and fires card motion animations
 public class AnimationHandler {
-    Queue<CardAnimation> animationQueue = new Queue<CardAnimation>();
+    public Queue<CardAnimation> animationQueue = new Queue<CardAnimation>();
     float timeNextFire=0;
     // calling Animate() will queue a card motion
     // this motion will reflect the gamestate at the time the animation was queued
@@ -16,8 +16,6 @@ public class AnimationHandler {
         PackFor(animation);
     }
     void PackFor(CardAnimation animation) {
-        // uncomment if repacking starts infinitely recurring
-        // if (animation.gameAction==GameAction.Repacking) return;
         PackZone(animation.goalZone);
         // don't repack hand when cards leave it, so players can accurately click on cards in sequence
         if (animation.originZone!=Zone.Hand) PackZone(animation.originZone);

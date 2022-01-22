@@ -6,13 +6,13 @@ public class HandContents : ZoneContents {
     public override void AddCard(Card card) {
         base.AddCard(card);
         cards.Add(card);
-        isSorted = false;
+        if (!Game.S.ReversibleMode) isSorted = false;
         if (!card.noDiscard) availableDiscards++;
     }
     public override void RemoveCard(Card card) {
         base.RemoveCard(card);
         cards.Remove(card);
-        isSorted = false;
+        if (!Game.S.ReversibleMode) isSorted = false;
         if (!card.noDiscard) availableDiscards--;
     }
     // unlike other zones, hand needs to be sorted

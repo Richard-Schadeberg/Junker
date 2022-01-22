@@ -12,14 +12,15 @@ public static class CardPlayable {
         }
         Card[] handCards = ZoneTracker.GetCards(Zone.Hand);
         foreach (Card card in handCards) {
-            if (card.ImmediatelyPlayable()) {
+            if (CardInstall.CanInstall(card)) {
                 card.Playability = Playability.Playable;
                 playableCards.Add(card);
             }
         }
         foreach (Card card in handCards) {
+            if (playableCards.Contains(card)) continue;
             foreach (Card testCard in playableCards) {
-                if (card.PlayableWith(testCard)) {
+                if (CardInstall.CanInstallWith(card,testCard)) {
                     card.Playability = Playability.Almost;
                 }
             }

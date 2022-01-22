@@ -28,7 +28,7 @@ public class CardAnimation {
             while (animation.nextAnimation != null) animation = animation.nextAnimation;
             animation.nextAnimation = this;
         } else {
-            // when adding a bunch of cards to hand, 
+            // reduce cards shuffling around within hand as hand is repacked
             if (goalZone==Zone.Hand) {
                 goal = controlledCard.finalHandBounds;
             }

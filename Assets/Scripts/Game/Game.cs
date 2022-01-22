@@ -28,7 +28,6 @@ public class Game : MonoBehaviour {
 	public ZoneTracker zoneTracker;
 	void Update() {
 		animationHandler.Update();
-		Debug.Log(discardRequester.pendingRequests);
 	}
 	void Start() {
 		zoneTracker = new ZoneTracker(cards);

@@ -17,7 +17,7 @@ public static class InputOutput {
         foreach (Resource input in card.inputs) {
             if (input == Resource.Card) {
                 DiscardRequester.CancelRequest();
-                card.credits.UndoDiscards();
+                if (!Game.S.ReversibleMode) card.credits.UndoDiscards();
             } else {
                 ResourceTracker.Add(input);
             }
