@@ -7,24 +7,19 @@ public class AnimationHandler {
     float timeNextFire=0;
     // calling Animate() will queue a card motion
     // this motion will reflect the gamestate at the time the animation was queued
-    public static void Animate(Card card,GameAction action) {Game.S.animationHandler._Animate(card,action);}
-    public void _Animate(Card card,GameAction action) {
+    public static void Animate(Card card,GameAction action) {
         // No queueing animations during reversible actions
         if (Game.S.ReversibleMode) return;
-        CardAnimation animation = new CardAnimation(card,action);
-        animationQueue.Enqueue(animation);
-        PackFor(animation);
+        PackFor(CardAnimation.GoalZone(action,card),CardAnimation.OriginZone(action,card));
+        Game.S.animationHandler.animationQueue.Enqueue(new CardAnimation(card,action));
     }
-    void PackFor(CardAnimation animation) {
-        PackZone(animation.goalZone);
+    public static void PackFor(Zone goal,Zone origin) {
+        PackZone(goal);
         // don't repack hand when cards leave it, so players can accurately click on cards in sequence
-        if (animation.originZone!=Zone.Hand) PackZone(animation.originZone);
+        if (origin!=Zone.Hand) PackZone(origin);
     }
-    public void PackZone(Zone zone) {
-        foreach (Card card in ZoneTracker.GetCards(zone)) {
-            animationQueue.Enqueue(new CardAnimation(card,GameAction.Repacking));
-        }
-    }
+    public static void PackCards(IEnumerable<Card> cards) {foreach (Card card in cards) {Animate(card,GameAction.Repacking);}}
+    public static void PackZone(Zone zone) {PackCards(ZoneTracker.GetCards(zone));}
     public void AnimateInstant(Card card,GameAction action) {
         BoundsUtil.SetBounds(card,card.bounds);
     }

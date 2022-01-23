@@ -28,8 +28,10 @@ public static class InputOutput {
         foreach (Resource output in card.outputs) {
             if (output == Resource.Card) {
                 Card drawn = Game.S.zoneTracker.DrawCard();
-                card.credits.Draw(drawn);
-                AnimationHandler.Animate(drawn,GameAction.Drawing);
+                if (drawn != null) {
+                    card.credits.Draw(drawn);
+                    AnimationHandler.Animate(drawn,GameAction.Drawing);
+                }
             } else {
                 ResourceTracker.Add(output);
             }

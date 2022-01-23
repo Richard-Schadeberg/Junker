@@ -6,7 +6,12 @@ using System;
 // eg. sprites, pointers to UI objects, colours etc.
 public class Define : MonoBehaviour {
 	// create static pointer to self to allow static methods to reference properties for the inspector's sake
-	public static Define S;
+	public static Define _S;
+	public static Define S{get {
+		if (_S!=null) return _S;
+		_S = FindObjectOfType<Define>();
+		return _S;
+	} set {_S = value;}}
 	void Awake() {
 		S = this;
 	}

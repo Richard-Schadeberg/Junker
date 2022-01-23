@@ -112,4 +112,48 @@ public class CardAnimation {
                 return Zone.Junk;
         }
     }
+    public static Zone GoalZone(GameAction action,Card card) {
+        switch (action) {
+            case GameAction.Drawing:
+                return Zone.Hand;
+            case GameAction.Installing:
+                return Zone.Play;
+            case GameAction.Uninstalling:
+                return Zone.Hand;
+            case GameAction.ClockReturn:
+                return Zone.Hand;
+            case GameAction.Repacking:
+                return card.zone;
+            case GameAction.DiscardReturn:
+                return Zone.Hand;
+            case GameAction.DrawReverse:
+                return Zone.Deck;
+            case GameAction.Discarding:
+                return Zone.Junk;
+            default:
+                return Zone.Junk;
+        }
+    }
+    public static Zone OriginZone(GameAction action,Card card) {
+        switch (action) {
+            case GameAction.Drawing:
+                return Zone.Deck;
+            case GameAction.Installing:
+                return Zone.Hand;
+            case GameAction.Uninstalling:
+                return Zone.Play;
+            case GameAction.ClockReturn:
+                return Zone.Play;
+            case GameAction.Repacking:
+                return card.zone;
+            case GameAction.DiscardReturn:
+                return Zone.Junk;
+            case GameAction.DrawReverse:
+                return Zone.Hand;
+            case GameAction.Discarding:
+                return Zone.Hand;
+            default:
+                return Zone.Junk;
+        }
+    }
 }
