@@ -2254,7 +2254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75add07a95001be4abd5d5889de0b43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHandSize: 2
+  startingHandSize: 5
   startingTime: 20
   chainTime: 0.2
   vMax: 12000
