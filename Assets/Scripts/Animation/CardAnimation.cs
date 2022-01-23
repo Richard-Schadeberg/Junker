@@ -48,7 +48,7 @@ public class CardAnimation {
         controlledCard.currentAnimation=null;
         // if another animation tried to fire but was blocked by this one, fire it now
         if (nextAnimation != null) {nextAnimation.Fire();}
-        if (controlledCard.isCopy) {
+        if (controlledCard.isCopy && gameAction==GameAction.DeleteScaleable) {
             Game.S.zoneTracker.junkContents.RemoveCard(controlledCard);
             MonoBehaviour.Destroy(controlledCard.gameObject);
         }
@@ -87,8 +87,7 @@ public class CardAnimation {
             case GameAction.Discarding:
                 return Zone.Hand;
             case GameAction.DeleteScaleable:
-                // could be play or hand, but hand doesn't get packed when cards leave it anyway
-                return Zone.Play;
+                return Zone.Hand;
             default:
                 return Zone.Junk;
         }

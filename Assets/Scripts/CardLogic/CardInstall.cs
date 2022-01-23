@@ -13,7 +13,7 @@ public static class CardInstall {
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
         if (card.tempCopy!=null) {
-            ZoneTracker.MoveCard(card.tempCopy,card.tempCopy.zone,Zone.Junk);
+            ZoneTracker.MoveCard(card.tempCopy,Zone.Hand,Zone.Junk);
             AnimationHandler.Animate(card.tempCopy,GameAction.DeleteScaleable);
         }
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
@@ -71,14 +71,18 @@ public static class CardInstall {
         AnimationHandler.Animate(card,GameAction.ClockReturn);
     }
     public static void CreateCopy(Card card) {
+            bool wasCopy = card.isCopy;
             card.isCopy = true;
             Card copy = MonoBehaviour.Instantiate(card);
-            card.isCopy = false;
+            card.isCopy = wasCopy;
             ZoneTracker.MoveCard(copy,Zone.Hand,Zone.Hand);
             // Instantiate renames object
             copy.cardName = card.cardName;
             // no discarding temporary copies
             copy.noDiscard = true;
             card.tempCopy = copy;
+            if (!card.isCopy) {
+                copy.cardComponents.description = copy.cardComponents.description + "\n<i>Temporary Copy</i>";
+            }
     }
 }

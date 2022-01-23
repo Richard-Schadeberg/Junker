@@ -16,7 +16,7 @@ public class CardComponents : MonoBehaviour {
     public GameObject iconPrefab;
     public TMP_Text nameBox,descriptionBox;
     public string cardName {set {nameBox.text = value;}}
-    public string description {set {descriptionBox.text = value;}}
+    public string description {set {descriptionBox.text = value;}get {return descriptionBox.text;}}
 	// each card needs to be on a randomised layer so that a card can be fully
 	// drawn on top of another. 
 	// Without this, resource icons from both cards would be visible

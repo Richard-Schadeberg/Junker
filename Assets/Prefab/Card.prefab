@@ -549,7 +549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbc823b5a1dad845aa2cc0e65a0b07a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardName: 
   inputs: 
   outputs: 
   winsGame: 0
@@ -557,17 +556,13 @@ MonoBehaviour:
   singleUse: 0
   noDiscard: 0
   scaleable: 0
-  winCount: 0
+  partLimit: 0
+  requiredPart: 0
   zone: 0
-  isCopy: 0
-  selectAble: 0
+  selectable: 0
   selected: 0
-  animating: 0
-  oldZone: 0
-  canvas: {fileID: 5119973256612954741}
-  art: {fileID: 1468596198590544410}
-  iconPrefab: {fileID: 6947506322626079135, guid: 8db42c7dc2ac7e149b9faa6303c21c2b, type: 3}
-  status: 1
+  isCopy: 0
+  tempCopy: {fileID: 0}
 --- !u!212 &5045990371550748592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1232,7 +1227,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
