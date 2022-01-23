@@ -10,13 +10,7 @@ public class AnimationHandler {
     public static void Animate(Card card,GameAction action) {
         // No queueing animations during reversible actions
         if (Game.S.ReversibleMode) return;
-        PackFor(CardAnimation.GoalZone(action,card),CardAnimation.OriginZone(action,card));
         Game.S.animationHandler.animationQueue.Enqueue(new CardAnimation(card,action));
-    }
-    public static void PackFor(Zone goal,Zone origin) {
-        PackZone(goal);
-        // don't repack hand when cards leave it, so players can accurately click on cards in sequence
-        if (origin!=Zone.Hand) PackZone(origin);
     }
     public static void PackCards(IEnumerable<Card> cards) {foreach (Card card in cards) {Animate(card,GameAction.Repacking);}}
     public static void PackZone(Zone zone) {PackCards(ZoneTracker.GetCards(zone));}
