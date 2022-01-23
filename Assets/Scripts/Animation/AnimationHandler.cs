@@ -7,13 +7,22 @@ public class AnimationHandler {
     float timeNextFire=0;
     // calling Animate() will queue a card motion
     // this motion will reflect the gamestate at the time the animation was queued
-    public static void Animate(Card card,GameAction action) {Game.S.animationHandler._Animate(card,action);}
-    public void _Animate(Card card,GameAction action) {
+    public static void Animate(Card card,GameAction action) {
         // No queueing animations during reversible actions
         if (Game.S.ReversibleMode) return;
         CardAnimation animation = new CardAnimation(card,action);
-        animationQueue.Enqueue(animation);
-        PackFor(animation);
+        Game.S.animationHandler.animationQueue.Enqueue(animation);
+        Game.S.animationHandler.PackFor(animation);
+    }
+    public static void Animate(Card[] cards,GameAction action) {
+        // No queueing animations during reversible actions
+        if (Game.S.ReversibleMode) return;
+        CardAnimation animation = null;
+        foreach (Card card in cards) {
+            animation = new CardAnimation(card,action);
+            Game.S.animationHandler.animationQueue.Enqueue(animation);
+        }
+        Game.S.animationHandler.PackFor(animation);
     }
     void PackFor(CardAnimation animation) {
         PackZone(animation.goalZone);

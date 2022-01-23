@@ -11,7 +11,6 @@ public static class InputOutput {
                ResourceTracker.Remove(input);
             }
         }
-        Game.GameStateChanged();
     }
     public static void UndoInput(Card card) {
         foreach (Resource input in card.inputs) {
@@ -22,21 +21,17 @@ public static class InputOutput {
                 ResourceTracker.Add(input);
             }
         }
-        Game.GameStateChanged();
     }
     public static void Output(Card card) {
+        int draws=0;
         foreach (Resource output in card.outputs) {
             if (output == Resource.Card) {
-                Card drawn = Game.S.zoneTracker.DrawCard();
-                if (drawn != null) {
-                    card.credits.Draw(drawn);
-                    AnimationHandler.Animate(drawn,GameAction.Drawing);
-                }
+                draws++;
             } else {
                 ResourceTracker.Add(output);
             }
         }
-        Game.GameStateChanged();
+        GameActions.DrawCards(draws,card);
     }
     public static void UndoOutput(Card card) {
         foreach (Resource output in card.outputs) {
@@ -46,6 +41,5 @@ public static class InputOutput {
             ResourceTracker.Remove(output);
             }
         }
-        Game.GameStateChanged();
     }
 }

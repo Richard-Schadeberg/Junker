@@ -17,6 +17,7 @@ public class ResourceTracker {
             Game.S.resourceTracker.resourceDictionary[resource] += amount;
             Counter counter = Define.Counter(resource);
             if (counter != null) counter.Set(Get(resource));
+            if (!Game.S.ReversibleMode) Game.GameStateChanged();
         }
     }
     public static void Add(Resource resource) {Add(resource,1);}

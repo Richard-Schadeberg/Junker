@@ -28,10 +28,6 @@ public class CardAnimation {
             while (animation.nextAnimation != null) animation = animation.nextAnimation;
             animation.nextAnimation = this;
         } else {
-            // reduce cards shuffling around within hand as hand is repacked
-            if (goalZone==Zone.Hand) {
-                goal = controlledCard.finalHandBounds;
-            }
             origin = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
             startTime = Time.time;
             motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
@@ -52,6 +48,10 @@ public class CardAnimation {
         controlledCard.currentAnimation=null;
         // if another animation tried to fire but was blocked by this one, fire it now
         if (nextAnimation != null) {nextAnimation.Fire();}
+        if (controlledCard.isCopy) {
+            Game.S.zoneTracker.junkContents.RemoveCard(controlledCard);
+            MonoBehaviour.Destroy(controlledCard.gameObject);
+        }
     }
     float PercentAtTime(float time) {
         float acceleration = Game.S.vMax/Game.S.accTime;
@@ -86,6 +86,9 @@ public class CardAnimation {
                 return Zone.Hand;
             case GameAction.Discarding:
                 return Zone.Hand;
+            case GameAction.DeleteScaleable:
+                // could be play or hand, but hand doesn't get packed when cards leave it anyway
+                return Zone.Play;
             default:
                 return Zone.Junk;
         }
@@ -108,50 +111,8 @@ public class CardAnimation {
                 return Zone.Deck;
             case GameAction.Discarding:
                 return Zone.Junk;
-            default:
+            case GameAction.DeleteScaleable:
                 return Zone.Junk;
-        }
-    }
-    public static Zone GoalZone(GameAction action,Card card) {
-        switch (action) {
-            case GameAction.Drawing:
-                return Zone.Hand;
-            case GameAction.Installing:
-                return Zone.Play;
-            case GameAction.Uninstalling:
-                return Zone.Hand;
-            case GameAction.ClockReturn:
-                return Zone.Hand;
-            case GameAction.Repacking:
-                return card.zone;
-            case GameAction.DiscardReturn:
-                return Zone.Hand;
-            case GameAction.DrawReverse:
-                return Zone.Deck;
-            case GameAction.Discarding:
-                return Zone.Junk;
-            default:
-                return Zone.Junk;
-        }
-    }
-    public static Zone OriginZone(GameAction action,Card card) {
-        switch (action) {
-            case GameAction.Drawing:
-                return Zone.Deck;
-            case GameAction.Installing:
-                return Zone.Hand;
-            case GameAction.Uninstalling:
-                return Zone.Play;
-            case GameAction.ClockReturn:
-                return Zone.Play;
-            case GameAction.Repacking:
-                return card.zone;
-            case GameAction.DiscardReturn:
-                return Zone.Junk;
-            case GameAction.DrawReverse:
-                return Zone.Hand;
-            case GameAction.Discarding:
-                return Zone.Hand;
             default:
                 return Zone.Junk;
         }

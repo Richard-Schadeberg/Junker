@@ -39,15 +39,7 @@ public class ZoneTracker {
     public static Card[] GetCards(Zone zone)            {return Game.S.zoneTracker.zoneObjects[zone].GetCards();}
     public static Card[] GetCardsLeftToRight(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCardsLeftToRight();}
     public void GameStateChanged() {handContents.isSorted = false;}
-    // only used by Game to draw the opening hand
-    public Card DrawCard() {
-        Card drawn = deckContents.DrawCard();
-        if (drawn!=null) {
-            handContents.AddCard(drawn);
-            drawn.zone = Zone.Hand;
-        }
-        return drawn;
-    }
+    public static Card TopCard() {return Game.S.zoneTracker.deckContents.TopCard();}
     // how many cards could be discarded (ie. don't have "can't be discarded")
     // possible bug: if card gains or loses "can't be discarded" while in hand
     public static int availableDiscards {get {return Game.S.zoneTracker.handContents.availableDiscards;}}

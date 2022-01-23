@@ -24,12 +24,5 @@ public class DeckContents : ZoneContents {
         base.AddCard(card);
         orderedCards.AddLast(card);
     }
-    public Card DrawCard() {
-        if (orderedCards.Count==0) return null;
-        Card card = orderedCards.First();
-        orderedCards.RemoveFirst();
-        card.zone = Zone.Hand;
-        packed = false;
-        return card;
-    }
+    public Card TopCard() {return orderedCards.First();}
 }

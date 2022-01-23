@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Card : MonoBehaviour
 {
@@ -26,13 +27,10 @@ public class Card : MonoBehaviour
 	public Bounds bounds {
 		get {
 			ZoneTracker.PackZone(zone);
-			if (zone==Zone.Hand) finalHandBounds = _bounds;
 			return _bounds;
 		} 
 		set { _bounds = value;}
 	} private Bounds _bounds;
-	// temporary solution to cards rearranging too much in hand when drawing multiple cards
-	public Bounds finalHandBounds;
 	// input/output display and other cosmetic features
 	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
 	public String cardName {get {return gameObject.name;}set {gameObject.name = value;}}
@@ -83,8 +81,15 @@ public class Card : MonoBehaviour
 			}
 		}
 	}
-	// virtual for whether the card is in a legal state at that time
-	public virtual bool IsLegal() {return true;}
+	// determine whether the card is in a legal state at this time
+	public virtual bool IsLegal() {
+		// enforce part limit
+		if (partLimit>0 && zone==Zone.Play && ZoneTracker.GetCards(Zone.Play).Length > partLimit) return false;
+		// enforce required part (ie. ground sonar)
+		if (requiredPart>0 && zone==Zone.Play && ZoneTracker.GetCards(Zone.Play).Length < requiredPart) return false;
+		if (requiredPart>0 && zone==Zone.Play && ZoneTracker.GetCardsLeftToRight(Zone.Play)[requiredPart-1] != this) return false;
+		return true;
+	}
 	// selection for discard
 	public bool selectable = false;
 	public bool selected   = false;
@@ -113,4 +118,7 @@ public class Card : MonoBehaviour
 	}
 	// reversible actions
 	public Credits credits = new Credits();
+	// scaleable
+	public bool isCopy;
+	public Card tempCopy;
 }

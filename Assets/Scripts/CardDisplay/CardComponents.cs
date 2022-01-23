@@ -91,6 +91,12 @@ public class CardComponents : MonoBehaviour {
         }
 	}
     public void MakeIcons() {
+		// scaleable copies will already have resource icons
+		if (transform.childCount!=0) {
+			foreach (Transform child in transform) {
+				Destroy(child.gameObject);
+			}
+		}
         for (int i = 0; i < maxInputs; i++) {
             inputIcons[i] = MakeIcon(i);
         }
