@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 // an object representing a card moving from one place to another
 // these are created when the card moves within game logic, and then fired when the card is ready to display this motion
 public class CardAnimation {
@@ -50,6 +52,9 @@ public class CardAnimation {
         if (nextAnimation != null) {nextAnimation.Fire();}
         if (controlledCard.isCopy && gameAction==GameAction.DeleteScaleable) {
             Game.S.zoneTracker.junkContents.RemoveCard(controlledCard);
+            List<Card> cards = Game.S.cards.ToList();
+            cards.Remove(controlledCard);
+            Game.S.cards = cards.ToArray();
             MonoBehaviour.Destroy(controlledCard.gameObject);
         }
     }

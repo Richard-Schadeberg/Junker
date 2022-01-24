@@ -9,10 +9,12 @@ public class PlayContents : ZoneContents
     public override void AddCard(Card card) {
         base.AddCard(card);
         orderedCards.AddFirst(card);
+        CardExtension.UpdateExtensions();
     }
     public override void RemoveCard(Card card) {
         base.RemoveCard(card);
         orderedCards.Remove(card);
+        CardExtension.UpdateExtensions();
     }
     public override Card[] GetCardsLeftToRight() {return orderedCards.Reverse().ToArray();}
     public override Card[] GetCards(){return orderedCards.ToArray();}

@@ -7,7 +7,7 @@ public class Card : MonoBehaviour
 {
 	// design aspects
 	public Resource[] inputs,outputs;
-	public bool winsGame,startsHand,singleUse,noDiscard,scaleable;
+	public bool winsGame,startsHand,singleUse,noDiscard,scaleable,discardAfterUse;
 	public int partLimit=0;
 	public int requiredPart=0;
 	// MonoBehaviour functions
@@ -63,10 +63,6 @@ public class Card : MonoBehaviour
 	}
 	// rules engine
 	public Zone zone = Zone.Deck;
-	public bool ImmediatelyPlayable() {
-		return CardInstall.CanInstall(this);
-	}
-	public bool PlayableWith(Card card) {return false;}
 	void ClickResponse() {
 		if (selectable) {
 			if (selected) UnSelect(); else Select();

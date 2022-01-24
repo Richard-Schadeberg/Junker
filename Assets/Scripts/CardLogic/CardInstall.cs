@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 public static class CardInstall {
     public static void Install(Card card) {
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
         AnimationHandler.Animate(card,GameAction.Installing);
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.Output(card);
-        if (!Game.S.ReversibleMode && card.scaleable) CreateCopy(card);
+        if (!Game.S.ReversibleMode && card.scaleable) CardCopier.CreateCopy(card);
     }
     public static void Uninstall(Card card) {
+        // uninstall parts above this one first
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
-        if (card.tempCopy!=null) {
-            ZoneTracker.MoveCard(card.tempCopy,Zone.Hand,Zone.Junk);
-            AnimationHandler.Animate(card.tempCopy,GameAction.DeleteScaleable);
-        }
+        // for scaleable cards, delete copies
+        CardCopier.DeleteCopy(card);
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
         ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
         AnimationHandler.Animate(card,GameAction.Uninstalling);
@@ -66,23 +67,13 @@ public static class CardInstall {
         if (DiscardRequester.S.pendingRequests>0) return;
         if (CanInstall(card)) Install(card);
     }
+    // function needs to be modified/replaced to work with array version of AnimationHandler.Animate
     public static void ClockReturn(Card card) {
         ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
         AnimationHandler.Animate(card,GameAction.ClockReturn);
-    }
-    public static void CreateCopy(Card card) {
-            bool wasCopy = card.isCopy;
-            card.isCopy = true;
-            Card copy = MonoBehaviour.Instantiate(card);
-            card.isCopy = wasCopy;
-            ZoneTracker.MoveCard(copy,Zone.Hand,Zone.Hand);
-            // Instantiate renames object
-            copy.cardName = card.cardName;
-            // no discarding temporary copies
-            copy.noDiscard = true;
-            card.tempCopy = copy;
-            if (!card.isCopy) {
-                copy.cardComponents.description = copy.cardComponents.description + "\n<i>Temporary Copy</i>";
-            }
+        if (card.discardAfterUse) {
+            ZoneTracker.MoveCard(card,Zone.Hand,Zone.Junk);
+            AnimationHandler.Animate(card,GameAction.Discarding);
+        }
     }
 }
