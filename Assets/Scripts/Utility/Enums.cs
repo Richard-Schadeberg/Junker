@@ -17,17 +17,14 @@ public enum Zone {
 	Junk
 }
 public enum Resource {
-	None = 0,
-	Card,
-	Battery,
 	Electric,
-	Coal,
-	Heat,
-	Scrap,
-	Metal,
 	Distance,
 	Recon,
-	Time
+	Fuel,
+	Metal,
+	Battery,
+	Card,
+	None
 }
 // whether a card can be played from the hand in the current gamestate
 public enum Playability {

@@ -31,8 +31,8 @@ public class Game : MonoBehaviour {
 		animationHandler.Update();
 	}
 	void Start() {
+		// TODO: add starting time
 		zoneTracker = new ZoneTracker(cards);
-		ResourceTracker.Add(Resource.Time,startingTime);
 		// move cards into deck to start
 		foreach (Card card in cards) {
 			animationHandler.AnimateInstant(card,GameAction.Repacking);
@@ -50,7 +50,8 @@ public class Game : MonoBehaviour {
 		CardPlayable.GameStateChanged();
 		S.zoneTracker.GameStateChanged();
 		foreach (Card card in S.cards) {
-			card.SetColour();
+			card.UpdateColour();
+			card.UpdateInOutDarkness();
 		}
 	}
 	public bool ReversibleMode = false;

@@ -7,7 +7,7 @@ public class Card : MonoBehaviour
 {
 	// design aspects
 	public Resource[] inputs,outputs;
-	public bool winsGame,startsHand,singleUse,noDiscard,scaleable,discardAfterUse;
+	public bool isTool,winsGame,singleUse,scaleable,discardAfterUse;
 	public int partLimit=0;
 	public int requiredPart=0;
 	// MonoBehaviour functions
@@ -20,7 +20,7 @@ public class Card : MonoBehaviour
 		if (currentAnimation != null) currentAnimation.Update();
 	}
 	void OnMouseUp() {
-		ClickResponse();
+		ClickResponse(); 
 	}
 	// Animation
 	public CardAnimation currentAnimation = null;
@@ -37,16 +37,21 @@ public class Card : MonoBehaviour
     void OnDrawGizmos() {
 		cardComponents.DrawGizmos(inputs,outputs,cardName);
     }
-	public void SetColour() {
+	public void UpdateColour() {
 		// no need to change colour for temporary actions
 		if (Game.S.ReversibleMode) return;
 		gameObject.GetComponent<SpriteRenderer>().color = Colour();
 	}
+	public void UpdateInOutDarkness() {
+		// no need to change input darkness for temporary actions
+		if (Game.S.ReversibleMode) return;
+		cardComponents.UpdateInOutDarkness(inputs,Playability==Playability.Playable,zone);
+    }
 	Color Colour() {
-		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable);
+		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable,isTool);
 		if (selected)        return Define.Colour(true);
 		if (selectable)      return Define.Colour(false);
-		else                 return Define.Colour(Playability);
+		else                 return Define.Colour(Playability,isTool);
 	}
 	public Playability Playability {
 		get {
@@ -90,27 +95,27 @@ public class Card : MonoBehaviour
 	public bool selectable = false;
 	public bool selected   = false;
 	public void MakeSelectable() {
-		if (noDiscard) return;
+		if (isTool) return;
 		// no selecting cards during temporary actions
 		if (Game.S.ReversibleMode) return;
 		selectable = true;
 		selected   = false;
-		SetColour();
+		UpdateColour();
 	}
 	public void ClearSelectable() {
 		selected   = false;
 		selectable = false;
-		SetColour();
+		UpdateColour();
 	}
 	void Select() {
 		selected = true;
 		DiscardRequester.Select();
-		SetColour();
+		UpdateColour();
 	}
 	void UnSelect() {
 		selected = false;
 		DiscardRequester.CancelSelect();
-		SetColour();
+		UpdateColour();
 	}
 	// reversible actions
 	public Credits credits = new Credits();

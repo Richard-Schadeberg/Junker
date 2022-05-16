@@ -7,13 +7,13 @@ public class HandContents : ZoneContents {
         base.AddCard(card);
         cards.Add(card);
         if (!Game.S.ReversibleMode) isSorted = false;
-        if (!card.noDiscard) availableDiscards++;
+        if (!card.isTool) availableDiscards++;
     }
     public override void RemoveCard(Card card) {
         base.RemoveCard(card);
         cards.Remove(card);
         if (!Game.S.ReversibleMode) isSorted = false;
-        if (!card.noDiscard) availableDiscards--;
+        if (!card.isTool) availableDiscards--;
     }
     // unlike other zones, hand needs to be sorted
     // this is computationally expensive, so it is not done unnecessarily

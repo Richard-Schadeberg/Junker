@@ -55,7 +55,7 @@ public class CardComponents : MonoBehaviour {
 	}
     GameObject[] inputIcons = new GameObject[maxInputs];
     GameObject[] outputIcons = new GameObject[maxOutputs];
-    Resource[] displayedInputs = new Resource[maxInputs];
+	Resource[] displayedInputs = new Resource[maxInputs];
     Resource[] displayedOutputs = new Resource[maxOutputs];
 	// update the resource icons to reflect new inputs/outputs
 	// inputs array can be longer than maxInputs, they just won't be displayed
@@ -90,6 +90,35 @@ public class CardComponents : MonoBehaviour {
             }
         }
 	}
+	public void UpdateInOutDarkness(Resource[] inputs,bool isPlayable,Zone zone) {
+		// if thereare no icons, generate them
+		if (inputIcons[0] == null) MakeIcons();
+		// if the part is in play, it should be completely lit up
+		if (zone==Zone.Play) {
+			SetWhite(inputIcons);
+			SetWhite(outputIcons);
+			return;
+        }
+		Dictionary<Resource, int> requiredResources = new Dictionary<Resource, int>();
+		for (int i = 0; i < inputs.Length; i++) {
+			Resource resource = inputs[i];
+			if (!requiredResources.ContainsKey(resource)) requiredResources[resource] = 0;
+			requiredResources[resource]++;
+			if (requiredResources[resource] > ResourceTracker.Get(resource)) {
+				inputIcons[i].GetComponent<SpriteRenderer>().color = Color.gray;
+			} else {
+				inputIcons[i].GetComponent<SpriteRenderer>().color = Color.white;
+			}
+        }
+		foreach (GameObject outputIcon in outputIcons) {
+			outputIcon.GetComponent<SpriteRenderer>().color = isPlayable ? Color.white : Color.gray;
+        }
+    }
+	private void SetWhite(GameObject[] objects) {
+		foreach (GameObject obj in objects) {
+			obj.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
     public void MakeIcons() {
 		// scaleable copies will already have resource icons
 		if (transform.childCount!=0) {
@@ -99,9 +128,11 @@ public class CardComponents : MonoBehaviour {
 		}
         for (int i = 0; i < maxInputs; i++) {
             inputIcons[i] = MakeIcon(i);
+			displayedInputs[i] = Resource.None;
         }
         for (int i = 0; i < maxOutputs; i++) {
-            outputIcons[i] = MakeIcon(i+maxOutputs);
+            outputIcons[i] = MakeIcon(i+maxInputs);
+			displayedOutputs[i] = Resource.None;
         }
     }
 	GameObject MakeIcon(int iconNum) {

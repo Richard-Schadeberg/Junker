@@ -8,7 +8,7 @@ public static class InputOutput {
             if (input == Resource.Card) {
                 DiscardRequester.RequestDiscard(card);
             } else {
-               ResourceTracker.Remove(input);
+                ResourceTracker.Remove(input);
             }
         }
     }
@@ -29,6 +29,7 @@ public static class InputOutput {
                 draws++;
             } else {
                 ResourceTracker.Add(output);
+                if (output == Resource.Metal) ResourceTracker.scrap++;
             }
         }
         GameActions.DrawCards(draws,card);
@@ -38,7 +39,8 @@ public static class InputOutput {
             if (output == Resource.Card) {
                 card.credits.UndoDraws();
             } else {
-            ResourceTracker.Remove(output);
+                ResourceTracker.Remove(output);
+                if (output == Resource.Metal) ResourceTracker.scrap--;
             }
         }
     }

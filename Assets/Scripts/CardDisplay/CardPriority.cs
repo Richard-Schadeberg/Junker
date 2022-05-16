@@ -8,12 +8,12 @@ public static class CardPriority {
 		int[] factors = new int[8];
 		// most to least significant factors listed top to bottom
 		factors[7]=(card.winsGame?0:1);
-		factors[6]=(card.inputs.Contains(Resource.Time)?0:1);
-		factors[5]=(card.noDiscard?0:1);
+		factors[6] = 0; // formerly reflected time
+		factors[5]=(card.isTool?0:1);
 		factors[4]=(int)card.Playability;
 		factors[3]=card.inputs.Length;
 		factors[2]=card.outputs.Length;
-		factors[1]=new []{card.singleUse,card.startsHand,card.scaleable}.Count(x=>x);
+		factors[1]=new []{card.singleUse,card.isTool,card.scaleable}.Count(x=>x);
 		factors[0]=(int)Mathf.Abs(card.gameObject.GetInstanceID()%100);
 		int priority=0;
 		int significance=1;

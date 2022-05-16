@@ -15,8 +15,6 @@ public class ResourceTracker {
             Debug.Log("Draw and discard via resourcetracker is ambiguous");
         } else {
             Game.S.resourceTracker.resourceDictionary[resource] += amount;
-            Counter counter = Define.Counter(resource);
-            if (counter != null) counter.Set(Get(resource));
             if (!Game.S.ReversibleMode) Game.GameStateChanged();
         }
     }
@@ -37,4 +35,9 @@ public class ResourceTracker {
         }
         return true;
     }
+    public static int scrap {
+        get { return Game.S.resourceTracker._scrap; }
+        set { Game.S.resourceTracker._scrap = value; }
+    }
+    public int _scrap;
 }

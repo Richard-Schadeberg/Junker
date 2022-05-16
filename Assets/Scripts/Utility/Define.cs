@@ -21,8 +21,7 @@ public class Define : MonoBehaviour {
 		cardSprite,
 		batterySprite,
 		electricSprite,
-		coalSprite,
-		heatSprite,
+		fuelSprite,
 		scrapSprite,
 		metalSprite,
 		distanceSprite,
@@ -38,20 +37,14 @@ public class Define : MonoBehaviour {
 				return S.batterySprite;
 			case Resource.Electric:
 				return S.electricSprite;
-			case Resource.Coal:
-				return S.coalSprite;
-			case Resource.Heat:
-				return S.heatSprite;
-			case Resource.Scrap:
-				return S.scrapSprite;
+			case Resource.Fuel:
+				return S.fuelSprite;
 			case Resource.Metal:
 				return S.metalSprite;
 			case Resource.Distance:
 				return S.distanceSprite;
 			case Resource.Recon:
 				return S.reconSprite;
-			case Resource.Time:
-				return S.timeSprite;
 			default:
 				return null;
 		}
@@ -83,15 +76,18 @@ public class Define : MonoBehaviour {
 	public Color
 		playableColour,
 		almostColour,
-		unplayableColour;
-	public static Color Colour(Playability playability) {
+		unplayableColour,
+		playableColourTool,
+		almostColourTool,
+		unplayableColourTool;
+	public static Color Colour(Playability playability,bool isTool) {
 		switch (playability) {		
 			case Playability.Playable:
-				return S.playableColour;
+				return isTool ? S.playableColourTool : S.playableColour;
 			case Playability.Almost:
-				return S.almostColour;
+				return isTool ? S.almostColourTool : S.almostColour;
 			case Playability.Unplayable:
-				return S.unplayableColour;
+				return isTool ? S.unplayableColourTool : S.unplayableColour;
 			default:
 				return Color.green;
 		}
@@ -100,39 +96,4 @@ public class Define : MonoBehaviour {
 	public Color selectableColour;
 	public Color selectedColour;
 	public static Color Colour(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
-	//convert Resource to Counter
-	public Counter 
-		batteryCounter,
-		electricCounter,
-		coalCounter,
-		heatCounter,
-		scrapCounter,
-		metalCounter,
-		distanceCounter,
-		reconCounter,
-		timeCounter;
-	public static Counter Counter(Resource resource) {
-		switch (resource) {
-			case Resource.Battery:
-				return S.batteryCounter;
-			case Resource.Electric:
-				return S.electricCounter;
-			case Resource.Coal:
-				return S.coalCounter;
-			case Resource.Heat:
-				return S.heatCounter;
-			case Resource.Scrap:
-				return S.scrapCounter;
-			case Resource.Metal:
-				return S.metalCounter;
-			case Resource.Distance:
-				return S.distanceCounter;
-			case Resource.Recon:
-				return S.reconCounter;
-			case Resource.Time:
-				return S.timeCounter;
-			default:
-				return null;
-		}
-	}
 }
