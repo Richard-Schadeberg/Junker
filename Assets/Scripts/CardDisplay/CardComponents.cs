@@ -103,10 +103,15 @@ public class CardComponents : MonoBehaviour {
 			return;
         }
 		Dictionary<Resource, int> requiredResources = new Dictionary<Resource, int>();
+		requiredResources[Resource.Battery] = 0;
 		for (int i = 0; i < inputs.Length; i++) {
 			Resource resource = inputs[i];
 			if (!requiredResources.ContainsKey(resource)) requiredResources[resource] = 0;
 			requiredResources[resource]++;
+			if (resource == Resource.Electric && requiredResources[resource] > ResourceTracker.Get(resource) && requiredResources[Resource.Battery] < ResourceTracker.Get(Resource.Battery)) {
+				requiredResources[Resource.Electric]--;
+				requiredResources[Resource.Battery]++;
+            }
 			if (requiredResources[resource] > ResourceTracker.Get(resource)) {
 				inputIcons[i].GetComponent<SpriteRenderer>().color = Color.gray;
 			} else {

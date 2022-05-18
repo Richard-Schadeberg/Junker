@@ -127,4 +127,6 @@ public class Card : MonoBehaviour
 	public Card tempCopy;
 	// consuming outputs causes those output icons to dim
 	public HashSet<ResourceIcon> consumedIcons = new HashSet<ResourceIcon>();
+	// track if the card has converted batteries into electrics
+	public int conversions = 0;
 }

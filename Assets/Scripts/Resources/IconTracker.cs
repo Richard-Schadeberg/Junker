@@ -34,12 +34,14 @@ public class IconTracker{
         }
         public void OutputConsumed() {
             if (resource == Resource.Card) return;
-            if (numConsumed <= resourceIcons.Count) return;
+            // if the resource was consumed from the stash, there's no card icon to darken
+            if (numConsumed >= resourceIcons.Count) return;
             resourceIcons[numConsumed].Darken();
             numConsumed++;
         }
         public void OutputReturned() {
             if (resource == Resource.Card) return;
+            // if the resource was consumed from the stash, there's no card icon to re-brighten
             if (numConsumed == 0) return;
             numConsumed--;
             resourceIcons[numConsumed].Brighten();

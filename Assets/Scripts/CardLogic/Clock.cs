@@ -28,6 +28,7 @@ public class Clock {
         Game.S.animationHandler.PackZone(Zone.Play);
         foreach (Card card in playCards) {
             Credits.ClearCredits(card);
+            card.conversions = 0;
             ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
         }
         AnimationHandler.Animate(playCards, GameAction.ClockReturn);
