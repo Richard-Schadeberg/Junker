@@ -96,4 +96,11 @@ public class Define : MonoBehaviour {
 	public Color selectableColour;
 	public Color selectedColour;
 	public static Color Colour(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
+
+	// Counters
+	public ResourceCounter
+		metalCounter,
+		timeCounter,
+		batteryCounter,
+		fuelCounter;
 }

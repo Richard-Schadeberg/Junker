@@ -26,12 +26,14 @@ public class Game : MonoBehaviour {
 	public AnimationHandler animationHandler = new AnimationHandler();
 	public ResourceTracker resourceTracker = new ResourceTracker();
 	public DiscardRequester discardRequester = new DiscardRequester();
+	public IconTracker iconTracker = new IconTracker();
 	public ZoneTracker zoneTracker;
+	public Clock clock = new Clock();
 	void Update() {
 		animationHandler.Update();
 	}
 	void Start() {
-		// TODO: add starting time
+		clock.SetTime(startingTime);
 		zoneTracker = new ZoneTracker(cards);
 		// move cards into deck to start
 		foreach (Card card in cards) {

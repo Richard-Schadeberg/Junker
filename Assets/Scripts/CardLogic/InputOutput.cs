@@ -9,7 +9,9 @@ public static class InputOutput {
                 DiscardRequester.RequestDiscard(card);
             } else {
                 ResourceTracker.Remove(input);
+                if (input == Resource.Metal) ResourceDisplay.Update(Resource.Metal);
             }
+            if (!Game.S.ReversibleMode) IconTracker.OutputConsumed(input);
         }
     }
     public static void UndoInput(Card card) {
@@ -19,11 +21,14 @@ public static class InputOutput {
                 if (!Game.S.ReversibleMode) card.credits.UndoDiscards();
             } else {
                 ResourceTracker.Add(input);
+                if (input == Resource.Metal) ResourceDisplay.Update(Resource.Metal);
             }
+            if (!Game.S.ReversibleMode) IconTracker.OutputReturned(input);
         }
     }
     public static void Output(Card card) {
         int draws=0;
+        int i=0;
         foreach (Resource output in card.outputs) {
             if (output == Resource.Card) {
                 draws++;
@@ -31,6 +36,8 @@ public static class InputOutput {
                 ResourceTracker.Add(output);
                 if (output == Resource.Metal) ResourceTracker.scrap++;
             }
+            if (!Game.S.ReversibleMode) IconTracker.OutputInstalled(output, card.cardComponents.outputIcons[i]);
+            i++;
         }
         GameActions.DrawCards(draws,card);
     }
@@ -42,6 +49,7 @@ public static class InputOutput {
                 ResourceTracker.Remove(output);
                 if (output == Resource.Metal) ResourceTracker.scrap--;
             }
+            if (!Game.S.ReversibleMode) IconTracker.OutputUninstalled(output);
         }
     }
 }

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 // credit actions to cards so they can be reversed when the card is uninstalled
 public class Credits {
+    public static void ClearCredits(Card card) {
+        Credits credits = card.credits;
+        credits.ClearCredits();
+    }
+    public void ClearCredits() {
+        discards.Clear();
+        draws.Clear();
+    }
     Stack<Card> discards = new Stack<Card>();
     Stack<Card> draws = new Stack<Card>();
     public void Discard(Card card) {discards.Push(card);}

@@ -29,6 +29,7 @@ public class ResourceTracker {
                 return Game.S.resourceTracker.resourceDictionary[resource];
         }
     }
+    public static void Reset(Resource resource) { Game.S.resourceTracker.resourceDictionary[resource] = 0; }
     public static bool IsLegal() {
         foreach (Resource resource in Enum.GetValues(typeof(Resource))) {
             if (Get(resource) < 0) return false;
@@ -37,7 +38,10 @@ public class ResourceTracker {
     }
     public static int scrap {
         get { return Game.S.resourceTracker._scrap; }
-        set { Game.S.resourceTracker._scrap = value; }
+        set { 
+            Game.S.resourceTracker._scrap = value;
+            ResourceDisplay.Update(Resource.Metal);
+        }
     }
     public int _scrap;
 }

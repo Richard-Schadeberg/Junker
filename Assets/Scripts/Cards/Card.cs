@@ -22,8 +22,11 @@ public class Card : MonoBehaviour
 	void OnMouseUp() {
 		ClickResponse(); 
 	}
-	// Animation
-	public CardAnimation currentAnimation = null;
+    private void OnMouseOver() {
+		if (zone == Zone.Hand) cardComponents.MousedOver();
+    }
+    // Animation
+    public CardAnimation currentAnimation = null;
 	public Bounds bounds {
 		get {
 			ZoneTracker.PackZone(zone);
@@ -122,4 +125,6 @@ public class Card : MonoBehaviour
 	// scaleable
 	public bool isCopy;
 	public Card tempCopy;
+	// consuming outputs causes those output icons to dim
+	public HashSet<ResourceIcon> consumedIcons = new HashSet<ResourceIcon>();
 }

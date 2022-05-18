@@ -15,6 +15,8 @@ public class AnimationHandler {
         Game.S.animationHandler.PackFor(animation);
     }
     public static void Animate(Card[] cards,GameAction action) {
+        // Do nothing if passed an empty list
+        if (cards.Length == 0) return;
         // No queueing animations during reversible actions
         if (Game.S.ReversibleMode) return;
         CardAnimation animation = null;

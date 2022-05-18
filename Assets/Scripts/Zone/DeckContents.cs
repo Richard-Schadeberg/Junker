@@ -24,5 +24,5 @@ public class DeckContents : ZoneContents {
         base.AddCard(card);
         orderedCards.AddLast(card);
     }
-    public Card TopCard() {return orderedCards.First();}
+    public Card TopCard() { if (orderedCards.Count == 0) return null; else return orderedCards.First(); }
 }

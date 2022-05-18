@@ -26,11 +26,11 @@ public class CardComponents : MonoBehaviour {
 		card.GetComponent<Renderer>().sortingOrder=layer;
 		textCanvas.sortingOrder=layer+1;
 		art.sortingOrder=layer+1;
-		foreach (GameObject icon in inputIcons) {
-			icon.GetComponent<Renderer>().sortingOrder=layer+1;
+		foreach (ResourceIcon icon in inputIcons) {
+			icon.gameObject.GetComponent<Renderer>().sortingOrder=layer+1;
 		}
-		foreach (GameObject icon in outputIcons) {
-			icon.GetComponent<Renderer>().sortingOrder=layer+1;
+		foreach (ResourceIcon icon in outputIcons) {
+			icon.gameObject.GetComponent<Renderer>().sortingOrder=layer+1;
 		}
 	}
 	// previewing resources in editor
@@ -53,8 +53,8 @@ public class CardComponents : MonoBehaviour {
 		centre -= size/2;
         Gizmos.DrawGUITexture(new Rect(centre,size), Define.Sprite(resource).texture);
 	}
-    GameObject[] inputIcons = new GameObject[maxInputs];
-    GameObject[] outputIcons = new GameObject[maxOutputs];
+	ResourceIcon[] inputIcons = new ResourceIcon[maxInputs];
+	public ResourceIcon[] outputIcons = new ResourceIcon[maxOutputs];
 	Resource[] displayedInputs = new Resource[maxInputs];
     Resource[] displayedOutputs = new Resource[maxOutputs];
 	// update the resource icons to reflect new inputs/outputs
@@ -66,26 +66,26 @@ public class CardComponents : MonoBehaviour {
 			// disable icons for unused resource slots
             if (i >= inputs.Length) {
                 displayedInputs[i] = Resource.None;
-                inputIcons[i].SetActive(false);
+				inputIcons[i].Disable();
 			// set sprites
             } else {
 				// skip sprite setting if sprite already matches
                 if (displayedInputs[i] != inputs[i]) {
                     displayedInputs[i] = inputs[i];
-                    inputIcons[i].SetActive(true);
-                    inputIcons[i].GetComponent<SpriteRenderer>().sprite = Define.Sprite(inputs[i]);
+					inputIcons[i].Enable();
+                    inputIcons[i].SetSprite(inputs[i]);
                 }
             }
         }
 		for (int i=0; i<maxOutputs; i++) {
             if (i >= outputs.Length) {
                 displayedOutputs[i] = Resource.None;
-                outputIcons[i].SetActive(false);
+				outputIcons[i].Disable();
             } else {
                 if (displayedOutputs[i] != outputs[i]) {
                     displayedOutputs[i] = outputs[i];
-                    outputIcons[i].SetActive(true);
-                    outputIcons[i].GetComponent<SpriteRenderer>().sprite = Define.Sprite(outputs[i]);
+					outputIcons[i].Enable();
+                    outputIcons[i].SetSprite(outputs[i]);
                 }
             }
         }
@@ -93,10 +93,13 @@ public class CardComponents : MonoBehaviour {
 	public void UpdateInOutDarkness(Resource[] inputs,bool isPlayable,Zone zone) {
 		// if thereare no icons, generate them
 		if (inputIcons[0] == null) MakeIcons();
-		// if the part is in play, it should be completely lit up
 		if (zone==Zone.Play) {
-			SetWhite(inputIcons);
-			SetWhite(outputIcons);
+			Darken(inputIcons);
+			return;
+        }
+		if (zone==Zone.Deck || zone==Zone.Junk) {
+			Brighten(inputIcons);
+			Brighten(outputIcons);
 			return;
         }
 		Dictionary<Resource, int> requiredResources = new Dictionary<Resource, int>();
@@ -110,16 +113,21 @@ public class CardComponents : MonoBehaviour {
 				inputIcons[i].GetComponent<SpriteRenderer>().color = Color.white;
 			}
         }
-		foreach (GameObject outputIcon in outputIcons) {
-			outputIcon.GetComponent<SpriteRenderer>().color = isPlayable ? Color.white : Color.gray;
+		foreach (ResourceIcon outputIcon in outputIcons) {
+			if (isPlayable) outputIcon.Brighten(); else outputIcon.Darken();
         }
-    }
-	private void SetWhite(GameObject[] objects) {
-		foreach (GameObject obj in objects) {
-			obj.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
-    public void MakeIcons() {
+	}
+	private void Brighten(ResourceIcon[] icons) {
+		foreach (ResourceIcon icon in icons) {
+			icon.Brighten();
+		}
+	}
+	private void Darken(ResourceIcon[] icons) {
+		foreach (ResourceIcon icon in icons) {
+			icon.Darken();
+		}
+	}
+	public void MakeIcons() {
 		// scaleable copies will already have resource icons
 		if (transform.childCount!=0) {
 			foreach (Transform child in transform) {
@@ -135,7 +143,7 @@ public class CardComponents : MonoBehaviour {
 			displayedOutputs[i] = Resource.None;
         }
     }
-	GameObject MakeIcon(int iconNum) {
+	ResourceIcon MakeIcon(int iconNum) {
 		Vector2 iconSize = GetIconSize();
 		Vector2 iconCentre = GetIconCentre(iconNum,iconSize);
 		GameObject newIcon = Instantiate(iconPrefab,iconCentre,Quaternion.identity);
@@ -143,7 +151,7 @@ public class CardComponents : MonoBehaviour {
 		newIcon.gameObject.transform.localScale = iconSize/spriteSize;
 		newIcon.gameObject.transform.SetParent(transform);
         newIcon.SetActive(false);
-		return newIcon;
+		return newIcon.GetComponent<ResourceIcon>();
 	}
 	// check all resourceBoxes and find the largest box that can fit 3 in all of them
 	Vector2 GetIconSize() {
@@ -173,4 +181,7 @@ public class CardComponents : MonoBehaviour {
 		boxCentre.y += upshift - downshift;
 		return boxCentre;
 	}
+	public void MousedOver() {
+
+    }
 }

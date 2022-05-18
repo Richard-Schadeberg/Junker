@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 // a UI object that displays how much you have of a given resource
+// obsolete?
 public class Counter : MonoBehaviour {
 	public Resource resource;
 	public Text textObj;
