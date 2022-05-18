@@ -21,9 +21,12 @@ public class IconTracker{
         private Resource resource;
         public ResourceSources(Resource resource_) { resource = resource_; }
         public void OutputInstalled(ResourceIcon resourceIcon) {
-            if (resource == Resource.Card) return;
-            resourceIcons.Add(resourceIcon);
-            resourceIcon.Brighten();
+            if (resource == Resource.Card) {
+                resourceIcon.Darken();
+            } else {
+                resourceIcons.Add(resourceIcon);
+                resourceIcon.Brighten();
+            }
         }
         public void OutputUninstalled() {
             if (resource == Resource.Card) return;
@@ -31,11 +34,13 @@ public class IconTracker{
         }
         public void OutputConsumed() {
             if (resource == Resource.Card) return;
+            if (numConsumed <= resourceIcons.Count) return;
             resourceIcons[numConsumed].Darken();
             numConsumed++;
         }
         public void OutputReturned() {
             if (resource == Resource.Card) return;
+            if (numConsumed == 0) return;
             numConsumed--;
             resourceIcons[numConsumed].Brighten();
         }

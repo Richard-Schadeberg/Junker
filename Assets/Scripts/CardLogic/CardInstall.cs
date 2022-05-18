@@ -15,11 +15,12 @@ public static class CardInstall {
         // uninstall parts above this one first
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
-        // for scaleable cards, delete copies
-        CardCopier.DeleteCopy(card);
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
-        ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
-        AnimationHandler.Animate(card,GameAction.Uninstalling);
+        CardCopier.DeleteChild(card);
+        if (!card.isCopy) {
+            ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
+            AnimationHandler.Animate(card, GameAction.Uninstalling);
+        }
         InputOutput.UndoInput(card);
     }
     // reversibly installs and uninstalls the card to determine if it's possible to play

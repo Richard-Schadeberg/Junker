@@ -21,13 +21,16 @@ public class AnimationHandler {
         if (Game.S.ReversibleMode) return;
         CardAnimation animation = null;
         foreach (Card card in cards) {
+            // skip clockreturning copies
+            if (card.isCopy && action == GameAction.ClockReturn) continue;
             animation = new CardAnimation(card,action);
             Game.S.animationHandler.animationQueue.Enqueue(animation);
         }
         Game.S.animationHandler.PackFor(animation);
     }
     void PackFor(CardAnimation animation) {
-        PackZone(animation.goalZone);
+        // don't repack junk when sending cards to it that will be deleted
+        if (animation.gameAction!=GameAction.DeleteScaleable) PackZone(animation.goalZone);
         // don't repack hand when cards leave it, so players can accurately click on cards in sequence
         if (animation.originZone!=Zone.Hand) PackZone(animation.originZone);
     }

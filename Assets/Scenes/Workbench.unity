@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59702638c27efdd4f84662c850d7b357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 0}
+  textBox: {fileID: 1726295381}
   clockButton: 1
 --- !u!212 &5816722
 SpriteRenderer:
@@ -2704,7 +2704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHandSize: 5
-  startingTime: 20
+  startingTime: 5
   chainTime: 0.2
   vMax: 12000
   accTime: 0.2
@@ -2985,7 +2985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59702638c27efdd4f84662c850d7b357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 0}
+  textBox: {fileID: 1322724430}
   clockButton: 0
 --- !u!212 &1785675406
 SpriteRenderer:
@@ -3410,7 +3410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59702638c27efdd4f84662c850d7b357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 0}
+  textBox: {fileID: 2081717065}
   clockButton: 0
 --- !u!212 &1883697175
 SpriteRenderer:
@@ -3672,8 +3672,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.44972, y: 0.000012875}
-  m_SizeDelta: {x: 249.1006, y: 135}
+  m_AnchoredPosition: {x: 61.5909, y: -0.2573}
+  m_SizeDelta: {x: 248.5861, y: 126.2533}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2068142696
 MonoBehaviour:
@@ -3722,7 +3722,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120.8
+  m_fontSize: 113
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3730,7 +3730,7 @@ MonoBehaviour:
   m_fontSizeMax: 167
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

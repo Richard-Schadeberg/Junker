@@ -34,6 +34,10 @@ public class CardAnimation {
             startTime = Time.time;
             motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
             controlledCard.currentAnimation = this;
+            //Debug.Log(controlledCard.cardName);
+            //Debug.Log(gameAction);
+            //Debug.Log(originZone);
+            //Debug.Log(goalZone);
         }
     }
     // called every frame during the animation by the card it's attached to

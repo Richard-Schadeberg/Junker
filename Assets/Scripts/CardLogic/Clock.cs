@@ -12,7 +12,7 @@ public class Clock {
     }
     public void ClockClicked_() {
         Card[] playCards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
-        if (playCards.Length == 0 || timeLeft == 0) return;
+        if (playCards.Length == 0 || timeLeft == 0 || Game.S.discardRequester.pendingRequests != 0) return;
         timeLeft--;
         clockDisplay.setText(timeLeft.ToString());
         if (timeLeft==0) clockDisplay.Darken();
@@ -22,15 +22,18 @@ public class Clock {
         ResourceTracker.Reset(Resource.Metal);
         ResourceTracker.Add(Resource.Metal, ResourceTracker.scrap);
         foreach (Card card in playCards) {
-            ClockReturn(card);
+            CardCopier.DeleteChild(card);
+        }
+        playCards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
+        Game.S.animationHandler.PackZone(Zone.Play);
+        foreach (Card card in playCards) {
+            Credits.ClearCredits(card);
+            ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
         }
         AnimationHandler.Animate(playCards, GameAction.ClockReturn);
+        IconTracker.Reset();
     }
     public static void ClockClicked() {
         Game.S.clock.ClockClicked_();
-    }
-    public static void ClockReturn(Card card) {
-        Credits.ClearCredits(card);
-        ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
     }
 }

@@ -11,9 +11,7 @@ public class Game : MonoBehaviour {
 //  the solution is to store a static pointer to the instance, to allow
 //  static methods to access the instance's properties.
 	public static Game S;
-	void Awake() {
-		S = this;
-	}
+	void Awake() {S = this;}
     // time (in seconds) between each animation fired from the queue
     public float chainTime = 0.2f;
     // tweening constants
@@ -51,6 +49,7 @@ public class Game : MonoBehaviour {
 		if (Game.S.ReversibleMode) return;
 		CardPlayable.GameStateChanged();
 		S.zoneTracker.GameStateChanged();
+		ResourceCounter.UpdateCounters();
 		foreach (Card card in S.cards) {
 			card.UpdateColour();
 			card.UpdateInOutDarkness();

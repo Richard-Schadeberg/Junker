@@ -32,14 +32,14 @@ public static class CardCopier {
         Game.GameStateChanged();
         copy.UpdateColour();
     }
-    public static void DeleteCopy(Card card) {
-        if (card.tempCopy!=null) {
-            // no deleting copies from play
-            if (card.tempCopy.zone!=Zone.Play) {
-                ZoneTracker.MoveCard(card.tempCopy,Zone.Hand,Zone.Junk);
-                // copy is properly deleted by CardAnimation after being moved to Junk
-                AnimationHandler.Animate(card.tempCopy,GameAction.DeleteScaleable);
-            }
+    public static void DeleteChild(Card card) {
+        Card child = card.tempCopy;
+        if (child != null) {
+            DeleteChild(child);
+            ZoneTracker.MoveCard(child, child.zone,Zone.Junk);
+            // copy is properly deleted by CardAnimation after being moved to Junk
+            AnimationHandler.Animate(child, GameAction.DeleteScaleable);
+            card.tempCopy = null;
         }
     }
 }
