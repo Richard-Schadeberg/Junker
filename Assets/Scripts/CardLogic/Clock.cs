@@ -33,6 +33,7 @@ public class Clock {
         }
         AnimationHandler.Animate(playCards, GameAction.ClockReturn);
         IconTracker.Reset();
+        Game.GameStateChanged();
     }
     public static void ClockClicked() {
         Game.S.clock.ClockClicked_();

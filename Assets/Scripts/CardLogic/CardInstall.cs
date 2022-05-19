@@ -10,6 +10,7 @@ public static class CardInstall {
         AnimationHandler.Animate(card,GameAction.Installing);
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.Output(card);
         if (!Game.S.ReversibleMode && card.scaleable) CardCopier.CreateCopy(card);
+        Game.GameStateChanged();
     }
     public static void Uninstall(Card card) {
         // uninstall parts above this one first
@@ -22,6 +23,7 @@ public static class CardInstall {
             AnimationHandler.Animate(card, GameAction.Uninstalling);
         }
         InputOutput.UndoInput(card);
+        Game.GameStateChanged();
     }
     // reversibly installs and uninstalls the card to determine if it's possible to play
     public static bool CanInstall(Card card) {
@@ -67,14 +69,5 @@ public static class CardInstall {
         // no installing cards during discard selection
         if (DiscardRequester.S.pendingRequests>0) return;
         if (CanInstall(card)) Install(card);
-    }
-    // function needs to be modified/replaced to work with array version of AnimationHandler.Animate
-    public static void ClockReturn(Card card) {
-        ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
-        AnimationHandler.Animate(card,GameAction.ClockReturn);
-        if (card.discardAfterUse) {
-            ZoneTracker.MoveCard(card,Zone.Hand,Zone.Junk);
-            AnimationHandler.Animate(card,GameAction.Discarding);
-        }
     }
 }

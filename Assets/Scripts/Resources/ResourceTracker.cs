@@ -15,7 +15,6 @@ public class ResourceTracker {
             Debug.Log("Draw and discard via resourcetracker is ambiguous");
         } else {
             Game.S.resourceTracker.resourceDictionary[resource] += amount;
-            if (!Game.S.ReversibleMode) Game.GameStateChanged();
         }
     }
     public static void Add(Resource resource) {Add(resource,1);}

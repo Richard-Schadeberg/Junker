@@ -509,6 +509,7 @@ MonoBehaviour:
   selected: 0
   isCopy: 0
   tempCopy: {fileID: 0}
+  conversions: 0
 --- !u!114 &216593496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
@@ -2264,7 +2265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Brush Motor 2
+      value: Ben
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: cardName
@@ -2321,7 +2322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1013.41895
+      value: 1193.2432
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2369,7 +2370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Solar Panel
+      value: Alice
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: cardName
@@ -2389,15 +2390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[1]
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
@@ -2713,9 +2714,9 @@ MonoBehaviour:
   cards:
   - {fileID: 1504361198}
   - {fileID: 849805702}
+  - {fileID: 216593496}
   - {fileID: 814520995}
   - {fileID: 795986725}
-  - {fileID: 216593496}
   - {fileID: 1070526659}
   - {fileID: 820420149}
   - {fileID: 1917619720}
@@ -2808,7 +2809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Clock
+      value: Stacy
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: cardName
@@ -2820,15 +2821,15 @@ PrefabInstance:
       objectReference: {fileID: 1758972913}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
@@ -3212,7 +3213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Brush Motor
+      value: James
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: isTool
@@ -3224,11 +3225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
@@ -3240,7 +3241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[1]
@@ -3931,7 +3932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1193.2432
+      value: 833.5946
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3971,7 +3972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Solar Panel 2
+      value: Chris
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: cardName
@@ -3979,15 +3980,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: scaleable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: inputs.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: inputs.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
@@ -4024,7 +4033,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 833.5946
+      value: 1013.41895
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
