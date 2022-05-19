@@ -32,6 +32,14 @@ public class Clock {
             ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
         }
         AnimationHandler.Animate(playCards, GameAction.ClockReturn);
+        Card[] junkedCards = ZoneTracker.GetCardsLeftToRight(Zone.Junk);
+        junkedCards.Shuffle();
+        foreach (Card card in junkedCards) {
+            if (card.isCopy) continue;
+            ZoneTracker.MoveCard(card, Zone.Junk, Zone.Deck);
+            Game.S.zoneTracker.deckContents.MoveTopToBottom();
+        }
+        AnimationHandler.Animate(junkedCards, GameAction.Repacking);
         IconTracker.Reset();
         Game.GameStateChanged();
     }

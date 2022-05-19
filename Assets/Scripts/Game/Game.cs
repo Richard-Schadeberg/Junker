@@ -32,6 +32,8 @@ public class Game : MonoBehaviour {
 	}
 	void Start() {
 		clock.SetTime(startingTime);
+		if (shuffle) cards.Shuffle();
+		BringToolsToTop();
 		zoneTracker = new ZoneTracker(cards);
 		// move cards into deck to start
 		foreach (Card card in cards) {
@@ -40,8 +42,26 @@ public class Game : MonoBehaviour {
 		GameActions.DrawCards(startingHandSize,null);
 		animationHandler.WaitSeconds(startDelay);
 	}
+	// if calling this on an ordered deck, make sure the tools are already at the top
+	private void BringToolsToTop() {
+		// index of top of non-tool deck, moves down deck as tools are shuffled to top
+		int swap = 0;
+		for (int i=0; i<cards.Length; i++) {
+			// swap tool with highest non-tool card
+			// if the top card is a tool, a meaningless swap will occur and the swap destination will move down
+			// this prevents swap from moving a tool lower into the deck
+			if (cards[i].isTool) {
+				Card temp = cards[i];
+				cards[i] = cards[swap];
+				cards[swap] = temp;
+				swap++;
+            }
+        }
+    }
 	// list of cards that start in the deck, from top to bottom
 	public Card[] cards;
+	// if the deck is not shuffled, make sure tools are already at top to avoid unusual motion
+	public bool shuffle;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
 	// call whenever something happens that affects whether a card can be played
 	public static void GameStateChanged() {

@@ -25,4 +25,11 @@ public class DeckContents : ZoneContents {
         orderedCards.AddLast(card);
     }
     public Card TopCard() { if (orderedCards.Count == 0) return null; else return orderedCards.First(); }
+    public void MoveTopToBottom() { 
+        if (orderedCards.Count != 0) {
+            Card top = orderedCards.First();
+            orderedCards.RemoveFirst();
+            orderedCards.AddLast(top);
+        } 
+    }
 }

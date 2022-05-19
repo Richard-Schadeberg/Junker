@@ -1534,7 +1534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Brush Motor 3
+      value: Greg
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: cardName
@@ -1542,11 +1542,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
@@ -2598,7 +2598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5 / 7
+  m_text: 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2705,7 +2705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHandSize: 5
-  startingTime: 5
+  startingTime: 20
   chainTime: 0.2
   vMax: 12000
   accTime: 0.2
@@ -2821,7 +2821,7 @@ PrefabInstance:
       objectReference: {fileID: 1758972913}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
@@ -2829,7 +2829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
@@ -3224,6 +3224,10 @@ PrefabInstance:
       value: Brush Motor
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: scaleable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -3241,7 +3245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[1]
@@ -4089,11 +4093,11 @@ PrefabInstance:
       objectReference: {fileID: 2093417810}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
@@ -4117,6 +4121,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: outputs.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: outputs.Array.data[3]
       value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4448,27 +4460,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5011869718893851318, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_text
-      value: Can be installed multiple times
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5011869718893851318, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_fontSize
-      value: 13.95
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Name
-      value: Test Bed
+      value: Karen
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: scaleable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]

@@ -24,6 +24,8 @@ public class CardAnimation {
     }
     // start playing the animation
     public void Fire() {
+        // if the attached card has been deleted, do nothing and the next queued animation will fire in a bit
+        if (controlledCard == null) return;
         // if the card is already animating, put this animation in that card's queue instead of firing it
         if (controlledCard.currentAnimation != null) {
             CardAnimation animation = controlledCard.currentAnimation;
