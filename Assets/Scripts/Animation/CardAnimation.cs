@@ -8,16 +8,17 @@ public class CardAnimation {
 
     public Card controlledCard{get;private set;}
     public GameAction gameAction{get;private set;}
-    MotionPlan motionPlan; // pre-calculated information about the motion
-    Bounds origin,goal;
-    float startTime;
-    public Zone originZone{get;private set;}
-    public Zone goalZone  {get;private set;}
-    // if assigned, allows animations to be queued to perform after the current one
+    private MotionPlan motionPlan; // pre-calculated information about the motion
+    private Bounds originBounds,goalBounds;
+    private float startTime; // in seconds
+    public readonly Zone originZone;
+    public readonly Zone goalZone; // currently redundant
+    // allows animations to be queued to perform after the current one
     public CardAnimation nextAnimation = null;
     public CardAnimation(Card controlledCard,GameAction gameAction) {
         this.controlledCard = controlledCard;
-        goal = controlledCard.bounds;
+        // the goal is to make the card's size and position reflect the gamestate at the time CardAnimation is created
+        goalBounds = controlledCard.goalBoundsForCurrentGamestate;
         this.gameAction = gameAction;
         originZone = OriginZone(gameAction);
         goalZone   = GoalZone  (gameAction);
@@ -26,46 +27,52 @@ public class CardAnimation {
     public void Fire() {
         // if the attached card has been deleted, do nothing and the next queued animation will fire in a bit
         if (controlledCard == null) return;
-        // if the card is already animating, put this animation in that card's queue instead of firing it
+        // if the card is already animating, add this animation to that animation's queue instead of firing it
+        // it will fire again when the card is ready for this animation
         if (controlledCard.currentAnimation != null) {
-            CardAnimation animation = controlledCard.currentAnimation;
-            while (animation.nextAnimation != null) animation = animation.nextAnimation;
-            animation.nextAnimation = this;
+            CardAnimation lastAnimation = controlledCard.currentAnimation;
+            // find end of queue
+            while (lastAnimation.nextAnimation != null) lastAnimation = lastAnimation.nextAnimation;
+            lastAnimation.nextAnimation = this;
         } else {
-            origin = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
+            // where the card visually is when the animation starts
+            originBounds = controlledCard.gameObject.GetComponent<SpriteRenderer>().bounds;
             startTime = Time.time;
-            motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
+            motionPlan = new MotionPlan(originBounds.center,
+                                          goalBounds.center,
+                                          gameAction);
             controlledCard.currentAnimation = this;
         }
     }
     // called every frame during the animation by the card it's attached to
-    public void Update() {
+    public void UpdatePositionAndSize() {
 		float percentTravelled = PercentAtTime(Time.time);
+        // if the motion was overshot or invalid (zero distance), move the card to its destination
         if (percentTravelled > 1f || float.IsNaN(percentTravelled)) percentTravelled = 1f;
-        // if animation has been completed:
         Vector2 position = MotionPlanPercent.PositionAtPercentage(motionPlan,percentTravelled);
-        Vector2 size = Vector2.Lerp(origin.size,goal.size,percentTravelled);
+        Vector2 size     = Vector2.Lerp(originBounds.size,goalBounds.size,   percentTravelled);
 		BoundsUtil.SetBounds(controlledCard,new Bounds(position,size));
-        if (percentTravelled==1f) MotionComplete();
+        if (percentTravelled == 1f) {
+            controlledCard.currentAnimation = null;
+            // if another animation tried to fire but was blocked by this one, fire it now
+            if (nextAnimation != null) { nextAnimation.Fire(); }
+        }
     }
-    void MotionComplete() {
-        controlledCard.currentAnimation=null;
-        // if another animation tried to fire but was blocked by this one, fire it now
-        if (nextAnimation != null) {nextAnimation.Fire();}
-    }
+    // how far through the animation the card should be at a given time
     float PercentAtTime(float time) {
         float acceleration = Game.S.vMax/Game.S.accTime;
         float deceleration = Game.S.vMax/Game.S.decTime;
-        float timeDiff = time - startTime;
+        float timeDiff     = time - startTime;
+        // halve acceleration during repacking, otherwise it looks jarring
         if (gameAction==GameAction.Repacking) {
             acceleration *= 0.5f;
             deceleration *= 0.5f;
         }
-        // Tween expects motion constants to be scaled by distance covered, then scaled back up
+        // Tween expects motion constants to be scaled down by distance covered, then scaled back up
         return Tween.PercentAtTime(
             acceleration/motionPlan.distance,
             deceleration/motionPlan.distance,
-             Game.S.vMax/motionPlan.distance,
+            Game.S.vMax /motionPlan.distance,
             timeDiff);
     }
     Zone OriginZone(GameAction action) {

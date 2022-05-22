@@ -17,7 +17,7 @@ abstract public class ZoneContents {
         Bounds[] boundsList = Packing.PackBounds(Game.cardAspectRatio,Define.Bounds(zone),NumCards(),false,zone==Zone.Junk);
         int index = 0;
         foreach (Card card in GetCardsLeftToRight()) {
-            card.bounds = boundsList[index];
+            card.goalBoundsForCurrentGamestate = boundsList[index];
             index++;
         }
         packed = true;

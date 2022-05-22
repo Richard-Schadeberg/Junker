@@ -17,7 +17,7 @@ public class Card : MonoBehaviour
 		cardComponents.cardName = cardName;
 	}
 	void Update() {
-		if (currentAnimation != null) currentAnimation.Update();
+		if (currentAnimation != null) currentAnimation.UpdatePositionAndSize();
 	}
 	void OnMouseUp() {
 		ClickResponse(); 
@@ -27,13 +27,13 @@ public class Card : MonoBehaviour
     }
     // Animation
     public CardAnimation currentAnimation = null;
-	public Bounds bounds {
+	public Bounds goalBoundsForCurrentGamestate {
 		get {
 			ZoneTracker.PackZone(zone);
-			return _bounds;
+			return _goalBoundsForCurrentGamestate;
 		} 
-		set { _bounds = value;}
-	} private Bounds _bounds;
+		set { _goalBoundsForCurrentGamestate = value;}
+	} private Bounds _goalBoundsForCurrentGamestate;
 	// input/output display and other cosmetic features
 	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
 	public String cardName {get {return gameObject.name;}set {gameObject.name = value;}}
@@ -124,6 +124,7 @@ public class Card : MonoBehaviour
 	public Credits credits = new Credits();
 	// scaleable
 	public bool isCopy;
+	public bool hasCopy { get { return (tempCopy != null); } }
 	public Card tempCopy;
 	// consuming outputs causes those output icons to dim
 	public HashSet<ResourceIcon> consumedIcons = new HashSet<ResourceIcon>();

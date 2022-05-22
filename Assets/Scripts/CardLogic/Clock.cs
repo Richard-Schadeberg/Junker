@@ -25,7 +25,7 @@ public class Clock {
             CardCopier.DeleteChild(card);
         }
         playCards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
-        Game.S.animationHandler.PackZone(Zone.Play);
+        Game.S.animationHandler.RePackZone(Zone.Play);
         foreach (Card card in playCards) {
             Credits.ClearCredits(card);
             card.conversions = 0;

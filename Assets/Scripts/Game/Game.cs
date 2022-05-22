@@ -28,7 +28,7 @@ public class Game : MonoBehaviour {
 	public ZoneTracker zoneTracker;
 	public Clock clock = new Clock();
 	void Update() {
-		animationHandler.Update();
+		animationHandler.StepAnimations();
 	}
 	void Start() {
 		clock.SetTime(startingTime);
@@ -40,7 +40,7 @@ public class Game : MonoBehaviour {
 			animationHandler.AnimateInstant(card,GameAction.Repacking);
 		}
 		GameActions.DrawCards(startingHandSize,null);
-		animationHandler.WaitSeconds(startDelay);
+		animationHandler.PauseAnimations(startDelay);
 	}
 	// if calling this on an ordered deck, make sure the tools are already at the top
 	private void BringToolsToTop() {
