@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public static class CardCopier {
     public static void CreateCopy(Card card) {
@@ -36,9 +37,16 @@ public static class CardCopier {
         Card child = card.tempCopy;
         if (child != null) {
             DeleteChild(child);
+            // move card to Junk zone, to ensure its current zone knows it's gone
             ZoneTracker.MoveCard(child, child.zone,Zone.Junk);
-            // copy is properly deleted by CardAnimation after being moved to Junk
-            AnimationHandler.Animate(child, GameAction.DeleteScaleable);
+            // delete card from Junk zone
+            Game.S.zoneTracker.junkContents.RemoveCard(child);
+            // delete card from Game's list of cards
+            List<Card> cards = Game.S.cards.ToList();
+            cards.Remove(child);
+            Game.S.cards = cards.ToArray();
+            // destroy the gameobject and its children
+            MonoBehaviour.Destroy(child.gameObject);
             card.tempCopy = null;
         }
     }

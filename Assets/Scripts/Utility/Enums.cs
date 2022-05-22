@@ -7,8 +7,7 @@ public enum GameAction {
     Discarding,
     DiscardReturn,
     Repacking,
-    ClockReturn,
-	DeleteScaleable
+    ClockReturn
 }
 public enum Zone {
 	Deck,

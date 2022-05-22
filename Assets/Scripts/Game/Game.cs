@@ -60,7 +60,7 @@ public class Game : MonoBehaviour {
     }
 	// list of cards that start in the deck, from top to bottom
 	public Card[] cards;
-	// if the deck is not shuffled, make sure tools are already at top to avoid unusual motion
+	// if the deck is not shuffled, make sure tools are already at top to avoid unusual motion 
 	public bool shuffle;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
 	// call whenever something happens that affects whether a card can be played

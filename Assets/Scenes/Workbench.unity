@@ -2712,15 +2712,16 @@ MonoBehaviour:
   decTime: 0.4
   startDelay: 0.2
   cards:
+  - {fileID: 814520995}
   - {fileID: 1504361198}
   - {fileID: 849805702}
   - {fileID: 216593496}
-  - {fileID: 814520995}
   - {fileID: 795986725}
   - {fileID: 1070526659}
   - {fileID: 820420149}
   - {fileID: 1917619720}
   - {fileID: 176575342}
+  shuffle: 0
   ReversibleMode: 0
 --- !u!4 &1730382793
 Transform:
@@ -2761,7 +2762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 653.7704
+      value: 833.5946
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3161,7 +3162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 473.94608
+      value: 653.7704
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3198,6 +3199,14 @@ PrefabInstance:
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011869718893851318, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: m_text
+      value: Can be installed multiple times
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011869718893851318, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
+      propertyPath: m_fontSize
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5045990371550748592, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_Color.b
@@ -3936,7 +3945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 833.5946
+      value: 1013.41895
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4037,7 +4046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1013.41895
+      value: 473.94608
       objectReference: {fileID: 0}
     - target: {fileID: 1518990049827002361, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4093,11 +4102,11 @@ PrefabInstance:
       objectReference: {fileID: 2093417810}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
@@ -4480,7 +4489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: inputs.Array.data[0]
@@ -4488,7 +4497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[0]
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
       propertyPath: outputs.Array.data[1]

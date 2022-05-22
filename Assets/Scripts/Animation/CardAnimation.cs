@@ -36,10 +36,6 @@ public class CardAnimation {
             startTime = Time.time;
             motionPlan = new MotionPlan(origin.center,goal.center,gameAction);
             controlledCard.currentAnimation = this;
-            //Debug.Log(controlledCard.cardName);
-            //Debug.Log(gameAction);
-            //Debug.Log(originZone);
-            //Debug.Log(goalZone);
         }
     }
     // called every frame during the animation by the card it's attached to
@@ -56,13 +52,6 @@ public class CardAnimation {
         controlledCard.currentAnimation=null;
         // if another animation tried to fire but was blocked by this one, fire it now
         if (nextAnimation != null) {nextAnimation.Fire();}
-        if (controlledCard.isCopy && gameAction==GameAction.DeleteScaleable) {
-            Game.S.zoneTracker.junkContents.RemoveCard(controlledCard);
-            List<Card> cards = Game.S.cards.ToList();
-            cards.Remove(controlledCard);
-            Game.S.cards = cards.ToArray();
-            MonoBehaviour.Destroy(controlledCard.gameObject);
-        }
     }
     float PercentAtTime(float time) {
         float acceleration = Game.S.vMax/Game.S.accTime;
@@ -97,8 +86,6 @@ public class CardAnimation {
                 return Zone.Hand;
             case GameAction.Discarding:
                 return Zone.Hand;
-            case GameAction.DeleteScaleable:
-                return Zone.Hand;
             default:
                 return Zone.Junk;
         }
@@ -120,8 +107,6 @@ public class CardAnimation {
             case GameAction.DrawReverse:
                 return Zone.Deck;
             case GameAction.Discarding:
-                return Zone.Junk;
-            case GameAction.DeleteScaleable:
                 return Zone.Junk;
             default:
                 return Zone.Junk;
