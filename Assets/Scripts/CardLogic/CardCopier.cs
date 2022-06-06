@@ -8,6 +8,7 @@ public static class CardCopier {
     public static void CreateCopy(Card card) {
         // copy needs to be flagged "isCopy" before instantiation, so it doesn't create unnecessary icon prefabs
         // since it clones card, this is done by making card isCopy and then reverting
+        // TODO: check if this is still necessary, as cardComponents doesn't seem to use isCopy
         // sometimes card is already a copy
         bool wasCopy = card.isCopy;
         card.isCopy = true;
@@ -27,15 +28,20 @@ public static class CardCopier {
         copy.zone = Zone.Hand;
         // track copy so it's deleted when card returns to hand
         card.tempCopy = copy;
-        // add "Temporary Copy" to copy, if it doesn't already have it
+        // add "Temporary Copy" to copy's card text, if the original didn't already have it
         if (!card.isCopy) copy.cardComponents.description = copy.cardComponents.description + "\n<i>Temporary Copy</i>";
         // make copy reflect new state. It should already be in the right size/place
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
+        // darken/brighten the copy's inputs/outputs
         copy.UpdateColour();
     }
+    // recursively delete the temporary copies of a card
+    // newest copy is deleted first
+    // currently no animation
     public static void DeleteChild(Card card) {
         Card child = card.tempCopy;
         if (child != null) {
+            // recur
             DeleteChild(child);
             // move card to Junk zone, to ensure its current zone knows it's gone
             ZoneTracker.MoveCard(child, child.zone,Zone.Junk);
@@ -47,6 +53,7 @@ public static class CardCopier {
             Game.S.cards = cards.ToArray();
             // destroy the gameobject and its children
             MonoBehaviour.Destroy(child.gameObject);
+            // note on the parent that the child is gone
             card.tempCopy = null;
         }
     }

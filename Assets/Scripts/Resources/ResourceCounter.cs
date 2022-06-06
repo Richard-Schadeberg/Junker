@@ -20,7 +20,7 @@ public class ResourceCounter : MonoBehaviour
     public static void UpdateCounters() {
         Define.S.batteryCounter.setText(ResourceTracker.Get(Resource.Battery).ToString());
         Define.S.fuelCounter.setText(ResourceTracker.Get(Resource.Fuel).ToString());
-        Define.S.timeCounter.setText(Game.S.clock.timeLeft.ToString());
+        Define.S.timeCounter.setText(Game.S.clock.turnsRemaining.ToString());
         Define.S.metalCounter.setText(ResourceTracker.Get(Resource.Metal).ToString() + "/" + ResourceTracker.scrap.ToString());
     }
 }

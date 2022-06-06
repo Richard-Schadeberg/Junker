@@ -6,15 +6,15 @@ class MotionPlan {
     public MotionPlan(Vector2 origin,Vector2 goal,GameAction gameAction) {
         this.origin = origin;
         this.goal   = goal;
-        motionType      = GetMotionType(origin,goal,gameAction);
-        startHorizontal = DoesMotionStartHorizontal(gameAction);
-        distance        = MotionDistance(origin,goal,motionType);
+        motionType       = GetMotionType(origin,goal,gameAction);
+        startsHorizontal = DoesMotionStartHorizontal(gameAction);
+        distance         = MotionDistance(origin,goal,motionType);
     }
     // origin/goal is centre of card
     public readonly Vector2 origin;
     public readonly Vector2 goal;
     public readonly MotionType motionType;
-    public readonly bool startHorizontal;
+    public readonly bool startsHorizontal;
     public readonly float distance;
     public enum MotionType {
         // doesn't necessarily start horizontally
@@ -22,7 +22,7 @@ class MotionPlan {
         // a circular arc that either starts or ends horizontally
         Arc,
         // a combination of a vertically sliced semicircle and a horizontal motion, in either order
-        // starts AND ends horizontally
+        // starts AND ends horizontally, startsHorizontal is actually startsWithArc
         Combination
     }
     static MotionType GetMotionType(Vector2 origin,Vector2 goal,GameAction gameAction) {

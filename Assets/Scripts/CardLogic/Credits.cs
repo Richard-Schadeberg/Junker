@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// credit actions to cards so they can be reversed when the card is uninstalled
+// tracks non-resource effects of cards (eg. draws, discards, altering other cards) so they can be reversed when the card is uninstalled
 public class Credits {
-    public static void ClearCredits(Card card) {
-        Credits credits = card.credits;
-        credits.ClearCredits();
-    }
+    // wipe credits when turn ends to ensure player can't rewind to the previous turn
+    public static void ClearCredits(Card card) {card.credits.ClearCredits();}
     public void ClearCredits() {
         discards.Clear();
         draws.Clear();
@@ -20,11 +18,9 @@ public class Credits {
     void UndoDiscard(Card discarded) {
         ZoneTracker.MoveCard(discarded,Zone.Junk,Zone.Hand);
         AnimationHandler.Animate(discarded,GameAction.DiscardReturn);
-        Game.GameStateChanged();
     }
     void UndoDraw(Card drawn) {
         ZoneTracker.MoveCard(drawn,Zone.Hand,Zone.Deck);
         AnimationHandler.Animate(drawn,GameAction.DrawReverse);
-        Game.GameStateChanged();
     }
 }

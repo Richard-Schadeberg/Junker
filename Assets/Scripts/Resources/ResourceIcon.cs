@@ -16,14 +16,18 @@ public class ResourceIcon : MonoBehaviour {
     public void Darken() {
         spriteRenderer.color = Color.gray;
     }
-    public void Enable() {
+    // icon should only be enabled if you know what it will be displaying
+    public void Enable(Resource resource) {
         gameObject.SetActive(true);
+        SetSprite(resource);
     }
     public void Disable() {
+        displayedResource = Resource.None;
         gameObject.SetActive(false);
     }
-    private Resource displayedResource;
-    public void SetSprite(Resource resource) {
+    private Resource displayedResource = Resource.None;
+    private void SetSprite(Resource resource) {
+        if (resource == displayedResource) return;
         spriteRenderer.sprite = Define.Sprite(resource);
         displayedResource = resource;
     }

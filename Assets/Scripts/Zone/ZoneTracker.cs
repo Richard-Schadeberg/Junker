@@ -34,7 +34,7 @@ public class ZoneTracker {
         Game.S.zoneTracker.zoneObjects[origin].RemoveCard(card);
         Game.S.zoneTracker.zoneObjects[goal].  AddCard(card);
         card.zone = goal;
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
     }
     public static Card[] GetCards(Zone zone)            {return Game.S.zoneTracker.zoneObjects[zone].GetCards();}
     public static Card[] GetCardsLeftToRight(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCardsLeftToRight();}

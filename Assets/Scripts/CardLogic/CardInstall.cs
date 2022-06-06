@@ -1,35 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 using System;
 public static class CardInstall {
+    // play a card from hand, assuming it will succeed
+    // installation must be completely reversible
     public static void Install(Card card) {
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
         AnimationHandler.Animate(card,GameAction.Installing);
+        // wait for the player to select discards before outputting. Not necessary for reversible mode
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.Output(card);
         if (!Game.S.ReversibleMode && card.scaleable) CardCopier.CreateCopy(card);
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
     }
+    // completely reverse an install
+    // actions are undone in reverse order, compared to Install
     public static void Uninstall(Card card) {
         // uninstall parts above this one first
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
+        // no need to undo output if the player is selecting discards, as the card has not output yet
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
         CardCopier.DeleteChild(card);
-        if (!card.isCopy) {
-            ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
-            AnimationHandler.Animate(card, GameAction.Uninstalling);
-        }
+        ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
+        // no need to animate if card is deleted
+        if (!card.isCopy) AnimationHandler.Animate(card, GameAction.Uninstalling);
         InputOutput.UndoInput(card);
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
     }
     // reversibly installs and uninstalls the card to determine if it's possible to play
     public static bool CanInstall(Card card) {
+        // if (!CardPlayable.isValid) then getting card.Playability calls CanInstall
         if (CardPlayable.isValid) {return (card.Playability==Playability.Playable);}
         // prevent animations and unnecessary repacking
-        Game.S.ReversibleMode = true;
+        Game.StartReversibleMode();
         // install card
         InputOutput.Input(card);
         ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
@@ -38,36 +40,34 @@ public static class CardInstall {
         // uninstall card
         ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
         InputOutput.UndoInput(card);
-        Game.S.ReversibleMode = false;
+        Game.EndReversibleMode();
         return canInstall;
     }
-    public static bool CanInstallWith(Card card,Card friend) {
-        bool canInstall = true;
-        Game.S.ReversibleMode = true;
+    // reversibly installs friends, then testCard, then uninstalls both
+    // used to determine if a card could be played after playing another card first
+    public static bool CanInstallWith(Card testCard,Card friend) {
+        // no animations or irreversible actions during test
+        Game.StartReversibleMode();
 
         InputOutput.Input(friend);
         ZoneTracker.MoveCard(friend,Zone.Hand,Zone.Play);
-        // if playing friend requires discarding card, then it's not possible to install card
-        if (ZoneTracker.availableDiscards==DiscardRequester.S.pendingRequests) canInstall=false;
-        if (!Validate.ValidState()) canInstall=false;
+        // if playing friend requires discarding all your cards (including testCard), then it's not possible to install card
+        bool testCardDiscarded = (ZoneTracker.availableDiscards == DiscardRequester.S.pendingRequests);
+        if (!Validate.ValidState()) throw new Exception("Tried to CanInstallWith() using unplayable friend");
         InputOutput.Output(friend);
 
-        InputOutput.Input(card);
-        ZoneTracker.MoveCard(card,Zone.Hand,Zone.Play);
-        if (!Validate.ValidState()) canInstall = false;
-        ZoneTracker.MoveCard(card,Zone.Play,Zone.Hand);
-        InputOutput.UndoInput(card);
+        bool canInstallTestCard = CanInstall(testCard);
 
         InputOutput.UndoOutput(friend);
         ZoneTracker.MoveCard(friend,Zone.Play,Zone.Hand);
         InputOutput.UndoInput(friend);
 
-        Game.S.ReversibleMode = false;
-        return canInstall;
+        Game.EndReversibleMode();
+        return (canInstallTestCard && !testCardDiscarded);
     }
     public static void TryInstall(Card card) {
         // no installing cards during discard selection
-        if (DiscardRequester.S.pendingRequests>0) return;
+        if (DiscardRequester.S.pendingRequests>0) throw new Exception("Tried to install card during discard selection");
         if (CanInstall(card)) Install(card);
     }
 }

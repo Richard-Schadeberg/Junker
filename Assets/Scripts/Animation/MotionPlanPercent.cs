@@ -18,12 +18,12 @@ static class MotionPlanPercent {
     // a circular arc that either starts or ends horizontally
     static Vector2 LocationAtPercentageArc(MotionPlan motionPlan,float percentage) {
         Vector2 path = motionPlan.goal - motionPlan.origin;
-        if (path.y == 0) return motionPlan.origin + path * percentage; // avoid division by zero
+        if (path.y == 0) return LocationAtPercentageDirect(motionPlan,percentage); // avoid division by zero
         float pathNormalSlope = -path.x/path.y;
         Vector2 halfPath = path/2;
         float circleRadiusSigned = halfPath.y + pathNormalSlope * -halfPath.x;
         Vector2 circleCentre;
-        if (motionPlan.startHorizontal) {
+        if (motionPlan.startsHorizontal) {
             circleCentre = motionPlan.origin + new Vector2(0,circleRadiusSigned);
         } else {
             circleCentre = motionPlan.goal   - new Vector2(0,circleRadiusSigned);
@@ -37,14 +37,8 @@ static class MotionPlanPercent {
     // if startHorizontal, the semicircle motion comes first
     static Vector2 LocationAtPercentageCombination(MotionPlan motionPlan,float percentage) {
         float straightSectionDistance = Mathf.Abs(motionPlan.goal.x - motionPlan.origin.x);
-        bool inStraightSection;
-        if (!motionPlan.startHorizontal) {
-            inStraightSection = straightSectionDistance >= motionPlan.distance * percentage;
-        } else {
-            inStraightSection = straightSectionDistance >= motionPlan.distance * (1 - percentage);
-        }
-        if (inStraightSection) {
-            if (!motionPlan.startHorizontal) {
+        if (InStraightSection(motionPlan, percentage, straightSectionDistance)) {
+            if (!motionPlan.startsHorizontal) {
                 float horizontalPercentage = percentage  * motionPlan.distance/straightSectionDistance;
                 return motionPlan.origin + new Vector2(horizontalPercentage        * (motionPlan.goal.x   - motionPlan.origin.x),0);
             } else {
@@ -54,10 +48,10 @@ static class MotionPlanPercent {
         } else {
             Vector2 path = motionPlan.goal - motionPlan.origin;
             float arcPercent;
-            float arcAngle = Mathf.PI * Mathf.Sign(path.x) * Mathf.Sign(path.y) * (!motionPlan.startHorizontal?1:-1); // sets arcAngle to PI or -PI based on direction of rotation in arc section. Positive is CCW.
+            float arcAngle = Mathf.PI * Mathf.Sign(path.x) * Mathf.Sign(path.y) * (!motionPlan.startsHorizontal?1:-1); // sets arcAngle to PI or -PI based on direction of rotation in arc section. Positive is CCW.
             Vector2 circleCentre = new Vector2(0,motionPlan.origin.y + path.y/2);
             Vector2 centreToPoint;
-            if (motionPlan.startHorizontal) {
+            if (motionPlan.startsHorizontal) {
                 circleCentre.x = motionPlan.origin.x;
                 arcPercent = percentage * motionPlan.distance/(motionPlan.distance-straightSectionDistance);
                 arcAngle *= arcPercent;
@@ -71,5 +65,13 @@ static class MotionPlanPercent {
             centreToPoint = Quaternion.AngleAxis(arcAngle * 180/Mathf.PI,Vector3.forward) * centreToPoint;
             return circleCentre + centreToPoint;
         }
+    }
+    static bool InStraightSection(MotionPlan motionPlan,float percentage,float straightSectionDistance) {
+        if (!motionPlan.startsHorizontal) {
+            return straightSectionDistance >= motionPlan.distance * percentage;
+        } else {
+            return straightSectionDistance >= motionPlan.distance * (1 - percentage);
+        }
+
     }
 }

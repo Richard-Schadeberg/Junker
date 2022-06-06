@@ -13,7 +13,7 @@ public static class InputOutput {
                 if (input == Resource.Electric && ResourceTracker.Get(Resource.Electric) < 0 && ResourceTracker.Get(Resource.Battery) > 0) {
                     ResourceTracker.Add(Resource.Electric);
                     ResourceTracker.Remove(Resource.Battery);
-                    card.conversions++;
+                    card.batteryConversions++;
                     if (!Game.S.ReversibleMode) IconTracker.OutputConsumed(Resource.Battery);
                 } else {
                     if (!Game.S.ReversibleMode) IconTracker.OutputConsumed(input);
@@ -29,8 +29,8 @@ public static class InputOutput {
             } else {
                 ResourceTracker.Add(input);
                 if (input == Resource.Metal) ResourceDisplay.Update(Resource.Metal);
-                if (input == Resource.Electric && card.conversions>0) {
-                    card.conversions--;
+                if (input == Resource.Electric && card.batteryConversions>0) {
+                    card.batteryConversions--;
                     ResourceTracker.Add(Resource.Battery);
                     ResourceTracker.Remove(Resource.Electric);
                     if (!Game.S.ReversibleMode) IconTracker.OutputReturned(Resource.Battery);
@@ -39,7 +39,7 @@ public static class InputOutput {
                 }
             }
         }
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
     }
     public static void Output(Card card) {
         int draws=0;
@@ -55,7 +55,7 @@ public static class InputOutput {
             i++;
         }
         GameActions.DrawCards(draws,card);
-        Game.GameStateChanged();
+        Game.PlayerActionResolved();
     }
     public static void UndoOutput(Card card) {
         foreach (Resource output in card.outputs) {

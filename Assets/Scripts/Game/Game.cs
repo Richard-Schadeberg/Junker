@@ -31,7 +31,7 @@ public class Game : MonoBehaviour {
 		animationHandler.StepAnimations();
 	}
 	void Start() {
-		clock.SetTime(startingTime);
+		clock.SetTurnsRemaining(startingTime);
 		if (shuffle) cards.Shuffle();
 		BringToolsToTop();
 		zoneTracker = new ZoneTracker(cards);
@@ -64,10 +64,10 @@ public class Game : MonoBehaviour {
 	public bool shuffle;
 	public static Vector2 cardAspectRatio{get {return (Vector2)S.cards[0].gameObject.GetComponent<SpriteRenderer>().bounds.size;}}
 	// call whenever something happens that affects whether a card can be played
-	public static void GameStateChanged() {
+	public static void PlayerActionResolved() {
 		// no need to update playability, zone sorting, and card colours during temporary actions
 		if (Game.S.ReversibleMode) return;
-		CardPlayable.GameStateChanged();
+		CardPlayable.PlayerActionResolved();
 		S.zoneTracker.GameStateChanged();
 		ResourceCounter.UpdateCounters();
 		foreach (Card card in S.cards) {
@@ -75,5 +75,12 @@ public class Game : MonoBehaviour {
 			card.UpdateInOutDarkness();
 		}
 	}
-	public bool ReversibleMode = false;
+	public static void StartReversibleMode() {
+		S.ReversibleDepth++;
+    }
+	public static void EndReversibleMode() {
+		S.ReversibleDepth--;
+    }
+	public bool ReversibleMode {get {return (ReversibleDepth>0);}}
+	private int ReversibleDepth;
 }

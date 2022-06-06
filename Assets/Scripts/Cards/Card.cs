@@ -22,9 +22,6 @@ public class Card : MonoBehaviour
 	void OnMouseUp() {
 		ClickResponse(); 
 	}
-    private void OnMouseOver() {
-		if (zone == Zone.Hand) cardComponents.MousedOver();
-    }
     // Animation
     public CardAnimation currentAnimation = null;
 	public Bounds goalBoundsForCurrentGamestate {
@@ -58,7 +55,7 @@ public class Card : MonoBehaviour
 	}
 	public Playability Playability {
 		get {
-			if (!CardPlayable.isValid) CardPlayable.EvaluatePlayability();
+			CardPlayable.EvaluatePlayability();
 			return _Playability;
 		}
 		set {_Playability = value;}
@@ -129,5 +126,5 @@ public class Card : MonoBehaviour
 	// consuming outputs causes those output icons to dim
 	public HashSet<ResourceIcon> consumedIcons = new HashSet<ResourceIcon>();
 	// track if the card has converted batteries into electrics
-	public int conversions = 0;
+	public int batteryConversions = 0;
 }
