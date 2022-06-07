@@ -62,7 +62,7 @@ public class AnimationHandler {
     }
     public void PauseAnimations(float waitSeconds) {timeNextFire = Time.time + waitSeconds;}
     // called by Game each visual frame
-    public void StepAnimations() {
+    public void TryFireQueuedAnimation() {
         if (animationQueue.Count==0) return;
         if (Time.time >= timeNextFire) {
             timeNextFire = Time.time + Game.S.chainTime;

@@ -6,7 +6,6 @@ public static class CardPlayable {
     // does the playability of every card reflect the current gamestate?
     // ie. have they been evaluated since the last player action
     public static bool isValid = false;
-    public static void PlayerActionResolved() {isValid = false;}
     public static void EvaluatePlayability() {
         // no need to evaluate if the data is still valid
         if (isValid) return;

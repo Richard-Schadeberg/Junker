@@ -102,4 +102,6 @@ public class Define : MonoBehaviour {
 		timeCounter,
 		batteryCounter,
 		fuelCounter;
+	public const int maxInputs  = 9;
+	public const int maxOutputs = 9;
 }

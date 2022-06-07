@@ -5,8 +5,6 @@ using TMPro;
 // so that Card objects don't need to assign a bunch of pointers
 // in the editor when changing script
 public class CardComponents : MonoBehaviour {
-    const int maxInputs = 9;
-    const int maxOutputs = 9;
 	// how many resources are grouped together per box
     const int resourceGrouping = 3;
     public GameObject[] resourceBoxes;
@@ -65,14 +63,14 @@ public class CardComponents : MonoBehaviour {
 	// cards can have their inputs and outputs changed many times mid-game, so changing needs to be optimised
 	// instead of destroying and recreating icons, pointers are used to update existing ones
 	// this means that a bunch of invisible icons exist ready to change into new icons
-	public ResourceIcon[] inputIcons  = new ResourceIcon[maxInputs];
-	public ResourceIcon[] outputIcons = new ResourceIcon[maxOutputs];
+	public ResourceIcon[] inputIcons  = new ResourceIcon[Define.maxInputs];
+	public ResourceIcon[] outputIcons = new ResourceIcon[Define.maxOutputs];
 	// update the resource icons to reflect new inputs/outputs
 	// arrays can be any length
 	public void DisplayInputsOutputs(Resource[] inputs,Resource[] outputs) {
 		// if thereare no icons, generate them
         if (inputIcons[0] == null) MakeIcons();
-		for (int i=0; i<maxInputs; i++) {
+		for (int i=0; i<Define.maxInputs; i++) {
 			// disable icons for unused resource slots
             if (i >= inputs.Length) {
 				inputIcons[i].Disable();
@@ -81,7 +79,7 @@ public class CardComponents : MonoBehaviour {
 				inputIcons[i].Enable(inputs[i]);
             }
         }
-		for (int i=0; i<maxOutputs; i++) {
+		for (int i=0; i< Define.maxOutputs; i++) {
             if (i >= outputs.Length) {
 				outputIcons[i].Disable();
             } else {
@@ -95,6 +93,8 @@ public class CardComponents : MonoBehaviour {
 	// output icons in hand are brightened when you can play the card
 	// in all other circumstances, they are darkened
 	public void UpdateInOutDarkness(Resource[] inputs,bool isPlayable,Zone zone) {
+		// no need to change darkness for temporary actions
+		if (Game.S.ReversibleMode) return;
 		// if thereare no icons, generate them (this is sometimes called before DisplayInputOutputs)
 		if (inputIcons[0] == null) MakeIcons();
 		// icons in the deck or junk are brightened
@@ -143,12 +143,12 @@ public class CardComponents : MonoBehaviour {
 				Destroy(child.gameObject);
 			}
 		}
-        for (int i = 0; i < maxInputs; i++) {
+        for (int i = 0; i < Define.maxInputs; i++) {
             inputIcons[i] = MakeIcon(i);
         }
 		// the nth output icon corresponds to the "n+maxInputs" input icon
-        for (int i = 0; i < maxOutputs; i++) {
-            outputIcons[i] = MakeIcon(i+maxInputs);
+        for (int i = 0; i < Define.maxOutputs; i++) {
+            outputIcons[i] = MakeIcon(i+ Define.maxInputs);
         }
     }
 	ResourceIcon MakeIcon(int iconNum) {

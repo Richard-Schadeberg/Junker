@@ -25,12 +25,14 @@ public class DiscardRequester {
         }
     }
     public static void CancelRequest() {
-        S.pendingRequests--;
-        if (S.pendingRequests < 0) throw new Exception("Negative number of cards needed to discard");
+        // pendingRequests will be 0 if the discarder was fully installed and is now being uninstalled
+        // pendingRequests will be higher if the player hasn't selected cards to discard
+        // it can't just be set to 0 because CanInstallWith() needs to cancel the right number of requests
+        if (S.pendingRequests > 0) S.pendingRequests--;
         // no need to cancel selecting during temporary actions
         if (!Game.S.ReversibleMode) {
             S.pendingSelections = 0;
-            foreach (Card handCard in ZoneTracker.GetCards(Zone.Hand)) handCard.ClearSelectable();
+            foreach (Card handCard in ZoneTracker.GetCards(Zone.Hand)) handCard.MakeUnselectable();
         }
     }
     // player has selected a card to discard
@@ -52,7 +54,7 @@ public class DiscardRequester {
                 S.requester.credits.Discard(card);
             }
             // no more selecting cards
-            card.ClearSelectable();
+            card.MakeUnselectable();
         }
         // installed part only outputs once discards have been selected
         InputOutput.Output(S.requester);

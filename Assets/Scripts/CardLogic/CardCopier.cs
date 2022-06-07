@@ -30,8 +30,6 @@ public static class CardCopier {
         card.tempCopy = copy;
         // add "Temporary Copy" to copy's card text, if the original didn't already have it
         if (!card.isCopy) copy.cardComponents.description = copy.cardComponents.description + "\n<i>Temporary Copy</i>";
-        // make copy reflect new state. It should already be in the right size/place
-        Game.PlayerActionResolved();
         // darken/brighten the copy's inputs/outputs
         copy.UpdateColour();
     }
@@ -39,8 +37,8 @@ public static class CardCopier {
     // newest copy is deleted first
     // currently no animation
     public static void DeleteChild(Card card) {
-        Card child = card.tempCopy;
-        if (child != null) {
+        if (card.hasCopy) {
+            Card child = card.tempCopy;
             // recur
             DeleteChild(child);
             // move card to Junk zone, to ensure its current zone knows it's gone

@@ -4,17 +4,14 @@ using UnityEngine;
 using System.Linq;
 public class CardExtension : Card {
     Resource[] originalInputs,originalOutputs;
-    // copy-paste from base
-    void Start() {
+    public override void Start() {
         originalInputs = inputs;
         originalOutputs = outputs;
-		cardComponents.DisplayInputsOutputs(inputs,outputs);
-		cardComponents.SetLayers(gameObject);
-		cardComponents.cardName = cardName;
+        base.Start();
     }
-    public static void UpdateExtensions() {
-        foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) if (card is CardExtension) (card as CardExtension).UpdateExtension();
-    }
+    // Static function called whenever gamestate changes that updates each extension
+    public static void UpdateExtensions() {foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) if (card is CardExtension) ((CardExtension)card).UpdateExtension();}
+    // make the extension a copy of the rightmost installed part, plus the extensions original inputs/outputs
     public void UpdateExtension() {
         Card[] cards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
         // if nothing to copy, revert to original
@@ -24,10 +21,11 @@ public class CardExtension : Card {
         } else {
             // most recently installed part
             Card top = cards[cards.Length-1];
-            inputs  = originalInputs. Concat(top.inputs). ToArray();
-            outputs = originalOutputs.Concat(top.outputs).ToArray();
+            // inputs/outputs trimmed to max amount displayable on card
+            inputs  = originalInputs. Concat(top.inputs). Take(Define.maxInputs). ToArray();
+            outputs = originalOutputs.Concat(top.outputs).Take(Define.maxOutputs).ToArray();
         }
-        // no need to validate if inputs/outputs is the right length
+        // update graphical display
         cardComponents.DisplayInputsOutputs(inputs,outputs);
     }
 }

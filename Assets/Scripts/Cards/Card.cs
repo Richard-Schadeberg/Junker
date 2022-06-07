@@ -2,73 +2,27 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-
-public class Card : MonoBehaviour
-{
+// stores core data for parts in-game
+public class Card : MonoBehaviour {
 	// design aspects
 	public Resource[] inputs,outputs;
-	public bool isTool,winsGame,singleUse,scaleable,discardAfterUse;
+	// tools can't be discarded and are always in your starting hand
+	// singleUse parts discard themselves after use
+	// scaleable cards create a tool copy of themselves whenever they are played
+	// they can be played any number of times as long as you can pay their inputs
+	public bool isTool,winsGame,singleUse,scaleable;
+	// some parts restrict the number of parts you can play this turn (0 for no restriction)
 	public int partLimit=0;
+	// some parts can only be installed as the nth part of the turn (0 for no restriction)
 	public int requiredPart=0;
 	// MonoBehaviour functions
-	void Start() {
+	public virtual void Start() {
 		cardComponents.DisplayInputsOutputs(inputs,outputs);
+		// make cards draw fully on top of each other in order to appear as single objects
 		cardComponents.SetLayers(gameObject);
 		cardComponents.cardName = cardName;
 	}
-	void Update() {
-		if (currentAnimation != null) currentAnimation.UpdatePositionAndSize();
-	}
 	void OnMouseUp() {
-		ClickResponse(); 
-	}
-    // Animation
-    public CardAnimation currentAnimation = null;
-	public Bounds goalBoundsForCurrentGamestate {
-		get {
-			ZoneTracker.PackZone(zone);
-			return _goalBoundsForCurrentGamestate;
-		} 
-		set { _goalBoundsForCurrentGamestate = value;}
-	} private Bounds _goalBoundsForCurrentGamestate;
-	// input/output display and other cosmetic features
-	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
-	public String cardName {get {return gameObject.name;}set {gameObject.name = value;}}
-    void OnDrawGizmos() {
-		cardComponents.DrawGizmos(inputs,outputs,cardName);
-    }
-	public void UpdateColour() {
-		// no need to change colour for temporary actions
-		if (Game.S.ReversibleMode) return;
-		gameObject.GetComponent<SpriteRenderer>().color = Colour();
-	}
-	public void UpdateInOutDarkness() {
-		// no need to change input darkness for temporary actions
-		if (Game.S.ReversibleMode) return;
-		cardComponents.UpdateInOutDarkness(inputs,Playability==Playability.Playable,zone);
-    }
-	Color Colour() {
-		if (zone!=Zone.Hand) return Define.Colour(Playability.Playable,isTool);
-		if (selected)        return Define.Colour(true);
-		if (selectable)      return Define.Colour(false);
-		else                 return Define.Colour(Playability,isTool);
-	}
-	public Playability Playability {
-		get {
-			CardPlayable.EvaluatePlayability();
-			return _Playability;
-		}
-		set {_Playability = value;}
-	} private Playability _Playability;
-	// sorting in hand
-	public int Priority {
-		get {
-			return CardPriority.Priority(this);
-		}
-	}
-	// rules engine
-	public Zone zone = Zone.Deck;
-	void ClickResponse() {
 		if (selectable) {
 			if (selected) UnSelect(); else Select();
 		} else {
@@ -82,8 +36,49 @@ public class Card : MonoBehaviour
 			}
 		}
 	}
+	void Update() { if (currentAnimation != null) currentAnimation.UpdatePositionAndSize(); }
+	void OnDrawGizmos() { cardComponents.DrawGizmos(inputs, outputs, cardName); }
+	// Animation
+	public CardAnimation currentAnimation = null;
+	// find out where the card would be if the current gamestate was represented visually
+	public Bounds goalBoundsForCurrentGamestate {
+		get {
+			ZoneTracker.PackZone(zone);
+			return _goalBoundsForCurrentGamestate;
+		} 
+		set { _goalBoundsForCurrentGamestate = value;}
+	} 
+	private Bounds _goalBoundsForCurrentGamestate;
+	// input/output display and other cosmetic features
+	public CardComponents cardComponents {get {return GetComponentInChildren<CardComponents>();}}
+	// cardName is a synonym for unity's object name, to make calls shorter and help with debugging
+	public String cardName {get {return gameObject.name;}set {gameObject.name = value;}}
+	public void UpdateColour() {
+		// no need to change colour for temporary actions
+		if (Game.S.ReversibleMode) return;
+		gameObject.GetComponent<SpriteRenderer>().color = CurrentColour();
+	}
+	Color CurrentColour() {
+		// Cards not in hand are fully lit, tools are still purple
+		if (zone != Zone.Hand) return Define.Colour(Playability.Playable, isTool);
+		// Colour for discard selection overrides other colouring
+		if (selected) return Define.Colour(true);
+		if (selectable) return Define.Colour(false);
+		// Colour cards in hand according to how soon they can be played. Tools are purple.
+		else return Define.Colour(Playability, isTool);
+	}
+	public void UpdateInOutDarkness() {cardComponents.UpdateInOutDarkness(inputs,Playability==Playability.Playable,zone);}
+	// Whether the player can pay for the part
+	public Playability Playability {
+		get {
+			CardPlayable.EvaluatePlayability();
+			return _Playability;
+		}
+		set {_Playability = value;}
+	} private Playability _Playability;
+	public Zone zone = Zone.Deck;
 	// determine whether the card is in a legal state at this time
-	public virtual bool IsLegal() {
+	public bool IsLegal() {
 		// enforce part limit
 		if (partLimit>0 && zone==Zone.Play && ZoneTracker.GetCards(Zone.Play).Length > partLimit) return false;
 		// enforce required part (ie. ground sonar)
@@ -102,7 +97,7 @@ public class Card : MonoBehaviour
 		selected   = false;
 		UpdateColour();
 	}
-	public void ClearSelectable() {
+	public void MakeUnselectable() {
 		selected   = false;
 		selectable = false;
 		UpdateColour();
@@ -117,14 +112,15 @@ public class Card : MonoBehaviour
 		DiscardRequester.CancelSelect();
 		UpdateColour();
 	}
-	// reversible actions
+	// Reversible draw and discard
 	public Credits credits = new Credits();
-	// scaleable
+	// Scaleable
 	public bool isCopy;
 	public bool hasCopy { get { return (tempCopy != null); } }
 	public Card tempCopy;
-	// consuming outputs causes those output icons to dim
+	// Consuming outputs causes those output icons to dim
+	// Track them so that they can be brightened again if the resources are returned
 	public HashSet<ResourceIcon> consumedIcons = new HashSet<ResourceIcon>();
-	// track if the card has converted batteries into electrics
+	// Track if the card has converted batteries into electrics
 	public int batteryConversions = 0;
 }

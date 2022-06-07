@@ -34,15 +34,16 @@ public class ZoneTracker {
         Game.S.zoneTracker.zoneObjects[origin].RemoveCard(card);
         Game.S.zoneTracker.zoneObjects[goal].  AddCard(card);
         card.zone = goal;
-        Game.PlayerActionResolved();
     }
     public static Card[] GetCards(Zone zone)            {return Game.S.zoneTracker.zoneObjects[zone].GetCards();}
     public static Card[] GetCardsLeftToRight(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].GetCardsLeftToRight();}
-    public void GameStateChanged() {handContents.isSorted = false;}
+    public void PlayerActionResolved() {handContents.isSorted = false;}
     public static Card TopCard() {return Game.S.zoneTracker.deckContents.TopCard();}
     // how many cards could be discarded (ie. don't have "can't be discarded")
     // possible bug: if card gains or loses "can't be discarded" while in hand
     public static int availableDiscards {get {return Game.S.zoneTracker.handContents.availableDiscards;}}
     public static bool ZonePacked(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].packed;}
+    // packzone works out where each card in that zone should be displayed
+    // can be called frequently; will return early if call was redundant
     public static void PackZone(Zone zone) {if (!ZonePacked(zone)) Game.S.zoneTracker.zoneObjects[zone].PackZone();}
 }
