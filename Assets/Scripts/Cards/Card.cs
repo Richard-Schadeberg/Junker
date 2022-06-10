@@ -60,12 +60,12 @@ public class Card : MonoBehaviour {
 	}
 	Color CurrentColour() {
 		// Cards not in hand are fully lit, tools are still purple
-		if (zone != Zone.Hand) return Define.Colour(Playability.Playable, isTool);
+		if (zone != Zone.Hand) return Define.ColourFromPlayability(Playability.Playable, isTool);
 		// Colour for discard selection overrides other colouring
-		if (selected) return Define.Colour(true);
-		if (selectable) return Define.Colour(false);
+		if (selected) return Define.ColourFromSelectable(true);
+		if (selectable) return Define.ColourFromSelectable(false);
 		// Colour cards in hand according to how soon they can be played. Tools are purple.
-		else return Define.Colour(Playability, isTool);
+		else return Define.ColourFromPlayability(Playability, isTool);
 	}
 	public void UpdateInOutDarkness() {cardComponents.UpdateInOutDarkness(inputs,Playability==Playability.Playable,zone);}
 	// Whether the player can pay for the part

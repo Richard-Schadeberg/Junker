@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 // used to find the best size and location for a number of cards within a zone
 public static class Packing {
-	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number) {return PackBounds(size,bounds,number,false,false);}
+	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number,Zone zone) {return PackBounds(size, bounds, number, false, zone == Zone.Junk);}
 	// a lot of this was written through trial-and-error
 	public static Bounds[] PackBounds(Vector2 size,Bounds bounds,int number,bool snaking,bool rightToLeft) {
 		var solutions = new Bounds[number];

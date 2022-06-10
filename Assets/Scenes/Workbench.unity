@@ -501,7 +501,6 @@ MonoBehaviour:
   winsGame: 0
   singleUse: 0
   scaleable: 0
-  discardAfterUse: 0
   partLimit: 0
   requiredPart: 0
   zone: 0
@@ -509,7 +508,7 @@ MonoBehaviour:
   selected: 0
   isCopy: 0
   tempCopy: {fileID: 0}
-  conversions: 0
+  batteryConversions: 0
 --- !u!114 &216593496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8552183283778203452, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
@@ -2705,7 +2704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHandSize: 5
-  startingTime: 20
+  startingTurns: 20
   chainTime: 0.2
   vMax: 12000
   accTime: 0.2
@@ -2721,8 +2720,7 @@ MonoBehaviour:
   - {fileID: 795986725}
   - {fileID: 1070526659}
   - {fileID: 1917619720}
-  shuffle: 0
-  ReversibleMode: 0
+  shuffleDeckAtStart: 0
 --- !u!4 &1730382793
 Transform:
   m_ObjectHideFlags: 0

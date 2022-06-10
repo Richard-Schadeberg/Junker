@@ -58,7 +58,7 @@ public class CardComponents : MonoBehaviour {
 		// gizmos have a different origin compared to iconPrefabs
 		centre -= size/2;
 		// draw the icon gizmo
-        Gizmos.DrawGUITexture(new Rect(centre,size), Define.Sprite(resource).texture);
+        Gizmos.DrawGUITexture(new Rect(centre,size), Define.SpriteFromResource(resource).texture);
 	}
 	// cards can have their inputs and outputs changed many times mid-game, so changing needs to be optimised
 	// instead of destroying and recreating icons, pointers are used to update existing ones

@@ -58,7 +58,7 @@ public class AnimationHandler {
     }
     // move a card by instantly teleporting it, without using the queue or smooth motion
     public void AnimateInstant(Card card,GameAction action) {
-        BoundsUtil.SetBounds(card,card.goalBoundsForCurrentGamestate);
+        BoundsUtil.MoveAndScaleCardToBounds(card,card.goalBoundsForCurrentGamestate);
     }
     public void PauseAnimations(float waitSeconds) {timeNextFire = Time.time + waitSeconds;}
     // called by Game each visual frame

@@ -4,12 +4,12 @@ using UnityEngine;
 using System;
 // provides pointers and method access for each of the 4 zones
 public class ZoneTracker {
-    Card[] cards;
     public ZoneTracker(Card[] cards) {
-        this.cards = (Card[])cards.Clone();
         BuildDictionary();
         foreach (Card card in cards) {
-            deckContents.AddCardToBottom(card);
+            deckContents.AddCard(card);
+            // add cards to bottom instead of top, to preserve order
+            deckContents.MoveTopToBottom();
         }
     }
     // each zone has a general parent pointer (ZoneContents) and a specialised child pointer (HandContents etc.)
@@ -45,5 +45,5 @@ public class ZoneTracker {
     public static bool ZonePacked(Zone zone) {return Game.S.zoneTracker.zoneObjects[zone].packed;}
     // packzone works out where each card in that zone should be displayed
     // can be called frequently; will return early if call was redundant
-    public static void PackZone(Zone zone) {if (!ZonePacked(zone)) Game.S.zoneTracker.zoneObjects[zone].PackZone();}
+    public static void PackZone(Zone zone) {if (!ZonePacked(zone)) Game.S.zoneTracker.zoneObjects[zone].PackThisZone();}
 }

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public static class BoundsUtil {
-	public static void SetBounds(Card card,Bounds bounds) {
+	// set card's bounds to be the target's bounds
+	public static void MoveAndScaleCardToBounds(Card card,Bounds bounds) {
 		card.transform.position = bounds.center;
 		card.transform.localScale = GetLocalScale(bounds,card.gameObject);
 	}

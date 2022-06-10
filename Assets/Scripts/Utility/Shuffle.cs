@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public static class Utility {
     private static Random rng = new Random();
+    // Fisher-Yates shuffle
     public static void Shuffle<T>(this IList<T> list) {
         int n = list.Count;
         while (n > 1) {

@@ -21,13 +21,12 @@ public class HandContents : ZoneContents {
     Card[] sortedCards;
     public int availableDiscards {get; private set;}
     public override Card[] GetCardsLeftToRight() {
-        if (isSorted) return sortedCards;
-        else {
+        if (!isSorted) {
             sortedCards = cards.OrderBy(CardPriority.Priority).ToArray<Card>();
-            isSorted=true;
-            return sortedCards;
+            isSorted = true;
         }
+        return sortedCards;
     }
-    public override int NumCards() {return cards.Count;}
+    public override int NumCardsInZone() {return cards.Count;}
     public override Card[] GetCards() {return cards.ToArray();}
 }

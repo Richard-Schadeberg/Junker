@@ -18,8 +18,11 @@ public class PlayContents : ZoneContents
     }
     public override Card[] GetCardsLeftToRight() {return orderedCards.Reverse().ToArray();}
     public override Card[] GetCards(){return orderedCards.ToArray();}
-    public override int NumCards() {return orderedCards.Count;}
+    public override int NumCardsInZone() {return orderedCards.Count;}
+    // find which card was installed after the given card
+    // if it was the most recently installed card, return null
     public Card GetAbove(Card card) {
+        if (card.zone != Zone.Play) throw new System.Exception("Tried to GetAbove() a card that was not installed");
         var index = orderedCards.Find(card);
         if (index.Previous == null) return null;
         return index.Previous.Value;

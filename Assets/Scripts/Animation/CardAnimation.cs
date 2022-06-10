@@ -51,7 +51,7 @@ public class CardAnimation {
         if (percentTravelled > 1f || float.IsNaN(percentTravelled)) percentTravelled = 1f;
         Vector2 position = MotionPlanPercent.PositionAtPercentage(motionPlan,percentTravelled);
         Vector2 size     = Vector2.Lerp(originBounds.size,goalBounds.size,   percentTravelled);
-		BoundsUtil.SetBounds(controlledCard,new Bounds(position,size));
+		BoundsUtil.MoveAndScaleCardToBounds(controlledCard,new Bounds(position,size));
         if (percentTravelled == 1f) {
             controlledCard.currentAnimation = null;
             // if another animation tried to fire but was blocked by this one, fire it now

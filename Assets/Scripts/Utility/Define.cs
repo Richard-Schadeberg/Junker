@@ -27,7 +27,7 @@ public class Define : MonoBehaviour {
 		distanceSprite,
 		reconSprite,
 		timeSprite;
-	public static Sprite Sprite(Resource resource) {
+	public static Sprite SpriteFromResource(Resource resource) {
 		switch (resource) {
 			case Resource.None:
 				return S.noneSprite;
@@ -55,10 +55,10 @@ public class Define : MonoBehaviour {
 		handZone,
 		playZone,
 		junkZone;
-	public static Bounds Bounds(Zone zone) {
-		return ZoneObj(zone).GetComponent<SpriteRenderer>().bounds;
+	public static Bounds BoundsFromZone(Zone zone) {
+		return ZoneObjFromZone(zone).GetComponent<SpriteRenderer>().bounds;
 	}
-	public static ZoneObj ZoneObj(Zone zone) {
+	public static ZoneObj ZoneObjFromZone(Zone zone) {
 		switch (zone) {
 			case Zone.Deck:
 				return S.deckZone;
@@ -80,28 +80,32 @@ public class Define : MonoBehaviour {
 		playableColourTool,
 		almostColourTool,
 		unplayableColourTool;
-	public static Color Colour(Playability playability,bool isTool) {
+	public static Color ColourFromPlayability(Playability playability,bool isTool) {
 		switch (playability) {		
 			case Playability.Playable:
-				return isTool ? S.playableColourTool : S.playableColour;
+				return isTool ? S.playableColourTool   : S.playableColour;
 			case Playability.Almost:
-				return isTool ? S.almostColourTool : S.almostColour;
+				return isTool ? S.almostColourTool     : S.almostColour;
 			case Playability.Unplayable:
 				return isTool ? S.unplayableColourTool : S.unplayableColour;
 			default:
+				// make exceptions obvious
 				return Color.green;
 		}
 	}
 	// convert selection to colour
 	public Color selectableColour;
 	public Color selectedColour;
-	public static Color Colour(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
+	public static Color ColourFromSelectable(bool selected) {return selected ? Define.S.selectedColour : Define.S.selectableColour;}
 	// Counters
 	public ResourceCounter
 		metalCounter,
 		timeCounter,
 		batteryCounter,
 		fuelCounter;
+	// maximum number of inputs/outputs that can be displayed on a card
+	// mechanically capped to the same number
 	public const int maxInputs  = 9;
 	public const int maxOutputs = 9;
+	public static Vector2 cardAspectRatio { get { return Game.cardAspectRatio; } }
 }

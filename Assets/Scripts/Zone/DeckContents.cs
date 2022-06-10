@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
 public class DeckContents : ZoneContents {
     // first card is top card of deck
     LinkedList<Card> orderedCards = new LinkedList<Card>();
@@ -19,11 +18,7 @@ public class DeckContents : ZoneContents {
     }
     public override Card[] GetCardsLeftToRight(){return orderedCards.ToArray();}
     public override Card[] GetCards(){return orderedCards.ToArray();}
-    public override int NumCards() {return orderedCards.Count;}
-    public void AddCardToBottom(Card card) {
-        base.AddCard(card);
-        orderedCards.AddLast(card);
-    }
+    public override int NumCardsInZone() {return orderedCards.Count;}
     public Card TopCard() { if (orderedCards.Count == 0) return null; else return orderedCards.First(); }
     public void MoveTopToBottom() { 
         if (orderedCards.Count != 0) {

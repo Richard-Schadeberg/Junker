@@ -6,7 +6,7 @@ using System.Linq;
 public class JunkContents : ZoneContents
 {
     Zone zone;
-    protected HashSet<Card> cards = new HashSet<Card>();
+    protected List<Card> cards = new List<Card>();
     public JunkContents() : base(Zone.Junk) {}
     public override void AddCard(Card card) {
         base.AddCard(card);
@@ -16,8 +16,7 @@ public class JunkContents : ZoneContents
         base.RemoveCard(card);
         cards.Remove(card);
     }
-    // Junk is not visible, so the order of cards in it is undefined
     public override Card[] GetCardsLeftToRight() {return cards.ToArray();}
     public override Card[] GetCards(){return cards.ToArray();}
-    public override int NumCards() {return cards.Count;}
+    public override int NumCardsInZone() {return cards.Count;}
 }

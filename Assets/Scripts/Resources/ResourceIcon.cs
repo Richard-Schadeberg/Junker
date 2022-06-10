@@ -28,7 +28,7 @@ public class ResourceIcon : MonoBehaviour {
     private Resource displayedResource = Resource.None;
     private void SetSprite(Resource resource) {
         if (resource == displayedResource) return;
-        spriteRenderer.sprite = Define.Sprite(resource);
+        spriteRenderer.sprite = Define.SpriteFromResource(resource);
         displayedResource = resource;
     }
 }
