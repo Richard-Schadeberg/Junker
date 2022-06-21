@@ -6,72 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Tests/TestScene1.unity
+    guid: 013e539341647ba4ab5a973d2251a9a9
+  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: bb2e8359396ce254fbb253e4ab1a14f3
   - enabled: 1
     path: Assets/Scenes/Campaign.unity
     guid: 1d073a15b83399a40b7c564cc22b0e64
   - enabled: 1
-    path: Assets/Scenes/Level 1-2.unity
-    guid: 4a3b7c9f24c44604ab8a61d3af1c47f4
-  - enabled: 1
-    path: Assets/Scenes/Level 1-1.unity
-    guid: f147132cb1d151d4eba7fb09f23b3494
-  - enabled: 1
-    path: Assets/Scenes/Level 2-1.unity
-    guid: 68150cd86f6823a48b772ab6bfdc3b4d
-  - enabled: 1
-    path: Assets/Scenes/Level 2-2.unity
-    guid: 437b58adb638d7a40bcd4500fd14cdd6
-  - enabled: 1
-    path: Assets/Scenes/Level 3-1.unity
-    guid: 77422a3b48e08e140ba2bd6d090a155b
-  - enabled: 1
-    path: Assets/Scenes/Level 3-2.unity
-    guid: c51cf9975b084544896ff3890a968406
-  - enabled: 1
-    path: Assets/Scenes/Level 4-1.unity
-    guid: 9c089a54c99382b439f7973c3630d6d7
-  - enabled: 1
-    path: Assets/Scenes/Level 4-2.unity
-    guid: 29d3e49978b01e44d8c4363928a9ddb4
-  - enabled: 1
-    path: Assets/Scenes/Level 5-1.unity
-    guid: 1dd4b4586c298f444bec541af1918495
-  - enabled: 1
-    path: Assets/Scenes/Level 5-2.unity
-    guid: ecdc593da2f69c94a8c8c5b8f448fd4b
-  - enabled: 1
-    path: Assets/Scenes/Level 6-1.unity
-    guid: 6a1d64194a48dd94e8b7f795da2fea66
-  - enabled: 1
-    path: Assets/Scenes/Level 6-2.unity
-    guid: 67471e4b59803134a8207e2c76ddb94c
-  - enabled: 1
-    path: Assets/Scenes/Level 7-1.unity
-    guid: 97347fad51d8f3a479d423fafc263cb6
-  - enabled: 1
-    path: Assets/Scenes/Level 7-2.unity
-    guid: 8eff1f7f8b088074eb933f8071d3c9d8
-  - enabled: 1
-    path: Assets/Scenes/Level 8-1.unity
-    guid: 19ba8ac787b1981459c7523392e85aae
-  - enabled: 1
-    path: Assets/Scenes/Level 8-2.unity
-    guid: f17724d4900cefb4b898644510c21be1
-  - enabled: 1
     path: Assets/Scenes/Challenges.unity
     guid: b0b2a577fcffc2d4e80845476463951d
-  - enabled: 1
-    path: Assets/Scenes/Challenge 1.unity
-    guid: 80b94dd150b21374581cc39317388a77
-  - enabled: 1
-    path: Assets/Scenes/Challenge 2.unity
-    guid: ae26ec229017043418978cbc1549a8b0
-  - enabled: 1
-    path: Assets/Scenes/Challenge 3.unity
-    guid: 4b1630b3edbc6aa4fa39a746c529917b
-  - enabled: 1
-    path: Assets/Scenes/Challenge 4.unity
-    guid: 4ca0fde7e7135be4b867ede9e6ea2101
   m_configObjects: {}

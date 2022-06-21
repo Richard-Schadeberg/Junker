@@ -37,6 +37,8 @@ public class Game : MonoBehaviour {
 		// move cards into deck to start
 		foreach (Card card in cards) {animationHandler.AnimateInstant(card,GameAction.Repacking);}
 		GameActions.DrawCards(startingHandSize,null);
+		// calculate derived information
+		PlayerActionResolved();
 		// wait a few seconds after the level loads before starting animations
 		animationHandler.PauseAnimations(startDelay);
 	}

@@ -28,7 +28,7 @@ public class Clock {
         // metal is special
         ResourceTracker.Reset(Resource.Metal);
         ResourceTracker.Add(Resource.Metal, ResourceTracker.scrap);
-        // delete scaleable copies (bugged)
+        // delete scaleable copies
         foreach (Card card in playCards) {
             CardCopier.DeleteChild(card);
         }

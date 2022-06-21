@@ -60,7 +60,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 17319
   m_TargetDisplay: 0
 --- !u!114 &7815697558909232777
 MonoBehaviour:
@@ -348,7 +348,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 17319
   m_Sprite: {fileID: 21300000, guid: 8dc564aeb9858b3469978dbe1b416178, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Simple Card
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -522,8 +522,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5945509326497027286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 0.4404}
+  m_LocalPosition: {x: 473.94604, y: 135, z: 0}
+  m_LocalScale: {x: 13.183594, y: 13.183594, z: 0}
   m_Children:
   - {fileID: 92284869277264990}
   - {fileID: 8771109050212677460}
@@ -549,12 +549,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbc823b5a1dad845aa2cc0e65a0b07a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputs: 
-  outputs: 
+  inputs: 00000000
+  outputs: 0100000001000000
+  isTool: 0
   winsGame: 0
-  startsHand: 0
   singleUse: 0
-  noDiscard: 0
   scaleable: 0
   partLimit: 0
   requiredPart: 0
@@ -563,6 +562,7 @@ MonoBehaviour:
   selected: 0
   isCopy: 0
   tempCopy: {fileID: 0}
+  batteryConversions: 0
 --- !u!212 &5045990371550748592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -602,7 +602,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 17318
   m_Sprite: {fileID: 21300000, guid: 7b5c4f2101b567644a648ee9f9e73f19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1119,6 +1119,26 @@ MonoBehaviour:
   iconPrefab: {fileID: 6947506322626079135, guid: 8db42c7dc2ac7e149b9faa6303c21c2b, type: 3}
   nameBox: {fileID: 4124619632740068384}
   descriptionBox: {fileID: 5011869718893851318}
+  inputIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  outputIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &9074266741961834876
 GameObject:
   m_ObjectHideFlags: 0

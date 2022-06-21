@@ -17,12 +17,13 @@ public static class CardInstall {
         // uninstall parts above this one first
         Card above = Game.S.zoneTracker.playContents.GetAbove(card);
         if (above!=null) Uninstall(above);
+        // delete temporary copies
+        // let the copies be uninstalled first, so their inputs/outputs can be undone
+        CardCopier.DeleteChild(card);
         // no need to undo output if the player is selecting discards, as the card has not output yet
         if (Game.S.ReversibleMode || DiscardRequester.S.pendingRequests==0) InputOutput.UndoOutput(card);
-        CardCopier.DeleteChild(card);
         ZoneTracker.MoveCard(card, Zone.Play, Zone.Hand);
-        // no need to animate if card is deleted
-        if (!card.isCopy) AnimationHandler.Animate(card, GameAction.Uninstalling);
+        AnimationHandler.Animate(card, GameAction.Uninstalling);
         InputOutput.UndoInput(card);
         Game.PlayerActionResolved();
     }
@@ -53,7 +54,7 @@ public static class CardInstall {
         ZoneTracker.MoveCard(friend,Zone.Hand,Zone.Play);
         // if playing friend requires discarding all your cards (including testCard), then it's not possible to install card
         bool testCardDiscarded = (ZoneTracker.availableDiscards == DiscardRequester.S.pendingRequests);
-        if (!Validate.ValidState()) throw new Exception("Tried to CanInstallWith() using unplayable friend");
+        if (!Validate.ValidState()) throw new Exception("Tried to CanInstallWith() using unplayable friend\nCard: "+testCard.cardName+"\nFriend: "+friend.cardName);
         InputOutput.Output(friend);
 
         bool canInstallTestCard = CanInstall(testCard);

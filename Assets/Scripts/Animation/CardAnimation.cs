@@ -26,7 +26,11 @@ public class CardAnimation {
     // start playing the animation
     public void Fire() {
         // if the attached card has been deleted, do nothing and the next queued animation will fire in a bit
-        if (controlledCard == null) return;
+        if (controlledCard == null) {
+            // hack to make the next animation fire
+            Game.S.animationHandler.PauseAnimations(-200);
+            return;
+        }
         // if the card is already animating, add this animation to that animation's queue instead of firing it
         // it will fire again when the card is ready for this animation
         if (controlledCard.currentAnimation != null) {
