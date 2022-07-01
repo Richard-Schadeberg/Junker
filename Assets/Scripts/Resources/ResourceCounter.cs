@@ -9,7 +9,7 @@ public class ResourceCounter : MonoBehaviour
     public bool clockButton;
     public void setText(string text) { textBox.text = text; }
     public void OnMouseDown() {
-        Clock.ClockClicked();
+        if (clockButton) Clock.ClockClicked();
     }
     public void Darken() {
         gameObject.GetComponent<SpriteRenderer>().color = Color.gray;

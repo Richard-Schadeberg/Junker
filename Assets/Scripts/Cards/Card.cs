@@ -22,7 +22,7 @@ public class Card : MonoBehaviour {
 		cardComponents.SetLayers(gameObject);
 		cardComponents.cardName = cardName;
 	}
-	void OnMouseUp() {
+	public void OnMouseUp() {
 		if (selectable) {
 			if (selected) UnSelect(); else Select();
 		} else {

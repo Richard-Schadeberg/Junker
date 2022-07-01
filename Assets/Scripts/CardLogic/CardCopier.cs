@@ -16,6 +16,9 @@ public static class CardCopier {
         card.isCopy = wasCopy;
         // Instantiate renames object
         copy.cardName = card.cardName;
+        // remove credits that were copied from card
+        Credits.ClearCredits(copy);
+        copy.batteryConversions = 0;
         // add the copy to Game.cards
         Card[] cardsCopy = new Card[Game.S.cards.Length+1];
         Array.Copy(Game.S.cards,cardsCopy,Game.S.cards.Length);
@@ -32,6 +35,8 @@ public static class CardCopier {
         if (!card.isCopy) copy.cardComponents.description = copy.cardComponents.description + "\n<i>Temporary Copy</i>";
         // darken/brighten the copy's inputs/outputs
         copy.UpdateColour();
+        // if the scaleable card draws cards, then the copy needs to move to reflect the re-packed hand
+        if (card.outputs.Contains(Resource.Card)) AnimationHandler.Animate(copy, GameAction.Repacking);
     }
     // recursively delete the temporary copies of a card
     // newest copy is deleted first
