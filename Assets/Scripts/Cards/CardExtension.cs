@@ -28,4 +28,5 @@ public class CardExtension : Card {
         // update graphical display
         cardComponents.DisplayInputsOutputs(inputs,outputs);
     }
+
 }

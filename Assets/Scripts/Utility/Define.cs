@@ -105,7 +105,7 @@ public class Define : MonoBehaviour {
 		fuelCounter;
 	// maximum number of inputs/outputs that can be displayed on a card
 	// mechanically capped to the same number
-	public const int maxInputs  = 9;
-	public const int maxOutputs = 9;
+	public const int maxInputs  = 6;
+	public const int maxOutputs = 6;
 	public static Vector2 cardAspectRatio { get { return Game.cardAspectRatio; } }
 }

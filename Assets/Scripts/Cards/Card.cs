@@ -5,7 +5,8 @@ using System.Linq;
 // stores core data for parts in-game
 public class Card : MonoBehaviour {
 	// design aspects
-	public Resource[] inputs,outputs;
+	public Resource[] inputs;
+	public Resource[] outputs;
 	// tools can't be discarded and are always in your starting hand
 	// singleUse parts discard themselves after use
 	// scaleable cards create a tool copy of themselves whenever they are played

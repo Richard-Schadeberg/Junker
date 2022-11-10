@@ -68,7 +68,7 @@ public static class CardInstall {
     }
     public static void TryInstall(Card card) {
         // no installing cards during discard selection
-        if (DiscardRequester.S.pendingRequests>0) throw new Exception("Tried to install card during discard selection");
+        if (DiscardRequester.S.pendingRequests>0) return;
         if (CanInstall(card)) Install(card);
     }
 }

@@ -10,11 +10,17 @@ public class ResourceIcon : MonoBehaviour {
         }
     }
     private SpriteRenderer spriteRenderer_;
+    public bool brightened { get {
+            return brightened_;
+        } }
+    private bool brightened_;
     public void Brighten() {
         spriteRenderer.color = Color.white;
+        brightened_ = true;
     }
     public void Darken() {
         spriteRenderer.color = Color.gray;
+        brightened_ = false;
     }
     // icon should only be enabled if you know what it will be displaying
     public void Enable(Resource resource) {
