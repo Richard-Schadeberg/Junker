@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System;
+using System.IO;
 // each level contains 1 Game object, that can be referenced by other objects
 // Game contains all data that's not attached to a specific card
 // eg. zone tracking, animation queue, resource counters
@@ -34,6 +35,7 @@ public class Game : MonoBehaviour {
 		if (shuffleDeckAtStart) cards.Shuffle();
 		BringToolsToTop();
 		zoneTracker = new ZoneTracker(cards);
+		CreateCard.AddCardsFromPropertiesToBottomOfDeck(CardString.StringToPropertiesArray(File.ReadAllText(@"G:\temp\test.json")));
 		// move cards into deck to start
 		foreach (Card card in cards) {animationHandler.AnimateInstant(card,GameAction.Repacking);}
 		GameActions.DrawCards(startingHandSize,null);

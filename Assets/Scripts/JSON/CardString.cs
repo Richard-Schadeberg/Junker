@@ -16,4 +16,7 @@ public class CardString {
         CardProperties cardProperties = new CardProperties(card);
         return JsonUtility.ToJson(cardProperties,true);
     }
+    public static CardProperties[] StringToPropertiesArray(string jsonString) {
+        return JsonUtility.FromJson<DeckProperties>(jsonString).cardPropertiesList.ToArray();
+    }
 }
