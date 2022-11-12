@@ -31,3 +31,7 @@ public enum Playability {
 	Almost=2,
 	Unplayable=3
 }
+public enum SpecialCards {
+	normal,
+	extension
+}

@@ -7,7 +7,7 @@ using System;
 public class Define : MonoBehaviour {
 	// create static pointer to self to allow static methods to reference properties for the inspector's sake
 	public static Define _S;
-	public static Define S{get {
+	public static Define S{ get {
 		if (_S!=null) return _S;
 		_S = FindObjectOfType<Define>();
 		return _S;
@@ -108,4 +108,16 @@ public class Define : MonoBehaviour {
 	public const int maxInputs  = 6;
 	public const int maxOutputs = 6;
 	public static Vector2 cardAspectRatio { get { return Game.cardAspectRatio; } }
+	public GameObject cardPrefab;
+	public GameObject extensionPrefab;
+	public static GameObject GetCardPrefab(SpecialCards cardType) {
+		switch (cardType) {
+			case SpecialCards.normal:
+				return S.cardPrefab;
+			case SpecialCards.extension:
+				return S.extensionPrefab;
+			default:
+				return S.cardPrefab;
+		}
+    }
 }

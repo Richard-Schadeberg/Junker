@@ -14,6 +14,33 @@ public class CardProperties {
 	public int partLimit = 0;
 	// some parts can only be installed as the nth part of the turn (0 for no restriction)
 	public int requiredPart = 0;
-	public string getJSON() { return JsonUtility.ToJson(this); }
-	public static CardProperties readJSON(string json) { return JsonUtility.FromJson<CardProperties>(json); }
+	// check for different card types
+	public SpecialCards SpecialCards = SpecialCards.normal;
+	public string name, description;
+	public CardProperties(Card card) {
+		inputs = card.inputs;
+		outputs = card.outputs;
+		isTool = card.isTool;
+		winsGame = card.winsGame;
+		singleUse = card.singleUse;
+		scaleable = card.scaleable;
+		partLimit = card.partLimit;
+		requiredPart = card.requiredPart;
+		SpecialCards = SpecialCards.normal;
+		if (card is CardExtension) SpecialCards = SpecialCards.extension;
+		name = card.cardName;
+		description = card.cardComponents.description;
+	}
+	public void ApplyToCard(Card card) {
+		card.inputs = inputs;
+		card.outputs = outputs;
+		card.isTool = isTool;
+		card.winsGame = winsGame;
+		card.singleUse = singleUse;
+		card.scaleable = scaleable;
+		card.partLimit = partLimit;
+		card.requiredPart = requiredPart;
+		card.cardName = name;
+		card.cardComponents.description = description;
+	}
 }

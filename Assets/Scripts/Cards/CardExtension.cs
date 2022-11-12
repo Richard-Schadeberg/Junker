@@ -14,6 +14,9 @@ public class CardExtension : Card {
     // make the extension a copy of the rightmost installed part, plus the extensions original inputs/outputs
     public void UpdateExtension() {
         Card[] cards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
+        // sometimes this gets called before Start()
+        if (originalInputs  == null) originalInputs  = inputs;
+        if (originalOutputs == null) originalOutputs = outputs;
         // if nothing to copy, revert to original
         if (cards.Length==0) {
             inputs = originalInputs;
