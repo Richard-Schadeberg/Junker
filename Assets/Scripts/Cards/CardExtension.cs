@@ -10,9 +10,9 @@ public class CardExtension : Card {
         base.Start();
     }
     // Static function called whenever gamestate changes that updates each extension
-    public static void UpdateExtensions() {foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) if (card is CardExtension) ((CardExtension)card).UpdateExtension();}
+    public static void UpdateExtensions() {foreach (Card card in ZoneTracker.GetCards(Zone.Hand)) if (card is CardExtension) ((CardExtension)card).CopyMostRecentPart();}
     // make the extension a copy of the rightmost installed part, plus the extensions original inputs/outputs
-    public void UpdateExtension() {
+    public void CopyMostRecentPart() {
         Card[] cards = ZoneTracker.GetCardsLeftToRight(Zone.Play);
         // sometimes this gets called before Start()
         if (originalInputs  == null) originalInputs  = inputs;
