@@ -35,7 +35,8 @@ public class Game : MonoBehaviour {
 		if (shuffleDeckAtStart) cards.Shuffle();
 		BringToolsToTop();
 		zoneTracker = new ZoneTracker(cards);
-		CreateCard.AddCardsFromPropertiesToBottomOfDeck(CardString.StringToPropertiesArray(File.ReadAllText(@"G:\temp\test.json")));
+		//File.WriteAllText(@"G:\temp\test.json", CardString.CardArrayToString(cards));
+		//CreateCard.AddCardsFromPropertiesToBottomOfDeck(CardString.StringToPropertiesArray(File.ReadAllText(@"G:\temp\test.json")));
 		// move cards into deck to start
 		foreach (Card card in cards) {animationHandler.AnimateInstant(card,GameAction.Repacking);}
 		GameActions.DrawCards(startingHandSize,null);

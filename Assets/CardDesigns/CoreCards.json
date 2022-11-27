@@ -1,0 +1,151 @@
+{
+    "cardPropertiesList": [
+        {
+            "inputs": [
+                6,
+                6
+            ],
+            "outputs": [
+                6,
+                6
+            ],
+            "isTool": true,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Pocket Researcher",
+            "description": ""
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                4
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 2,
+            "SpecialCards": 0,
+            "name": "Greg",
+            "description": ""
+        },
+        {
+            "inputs": [
+                4
+            ],
+            "outputs": [],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 1,
+            "name": "Extension",
+            "description": ""
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                3
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": true,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "James",
+            "description": "Can be installed multiple times"
+        },
+        {
+            "inputs": [
+                3
+            ],
+            "outputs": [],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Stacy",
+            "description": ""
+        },
+        {
+            "inputs": [
+                1,
+                1,
+                1
+            ],
+            "outputs": [
+                0,
+                0
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Chris",
+            "description": ""
+        },
+        {
+            "inputs": [
+                0
+            ],
+            "outputs": [
+                1,
+                1
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Alice",
+            "description": ""
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                0
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Ben",
+            "description": ""
+        },
+        {
+            "inputs": [],
+            "outputs": [
+                5
+            ],
+            "isTool": false,
+            "winsGame": false,
+            "singleUse": false,
+            "scaleable": false,
+            "partLimit": 0,
+            "requiredPart": 0,
+            "SpecialCards": 0,
+            "name": "Karen",
+            "description": ""
+        }
+    ]
+}

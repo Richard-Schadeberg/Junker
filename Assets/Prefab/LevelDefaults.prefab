@@ -2121,6 +2121,7 @@ MonoBehaviour:
   fuelCounter: {fileID: 5656884437080057506}
   cardPrefab: {fileID: 5945509326497027286, guid: af673755e46e92043a5e9d7e1e32bb1d, type: 3}
   extensionPrefab: {fileID: 8449156919090462300, guid: 70a1cd60e0e9de546b20cffd0dfc5a70, type: 3}
+  cardDesignsJSON: {fileID: 4900000, guid: f54a49909a4d0414d905879de0bbc420, type: 3}
 --- !u!1 &5656884438033674701
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,4 +120,5 @@ public class Define : MonoBehaviour {
 				return S.cardPrefab;
 		}
     }
+	public TextAsset cardDesignsJSON;
 }

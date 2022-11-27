@@ -6,5 +6,4 @@ using UnityEngine;
 [Serializable]
 public class DeckProperties {
     public List<CardProperties> cardPropertiesList = new List<CardProperties>();
-    
 }

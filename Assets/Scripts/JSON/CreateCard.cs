@@ -24,4 +24,8 @@ public class CreateCard {
             Game.S.animationHandler.AnimateInstant(newCard, GameAction.Repacking);
         }
     }
+    public static Card AddCardFromPropertiesToBottomOfDeck(CardProperties cardProperties) { 
+        AddCardsFromPropertiesToBottomOfDeck(new CardProperties[] { cardProperties });
+        return Game.S.cards.Last<Card>();
+    }
 }
