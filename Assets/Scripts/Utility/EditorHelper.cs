@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System.Linq;
 // helps arrange and edit object in Unity editor
 [ExecuteInEditMode]
@@ -22,6 +23,13 @@ public class EditorHelper : MonoBehaviour {
         Define.S = define;
         if (deleteCard) {
             deleteCard = false;
+            // This is a bit weird
+            // If we just set deleteCard to false, the value is still flagged as having been modified compared to the prefab
+            // This does the "right click -> revert" operation to reset it to the prefab value
+            // For some reason not doing this causes the flag to briefly flip to true when play mode ends.
+            SerializedProperty serializedPropertyMyInt = (new UnityEditor.SerializedObject(this)).FindProperty("deleteCard");
+            PrefabUtility.RevertPropertyOverride(serializedPropertyMyInt, InteractionMode.UserAction);
+
             Card card = game.cards[0];
             List<Card> cards = game.cards.ToList();
             cards.RemoveAt(0);
@@ -30,6 +38,13 @@ public class EditorHelper : MonoBehaviour {
         }
         if (addCard) {
             addCard = false;
+            // This is a bit weird
+            // If we just set addCard to false, the value is still flagged as having been modified compared to the prefab
+            // This does the "right click -> revert" operation to reset it to the prefab value
+            // For some reason not doing this causes the flag to briefly flip to true when play mode ends.
+            SerializedProperty serializedPropertyMyInt = (new UnityEditor.SerializedObject(this)).FindProperty("addCard");
+            PrefabUtility.RevertPropertyOverride(serializedPropertyMyInt, InteractionMode.UserAction);
+
             CreateCard.AddCardFromPropertiesInEditor(cardProperties);
         }
         // animationHandler is used to display cards in deck
