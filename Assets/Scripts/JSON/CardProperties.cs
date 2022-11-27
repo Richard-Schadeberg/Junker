@@ -18,8 +18,9 @@ public class CardProperties {
 	public SpecialCards SpecialCards = SpecialCards.normal;
 	public string name, description;
 	public CardProperties(Card card) {
-		inputs = card.inputs;
-		outputs = card.outputs;
+		// use clone otherwise inputs will just be a pointer to card's inputs, cause it to mutate unexpectedly
+		inputs  = (Resource[])card.inputs.Clone();
+		outputs = (Resource[])card.outputs.Clone();
 		isTool = card.isTool;
 		winsGame = card.winsGame;
 		singleUse = card.singleUse;
@@ -32,8 +33,9 @@ public class CardProperties {
 		description = card.cardComponents.description;
 	}
 	public void ApplyToCard(Card card) {
-		card.inputs = inputs;
-		card.outputs = outputs;
+		// use clone otherwise card's inputs will just be a pointer to inputs, cause it to mutate unexpectedly
+		card.inputs  = (Resource[])inputs.Clone();
+		card.outputs = (Resource[])outputs.Clone();
 		card.isTool = isTool;
 		card.winsGame = winsGame;
 		card.singleUse = singleUse;

@@ -28,4 +28,15 @@ public class CreateCard {
         AddCardsFromPropertiesToBottomOfDeck(new CardProperties[] { cardProperties });
         return Game.S.cards.Last<Card>();
     }
+    public static Card AddCardFromPropertiesInEditor(CardProperties cardProperties) {
+        GameObject newCardObj = MonoBehaviour.Instantiate(Define.GetCardPrefab(cardProperties.SpecialCards));
+        Card newCard = newCardObj.GetComponent<Card>();
+        cardProperties.ApplyToCard(newCard);
+        // add the new card to Game.cards
+        Card[] cardsCopy = new Card[Game.S.cards.Length + 1];
+        Array.Copy(Game.S.cards, cardsCopy, Game.S.cards.Length);
+        Game.S.cards = cardsCopy;
+        Game.S.cards[Game.S.cards.Length - 1] = newCard;
+        return newCard;
+    }
 }
